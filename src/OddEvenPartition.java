@@ -6,7 +6,7 @@ public class OddEvenPartition {
 			if( nums[i] % 2 == 0 ) {
 				EvenIdx = i;
 				
-				while( nums[i+1] % 2 == 0 && i < nums.length - 1) 
+				while( i < nums.length - 1 && nums[i+1] % 2 == 0 ) 
 					i++;
 				
 				if( i < nums.length - 1 ) {
