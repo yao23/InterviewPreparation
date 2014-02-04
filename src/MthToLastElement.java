@@ -11,7 +11,7 @@ public class MthToLastElement {
 			end++;
 		}
 		
-		return nums[res];
+		return nums[res-1];
 	}
 	
 	public static void main(String args[]) {
