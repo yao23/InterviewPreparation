@@ -52,5 +52,17 @@ public class OddEvenPartition {
 		System.out.println("After partition: ");
 		for( int i = 0; i < nums.length; i++ )
 			System.out.print(nums[i] + " ");
+		
+		System.out.println("\n");
+		
+		int[] nums2 = new int[]{2, 4, 6, 1, 3, 5};
+		System.out.println("Before partition: ");
+		for( int i = 0; i < nums2.length; i++ )
+			System.out.print(nums2[i] + " ");
+		OddEvenPartitioning(nums2);
+		System.out.println("\n");
+		System.out.println("After partition: ");
+		for( int i = 0; i < nums2.length; i++ )
+			System.out.print(nums2[i] + " ");
 	}
 }
