@@ -4,7 +4,8 @@ public class OddEvenPartition {
 		int EvenIdx = 0;
 		for( int i = 0; i < nums.length; i++ ) {
 			if( nums[i] % 2 == 0 ) {
-				EvenIdx = i;
+				if( EvenIdx == 0 )
+					EvenIdx = i;
 				
 				while( i < nums.length - 1 && nums[i] % 2 == 0 ) 
 					i++;
