@@ -1,3 +1,5 @@
+import java.util.Random;
+
 
 public class OddEvenPartition {
 	public static void OddEvenPartitioning(int[] nums) {
@@ -64,5 +66,21 @@ public class OddEvenPartition {
 		System.out.println("After partition: ");
 		for( int i = 0; i < nums2.length; i++ )
 			System.out.print(nums2[i] + " ");
+		
+		System.out.println("\n");
+		
+		Random r = new Random();
+		int[] nums3 = new int[10];
+		for( int i = 0; i < 10; i++ )
+			nums3[i] = r.nextInt(10-1) + 1;
+	
+		System.out.println("Before partition: ");
+		for( int i = 0; i < nums3.length; i++ )
+			System.out.print(nums3[i] + " ");
+		OddEvenPartitioning(nums3);
+		System.out.println("\n");
+		System.out.println("After partition: ");
+		for( int i = 0; i < nums3.length; i++ )
+			System.out.print(nums3[i] + " ");
 	}
 }
