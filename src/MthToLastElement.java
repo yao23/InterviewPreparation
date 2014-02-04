@@ -6,6 +6,8 @@ public class MthToLastElement {
 		while( end < nums.length ) {
 			if( diff == m )
 				res++;
+			else
+				diff++;
 			end++;
 		}
 		
