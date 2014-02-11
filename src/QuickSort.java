@@ -7,7 +7,6 @@ public class QuickSort {
         quickSort(a, 0, a.length - 1);
         for( int i = 0; i < a.length; i++ )
         	System.out.print(a[i] + " ");
-        //ArrayList al = new ArrayList();
     }
 
     public static void quickSort(int[] a, int p, int r)
