@@ -68,7 +68,7 @@ public class MergeSort {
       System.out.println();
       
       MergeSort_Recursive(nums3, 0, nums3.length - 1);
-      System.out.print("Changed: ");
+      System.out.print("Sorted: ");
       for( int i = 0; i < nums3.length; i++ )
           System.out.print(nums3[i] + " ");
   }
