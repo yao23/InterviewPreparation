@@ -9,7 +9,7 @@ public class PrintMultipleChildrenTree {
 	     if( node.p_id == ParentId ) {
 	       for( int j = 0; j < depth; j++ )
 	          System.out.print("-");
-	       System.out.println(node.data + " id: " + node.id );
+	       System.out.println(node.data);
 	       PrintTree(nodes, node.id, depth + 1);
 	     }
 	  }	  
