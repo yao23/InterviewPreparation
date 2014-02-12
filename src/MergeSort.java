@@ -7,7 +7,6 @@ public class MergeSort {
       int [] temp = new int[nums.length];
       int mid = (left + right) >> 1; 
       int i = left, l = left, r = mid + 1;
-      //int len = (right - left + 1);
   
       while( (l <= mid) && (r <= right) ) {
           if( nums[l] <= nums[r] )
@@ -22,11 +21,8 @@ public class MergeSort {
       while( r <= right )
           temp[i++] = nums[r++];
 
-      for( i = left; i <= right; i++ ) {
-          // nums[right] = temp[right];
-          // right--;
+      for( i = left; i <= right; i++ ) 
     	  nums[i] = temp[i];
-      }
   }
 
   public static void MergeSort_Recursive(int [] numbers, 
