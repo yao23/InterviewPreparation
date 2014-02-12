@@ -2,13 +2,14 @@ import java.util.ArrayList;
 
 public class PrintMultipleChildrenTree {
 	private static void PrintTree(ArrayList<TNode> nodes, int ParentId, int depth)  {
-	  for( TNode node : nodes ) {
+	  for( int i = 0; i < nodes.size(); i++ ) {
+		 TNode node = nodes.get(i);
 	     if( node.id == 0 ) // no node in current position
 	       return;
 	     if( node.p_id == ParentId ) {
-	       for( int i = 0; i < depth; i++ )
+	       for( int j = 0; j < depth; j++ )
 	          System.out.print("-");
-	       System.out.println(node.data);
+	       System.out.println(node.data + " id: " + node.id );
 	       PrintTree(nodes, node.id, depth + 1);
 	     }
 	  }	  
@@ -27,7 +28,7 @@ public class PrintMultipleChildrenTree {
 		a.p_id = 0; a.id = 1; a.data = "a";	b.p_id = 1; b.id = 2; b.data = "b";
 		c.p_id = 1; c.id = 3; c.data = "c";	d.p_id = 2; d.id = 4; d.data = "d";	
 		e.p_id = 2; e.id = 5; e.data = "e";	f.p_id = 3; f.id = 6; f.data = "f";
-		g.p_id = 3; g.id = 7; g.data = "g";	h.p_id = 3; h.id = 8; c.data = "h";
+		g.p_id = 3; g.id = 7; g.data = "g";	h.p_id = 3; h.id = 8; h.data = "h";
 		
 		ArrayList<TNode> nodes = new ArrayList<TNode>();
 		nodes.add(a); nodes.add(b); nodes.add(c); nodes.add(d);
