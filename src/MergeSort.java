@@ -1,30 +1,29 @@
 
 public class MergeSort {
-    public static void Merge(int [] numbers, int left, 
-    		int mid, int right) {
-      int [] temp = new int[25];
-      int i, left_end, num_elements, tmp_pos;
+    public static void Merge(int [] nums, int left, 
+    		 int right) {
+      int [] temp = new int[nums.length];
+      int mid = (left + right) >> 1; 
+      int i = left, l = left, r = mid + 1;
+      //int len = (right - left + 1);
   
-      left_end = (mid - 1);
-      tmp_pos = left;
-      num_elements = (right - left + 1);
-  
-      while( (left <= left_end) && (mid <= right) ) {
-          if( numbers[left] <= numbers[mid] )
-              temp[tmp_pos++] = numbers[left++];
+      while( (l <= mid) && (r <= right) ) {
+          if( nums[l] <= nums[r] )
+              temp[i++] = nums[l++];
           else
-              temp[tmp_pos++] = numbers[mid++];
+              temp[i++] = nums[r++];
       }
   
-      while( left <= left_end )
-          temp[tmp_pos++] = numbers[left++];
+      while( l <= mid )
+          temp[i++] = nums[l++];
 
-      while( mid <= right )
-          temp[tmp_pos++] = numbers[mid++];
+      while( r <= right )
+          temp[i++] = nums[r++];
 
-      for( i = 0; i < num_elements; i++ ) {
-          numbers[right] = temp[right];
-          right--;
+      for( i = left; i <= right; i++ ) {
+          // nums[right] = temp[right];
+          // right--;
+    	  nums[i] = temp[i];
       }
   }
 
@@ -37,20 +36,27 @@ public class MergeSort {
       MergeSort_Recursive(numbers, left, mid);
       MergeSort_Recursive(numbers, (mid + 1), right);
   
-      Merge(numbers, left, (mid+1), right);
+      Merge(numbers, left, right);
     }
   }
 
 
   public static void main(String[] args) {
-      int[] numbers = { 3, 8, 7, 5, 2, 1, 9, 6, 4 };
+      int[] nums = { 3, 8, 7, 5, 2, 1, 9, 6, 4 };
+      int[] nums2 = { 3, 5, 2, 1, 4 };
 
       System.out.println("MergeSort By Recursive Method: ");
 
-      MergeSort_Recursive(numbers, 0, numbers.length - 1);
+      MergeSort_Recursive(nums, 0, nums.length - 1);
       
-      for( int i = 0; i < numbers.length; i++ )
-          System.out.print(numbers[i] + " ");
+      for( int i = 0; i < nums.length; i++ )
+          System.out.print(nums[i] + " ");
      
+      System.out.println();
+      
+      MergeSort_Recursive(nums2, 0, nums2.length - 1);
+      
+      for( int i = 0; i < nums2.length; i++ )
+          System.out.print(nums2[i] + " ");
   }
 }
