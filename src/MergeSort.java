@@ -1,3 +1,5 @@
+import java.util.Random;
+
 
 public class MergeSort {
     public static void Merge(int [] nums, int left, 
@@ -48,15 +50,30 @@ public class MergeSort {
       System.out.println("MergeSort By Recursive Method: ");
 
       MergeSort_Recursive(nums, 0, nums.length - 1);
-      
       for( int i = 0; i < nums.length; i++ )
           System.out.print(nums[i] + " ");
      
       System.out.println();
       
       MergeSort_Recursive(nums2, 0, nums2.length - 1);
-      
       for( int i = 0; i < nums2.length; i++ )
           System.out.print(nums2[i] + " ");
+      
+      System.out.println();
+		
+      Random r = new Random();
+      int[] nums3 = new int[10];
+      System.out.print("Origin: ");
+      for( int i = 0; i < 10; i++ ) {
+    	  nums3[i] = r.nextInt(10-1) + 1;
+    	  System.out.print(nums3[i] + " ");
+      }
+      
+      System.out.println();
+      
+      MergeSort_Recursive(nums3, 0, nums3.length - 1);
+      System.out.print("Changed: ");
+      for( int i = 0; i < nums3.length; i++ )
+          System.out.print(nums3[i] + " ");
   }
 }
