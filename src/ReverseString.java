@@ -2,9 +2,9 @@
 public class ReverseString {
 	public static String ReverseStr(String s) {
 		char[] result = new char[s.length()]; 
-		for( int i = 0; i < (s.length() >> 1); i++) {
-			result[i] = s.charAt(i);
-			result[s.length() - 1 - i] = s.charAt(s.length() - 1 - i);	
+		for( int i = 0; i <= (s.length() >> 1); i++) {
+			result[i] = s.charAt(s.length() - 1 - i);
+			result[s.length() - 1 - i] = s.charAt(i);	
 		}
 		return new String(result);
 	}
