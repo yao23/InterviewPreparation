@@ -1,37 +1,32 @@
 
 public class AllChangeCombination {
-	public static int CalChangeCombination(int[] changes, 
-									int idx, int target) {
-		if( changes[idx] == 1 )
-			return 1;
-		int NextIdx = 0, res = 0;
-		switch (changes[idx]) {
+	public static int CalChangeCombination(int denom, int target) {
+			
+		int NextDenom = 0, res = 0;
+		switch (denom) {
 			case 25:
-				NextIdx = 1;
+				NextDenom = 10;
 				break;
 			case 10:
-				NextIdx = 2;
+				NextDenom = 5;
 				break;
 			case 5:
-				NextIdx = 3;
+				NextDenom = 1;
 				break;
 			case 1:
-				NextIdx = 4;
-				break;				
+				return 1;			
 		}
-		for( int i = 0; (i * changes[idx]) <= target; i++ )
-			res += CalChangeCombination(changes, NextIdx, 
-										target - (i * changes[idx]));
+		for( int i = 0; (i * denom) <= target; i++ )
+			res += CalChangeCombination(NextDenom, target - (i * denom));
 		return res;		
 	}
 	
 	public static void main(String[] args) {
-		int[] changes = new int[]{25, 10, 5, 1};
 		int target = 100, target2 = 25;
 		System.out.println("Number of change combination for " + 
-							target + " is " + CalChangeCombination(changes, 0, target));
+							target + " is " + CalChangeCombination(25, target));
 							
 		System.out.println("Number of change combination for " + 
-				target + " is " + CalChangeCombination(changes, 0, target2));
+				target + " is " + CalChangeCombination(25, target2));
 	}
 }
