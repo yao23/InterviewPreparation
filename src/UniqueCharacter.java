@@ -1,6 +1,8 @@
 
 public class UniqueCharacter {
 	public static boolean CheckUniqueCharacter(String s) {
+		if( s.length() > 26 )
+			return false;
 		int[] chars = new int[26];
 		for( int i = 0; i < chars.length; i++ )
 			chars[i] = -1;
@@ -14,6 +16,8 @@ public class UniqueCharacter {
 	}
 	
 	public static boolean CheckUniqueCharacter2(String s) {
+		if( s.length() > 26 )
+			return false;
 		int NumBuf = 0, idx;
 		for( int i = 0; i < s.length(); i++ ) {
 			idx = s.charAt(i) - 'a';
