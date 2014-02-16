@@ -15,8 +15,8 @@ public class TallestStack {
 		for( int i = 0; i < boxes.size(); i++ ) {			
 			if( boxes.get(i).CanBeAbove(bottom) ) {
 				ArrayList<box> TmpRes = CalTallestStack(StackMap, boxes, boxes.get(i));
-				for( int j = 0; j < res.size(); j++ )
-					TmpHeight += res.get(i).GetHeight();
+				for( int j = 0; j < TmpRes.size(); j++ )
+					TmpHeight += TmpRes.get(j).GetHeight();
 				if( TmpHeight > MaxHeight ) {
 					MaxHeight = TmpHeight;
 					res = TmpRes;
@@ -75,6 +75,8 @@ class box {
 	}
 	
 	public boolean CanBeAbove(box b) {
+		if( b == null )
+			return true;
 		if( this.length < b.GetLength() && this.width < b.GetWidth() &&
 				this.height < b.GetHeight() )
 			return true;
