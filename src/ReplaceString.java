@@ -5,7 +5,6 @@ public class ReplaceString {
 		for(int i = ch.length - 1; i >= 0; i-- ) {
 			if( ch[i] != ' ' ) {
 				EndSpaceIdx = (i + 1);
-				System.out.println("End Space Index: " + EndSpaceIdx);
 				break;
 			}			
 		}
@@ -25,7 +24,7 @@ public class ReplaceString {
 	public static void main(String[] args) {
 		char[] ch1 = {'M', 'r', ' ', 'J', 'o', 'h', 'n', ' ', 'S', 
 				       	'm', 'i', 't', 'h', ' ', ' ', ' ', ' '};
-		System.out.println(ch1.length + "Before replacing space with %20: ");
+		System.out.println("Before replacing space with %20: ");
 		for( int i = 0; i < ch1.length; i++ )
 			System.out.print(ch1[i] + " ");
 		System.out.println();
