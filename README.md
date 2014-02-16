@@ -1,1 +1,1 @@
-prepare interview questions in Java from Careercup, etc.
+prepare interview questions from Careercup and Cracking the Code Interview in Java , etc.
