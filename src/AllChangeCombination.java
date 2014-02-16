@@ -27,10 +27,11 @@ public class AllChangeCombination {
 	
 	public static void main(String[] args) {
 		int[] changes = new int[]{25, 10, 5, 1};
-		int target = 100;
+		int target = 100, target2 = 25;
 		System.out.println("Number of change combination for " + 
 							target + " is " + CalChangeCombination(changes, 0, target));
 							
-		
+		System.out.println("Number of change combination for " + 
+				target + " is " + CalChangeCombination(changes, 0, target2));
 	}
 }
