@@ -13,6 +13,7 @@ public class ReplaceString {
 			if( ch[i] == ' ' ) {
 				for( int j = EndSpaceIdx - 1; j > i; j-- )
 					ch[j + 2] = ch[j];
+				EndSpaceIdx += 2; // update EndSpaceIdx
 				ch[i] = '%';
 				ch[i + 1] = '2';
 				ch[i + 2] = '0';					
