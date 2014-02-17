@@ -22,6 +22,7 @@ public class TallestStack {
 					res = TmpRes;
 				}			
 			}
+			TmpHeight = 0;
 		}
 		
 		if( res == null )
@@ -29,6 +30,8 @@ public class TallestStack {
 		
 		if( bottom != null )
 			res.add(0, bottom);
+		else 
+			System.out.println("The max height: " + MaxHeight);
 		
 		StackMap.put(bottom, res);
 		return res;
