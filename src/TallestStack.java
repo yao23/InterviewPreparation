@@ -2,14 +2,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TallestStack {
+	//public static int MaxHeight = 0;
+	
 	private static ArrayList<box> CalTallestStack(HashMap<box, ArrayList<box>> StackMap, 
 													ArrayList<box> boxes, box bottom) {
 		if( boxes == null || boxes.size() == 0 )
 			return boxes;
 		
-		if( bottom != null && StackMap.containsKey(bottom) )
+		if( bottom != null && StackMap.containsKey(bottom) ) {
+			System.out.println("Get cached in bottom: " + bottom.GetId());
+			for( int i = 0; i < StackMap.get(bottom).size(); i++ )
+			System.out.print(StackMap.get(bottom).get(i).GetId() + " ");
+			System.out.println();
 			return StackMap.get(bottom);
+		}
 		
+		//int TmpHeight = 0;
 		int MaxHeight = 0, TmpHeight = 0;
 		ArrayList<box> res = null;
 		for( int i = 0; i < boxes.size(); i++ ) {			
@@ -20,9 +28,16 @@ public class TallestStack {
 				if( TmpHeight > MaxHeight ) {
 					MaxHeight = TmpHeight;
 					res = TmpRes;
-				}			
-			}
-			TmpHeight = 0;
+					if( bottom == null )
+						System.out.println("Bottom is null!");
+					else 
+						System.out.println("Bottom: " + bottom.GetId());
+					for( int j = 0; j < res.size(); j++ )
+						System.out.print(res.get(j).GetId() + " ");
+					System.out.println();
+				}
+				TmpHeight = 0;
+			}			
 		}
 		
 		if( res == null )
@@ -34,7 +49,9 @@ public class TallestStack {
 			System.out.println("The max height: " + MaxHeight);
 		
 		StackMap.put(bottom, res);
-		return res;
+		//return res;
+		//return (ArrayList<box>)res.clone();
+		return new ArrayList<box>(res);
 	}
 	
 	public static void main(String[] args) {
