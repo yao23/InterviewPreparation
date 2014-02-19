@@ -21,6 +21,28 @@ public class RemoveDuplicatesFromUnsortedLinkedList {
 		return FakeHead.next;
 	}
 	
+	public static ListNode RemoveDuplicates2(ListNode l) {
+		ListNode pre = null;
+		ListNode later = null;
+		ListNode FakeHead = new ListNode(-1);
+		FakeHead.next = l;
+		
+		while( l.next != null ) {
+			pre = l;
+			later = l.next;
+			while( later.next != null ) {
+				if( l.i == later.i  ) 
+					pre.next = later.next;
+				else 
+					pre = later;
+				later = later.next;
+			}
+			l = l.next;
+		}
+		
+		return FakeHead.next;
+	}
+	
 	public static void main(String[] args) {
 		ListNode l1 = new ListNode(1);	ListNode l2 = new ListNode(2);
 		ListNode l3 = new ListNode(1);	ListNode l4 = new ListNode(3);
@@ -36,6 +58,10 @@ public class RemoveDuplicatesFromUnsortedLinkedList {
 		ListNode NewList = RemoveDuplicates(l1);
 		NewList.PrintList();
 
+		System.out.println();
+		System.out.println("After removing(without buffer): ");
+		ListNode NewList2 = RemoveDuplicates(l1);
+		NewList2.PrintList();
 	}
 	
 }
