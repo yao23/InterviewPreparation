@@ -43,12 +43,12 @@ public class RemoveMidNode {
 		
 		System.out.println("Before removing: ");
 		l1.PrintList();
-		System.out.println();
+		
 		System.out.println("After removing: ");
 		RemoveMiddleNode(l3);
 		l1.PrintList();
 		
-		System.out.println("\nFor test case 2: ");
+		System.out.println("For test case 2: ");
 		ListNode l2_1 = new ListNode(1);	ListNode l2_2 = new ListNode(2);
 		ListNode l2_3 = new ListNode(1);	ListNode l2_4 = new ListNode(3);
 		ListNode l2_5 = new ListNode(4);	ListNode l2_6 = new ListNode(5);
@@ -58,7 +58,25 @@ public class RemoveMidNode {
 		
 		System.out.println("Before removing: ");
 		l2_1.PrintList();
-		System.out.println();
+		
+		System.out.println("After removing: ");
+		RemoveMiddleNode(l2_3);
+		l2_1.PrintList();
+		
+		System.out.println("Test complicated solution: ");
+		
+		System.out.println("Before removing: ");
+		l1.PrintList();
+		
+		System.out.println("After removing: ");
+		RemoveMiddleNode(l3);
+		l1.PrintList();
+		
+		System.out.println("\nFor test case 2: ");
+		
+		System.out.println("Before removing: ");
+		l2_1.PrintList();
+		
 		System.out.println("After removing: ");
 		RemoveMiddleNode(l2_3);
 		l2_1.PrintList();
