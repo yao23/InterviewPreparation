@@ -9,10 +9,10 @@ public class RemoveDuplicatesFromUnsortedLinkedList {
 		FakeHead.next = l;
 		
 		while( l != null ) {
-			if( nodes.contains(l.i) ) 
+			if( nodes.contains(l.data) ) 
 				pre.next = l.next;
 			else {
-				nodes.add(l.i);
+				nodes.add(l.data);
 				pre = l;
 			}
 			l = l.next;
@@ -32,7 +32,7 @@ public class RemoveDuplicatesFromUnsortedLinkedList {
 		while( l != null ) {
 			later = l;
 			while( later.next != null ) {
-				if( l.i == later.next.i  ) 
+				if( l.data == later.next.data  ) 
 					later.next = later.next.next;
 				else 
 					later = later.next;
@@ -67,11 +67,11 @@ public class RemoveDuplicatesFromUnsortedLinkedList {
 }
 
 class ListNode {
-	int i;
+	int data;
 	ListNode next;
 	
 	ListNode(int i) {
-		this.i = i;
+		this.data = i;
 	}
 	@SuppressWarnings("unused")
 	public void PrintList() {
@@ -80,8 +80,10 @@ class ListNode {
 			System.out.println("No node in list!");
 		
 		while( l != null ) {
-			System.out.print(l.i + " ");
+			System.out.print(l.data + " ");
 			l = l.next;
 		}
+		
+		System.out.println();
 	}
 }
