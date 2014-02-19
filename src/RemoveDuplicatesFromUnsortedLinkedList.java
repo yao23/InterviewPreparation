@@ -22,20 +22,20 @@ public class RemoveDuplicatesFromUnsortedLinkedList {
 	}
 	
 	public static ListNode RemoveDuplicates2(ListNode l) {
-		ListNode pre = null;
+		if( l == null )
+			return l;
+		
 		ListNode later = null;
 		ListNode FakeHead = new ListNode(-1);
 		FakeHead.next = l;
 		
-		while( l.next != null ) {
-			pre = l;
-			later = l.next;
+		while( l != null ) {
+			later = l;
 			while( later.next != null ) {
-				if( l.i == later.i  ) 
-					pre.next = later.next;
+				if( l.i == later.next.i  ) 
+					later.next = later.next.next;
 				else 
-					pre = later;
-				later = later.next;
+					later = later.next;
 			}
 			l = l.next;
 		}
