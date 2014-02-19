@@ -16,17 +16,6 @@ public class AddTwoNumberRepresentedByLinkedList {
 	}
 	
 	public static ListNode AddTwoNumber(ListNode l1, ListNode l2) {
-		if( l1 == null ) {
-			int NodeVal = (l2.data + carry) % 10; 
-			carry = (l2.data + carry) / 10;
-			return new ListNode(NodeVal); 			
-		}
-		if( l2 == null ) {
-			int NodeVal = (l1.data + carry) % 10; 
-			carry = (l1.data + carry) / 10;
-			return new ListNode(NodeVal);
-		}
-		
 		if( l1.next == null && l2.next == null ) {
 			int NodeVal = (l1.data + l2.data + carry) % 10; 
 			carry = (l1.data + l2.data + carry) / 10;
@@ -44,7 +33,7 @@ public class AddTwoNumberRepresentedByLinkedList {
 					l1 = l1.next;
 			}
 			
-			return AddTwoNumber(l1, l2);
+			return AddTwoNumber(l1.next, l2.next);
 		}	
 	}
 	
