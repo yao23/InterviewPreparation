@@ -77,6 +77,10 @@ public class ParenthesizeBooleanExpression {
 		System.out.println(s1 + " has " + WaysToParenthesize(s1, b1, 0, s1.length() - 1, map) 
 							+ " ways to parenthesize to be " + (b1 ? "true" : "false"));
 		
-		
+		map.clear();
+		String s2 = "1^0|0|1";
+		boolean b2 = true;
+		System.out.println(s2 + " has " + WaysToParenthesize(s2, b2, 0, s2.length() - 1, map) 
+				+ " ways to parenthesize to be " + (b1 ? "true" : "false"));
 	}
 }
