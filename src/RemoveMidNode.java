@@ -8,7 +8,7 @@ public class RemoveMidNode {
 			return;
 		}
 		ListNode next = l.next;
-		l.i = next.i;
+		l.data = next.data;
 		l.next = next.next;		
 	}
 	
@@ -24,7 +24,7 @@ public class RemoveMidNode {
 		pre.next = l;
 		
 		while( next != null ) {
-			l.i = next.i;
+			l.data = next.data;
 			pre = l;
 			l = l.next;
 			next = l.next;
