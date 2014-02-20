@@ -5,8 +5,10 @@ public class Hanoi {
 	public static void main(String[] args) {
 		int n = 3;
 		Tower[] towers = new Tower[3];
-		for( int i = n; i > 0; i-- )
-			towers[i].add(i);
+		for( int i = 0; i < n; i++ )
+			towers[i] = new Tower(i + 1);
+		for( int i = n; i > 0; i-- ) 
+			towers[0].add(i);
 		towers[0].MoveWithSupport(n, towers[2], towers[1]);
 	}
 }
@@ -31,16 +33,17 @@ class Tower {
 	}
 	
 	public void MoveWithSupport(int n, Tower dest, Tower sup) {
-		if( n <= 0 )
-			return;
-		this.MoveWithSupport(n - 1, sup, dest);
-		this.MoveDirectly(dest);
-		sup.MoveWithSupport(n - 1, dest, this);
+		if( n > 0 ) {
+			MoveWithSupport(n - 1, sup, dest);
+			MoveDirectlyTo(dest);
+			sup.MoveWithSupport(n - 1, dest, this);
+		}
 	}
 	
-	public void MoveDirectly(Tower t) {
+	public void MoveDirectlyTo(Tower t) {
 		int data = this.disks.pop();
 		t.disks.push(data);
-		System.out.println("Move disk from " + this.idx + " to " +t.idx);
+		System.out.println("Move disk " + data + " from " 
+							+ this.idx + " to " + t.idx);
 	}
 }
