@@ -81,5 +81,27 @@ public class AddTwoNumberRepresentedByLinkedList {
 		System.out.println("Sum: ");
 		ListNode res = AddTwoNumber(l1_1, l2_1, len1, len2, len1, len2);
 		res.PrintList();
+		
+		System.out.println("Test case 2: ");
+		
+		ListNode l3_1 = new ListNode(6);	ListNode l3_2 = new ListNode(1);
+		ListNode l3_3 = new ListNode(7);	
+		l3_1.next = l3_2; l3_2.next = l3_3; l3_3.next = null; 
+		
+		ListNode l4_1 = new ListNode(2);	ListNode l4_2 = new ListNode(9);
+		ListNode l4_3 = new ListNode(5);	
+		l4_1.next = l4_2; l4_2.next = l4_3; l4_3.next = null; 
+		
+		int len2_1 = CalLength(l3_1);
+		int len2_2 = CalLength(l4_1);
+		
+		System.out.println("List 1: ");
+		l3_1.PrintList();
+		System.out.println("List 2: ");
+		l4_1.PrintList();
+		
+		System.out.println("Sum: ");
+		ListNode res2 = AddTwoNumber(l3_1, l4_1, len2_1, len2_2, len2_1, len2_2);
+		res2.PrintList();
 	}
 }
