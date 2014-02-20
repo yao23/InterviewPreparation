@@ -84,6 +84,6 @@ class ListNode {
 			l = l.next;
 		}
 		
-		System.out.println();
+		System.out.println("null"); // list end
 	}
 }
