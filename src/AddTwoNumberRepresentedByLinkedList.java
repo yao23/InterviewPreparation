@@ -15,25 +15,44 @@ public class AddTwoNumberRepresentedByLinkedList {
 		return len;
 	}
 	
-	public static ListNode AddTwoNumber(ListNode l1, ListNode l2) {
+	public static ListNode AddTwoNumber(ListNode l1, ListNode l2, 
+							int len1, int len2, int CurLen1, int CurLen2) {
 		if( l1.next == null && l2.next == null ) {
 			int NodeVal = (l1.data + l2.data + carry) % 10; 
 			carry = (l1.data + l2.data + carry) / 10;
 			return new ListNode(NodeVal);
 		}
 		else {
-			int len1 = CalLength(l1);
-			int len2 = CalLength(l2);
-			if( len1 < len2 ) {
-				for( int i = 0; i < (len2 - len1); i++ )
-					l2 = l2.next;
+			ListNode Next = new ListNode(0);
+			int NodeVal = 0;
+			if( CurLen1 < CurLen2 ) {
+				Next = AddTwoNumber(l1, l2.next, len1, len2, CurLen1, CurLen2 - 1);
+				NodeVal = (l2.data + carry) % 10;
+				carry = (l2.data + carry) / 10;
 			}
-			else if( len2 < len1 ) {
-				for( int i = 0; i < (len1 - len2); i++ )
-					l1 = l1.next;
+			else if( CurLen2 < CurLen1 ) {
+				Next = AddTwoNumber(l1.next, l2, len1, len2, CurLen1 - 1, CurLen2);
+				NodeVal = (l1.data + carry) % 10;
+				carry = (l1.data + carry) / 10;
 			}
-			
-			return AddTwoNumber(l1.next, l2.next);
+			else {
+				Next = AddTwoNumber(l1.next, l2.next, len1, len2, CurLen1 - 1, CurLen2 -1);
+				NodeVal = (l1.data + l2.data + carry) % 10; 
+				carry = (l1.data + l2.data + carry) / 10;
+			}
+			ListNode Cur = new ListNode(NodeVal);
+			Cur.next = Next;
+			if( CurLen1 < len1 || CurLen2 < len2 )
+				return Cur;
+			else {
+				if( carry == 0)
+					return Cur;
+				else {
+					ListNode head = new ListNode(carry);
+					head.next = Cur;
+					return head;
+				}
+			}
 		}	
 	}
 	
@@ -51,6 +70,8 @@ public class AddTwoNumberRepresentedByLinkedList {
 		l2_1.next = l2_2; l2_2.next = l2_3; l2_3.next = l2_4; l2_4.next = l2_5;
 		l2_5.next = l2_6; l2_6.next = l2_7; l2_7.next = l2_8; l2_8.next = null;
 		
+		int len1 = CalLength(l1_1);
+		int len2 = CalLength(l2_1);
 		
 		System.out.println("List 1: ");
 		l1_1.PrintList();
@@ -58,7 +79,7 @@ public class AddTwoNumberRepresentedByLinkedList {
 		l2_1.PrintList();
 		
 		System.out.println("Sum: ");
-		ListNode res = AddTwoNumber(l1_1, l2_1);
+		ListNode res = AddTwoNumber(l1_1, l2_1, len1, len2, len1, len2);
 		res.PrintList();
 	}
 }
