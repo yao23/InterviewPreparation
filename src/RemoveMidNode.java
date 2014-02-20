@@ -35,6 +35,7 @@ public class RemoveMidNode {
 	}
 	
 	public static void main(String[] args) {
+		// ListNode definition in RemoveDuplicatedFromUnsortedLinkedList		
 		ListNode l1 = new ListNode(1);	ListNode l2 = new ListNode(2);
 		ListNode l3 = new ListNode(3);	ListNode l4 = new ListNode(4);
 		ListNode l5 = new ListNode(5);	
