@@ -57,6 +57,7 @@ public class AddTwoNumberRepresentedByLinkedList {
 	}
 	
 	public static void main(String[] args) {
+		// ListNode definition in RemoveDuplicatedFromUnsortedLinkedList
 		ListNode l1_1 = new ListNode(1);	ListNode l1_2 = new ListNode(2);
 		ListNode l1_3 = new ListNode(3);	ListNode l1_4 = new ListNode(4);
 		ListNode l1_5 = new ListNode(5);	
