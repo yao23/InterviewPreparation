@@ -80,7 +80,7 @@ class ListNode {
 			System.out.println("No node in list!");
 		
 		while( l != null ) {
-			System.out.print(l.data + " ");
+			System.out.print(l.data + "->");
 			l = l.next;
 		}
 		
