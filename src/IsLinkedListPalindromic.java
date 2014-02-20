@@ -31,6 +31,35 @@ public class IsLinkedListPalindromic {
 		return true;
 	}
 	
+	public static Result CheckList2(ListNode head, int len) {
+		if( head == null || len == 0 )
+			return new Result(null, true);
+		else if( len == 1 ) 
+			return new Result(head.next, true);
+		else if( len == 2 )
+			return new Result(head.next.next, head.data == head.next.data );
+		
+		Result res = CheckList2(head.next, len - 2);
+		if( res.flag == false || res.ln == null )
+			return res;
+		else {
+			res.flag = (head.data == res.ln.data);
+			res.ln = res.ln.next;
+			return res;
+		}
+	}
+	
+	private static int CalLen(ListNode l) {
+		int len = 0;
+		
+		while( l != null ) {
+			len++;
+			l = l.next;
+		}
+		
+		return len;
+	}
+	
 	public static void main(String[] args) {
 		// ListNode definition in RemoveDuplicatedFromUnsortedLinkedList
 		ListNode l1_1 = new ListNode(1);	ListNode l1_2 = new ListNode(2);
@@ -74,5 +103,41 @@ public class IsLinkedListPalindromic {
 		l4_1.PrintList();		
 		System.out.println("List 4 is palindromic? " +
 				(CheckList(l4_1) ? "true" : "false"));
+		
+		System.out.println();
+		System.out.println("Recursively check linked list palindromic or not! ");
+		System.out.println("Test case 1: ");
+		System.out.print("List 1: ");
+		l1_1.PrintList();
+		System.out.println("List 1 is palindromic? " +
+							(CheckList2(l1_1, CalLen(l1_1)).flag ? "true" : "false"));
+		
+		System.out.println("Test case 2: ");
+		System.out.print("List 2: ");
+		l2_1.PrintList();		
+		System.out.println("List 2 is palindromic? " +
+				(CheckList2(l2_1, CalLen(l2_1)).flag ? "true" : "false"));
+		
+		System.out.println("Test case 3: ");
+		System.out.print("List 3: ");
+		l3_1.PrintList();
+		System.out.println("List 3 is palindromic? " +
+							(CheckList2(l3_1, CalLen(l3_1)).flag ? "true" : "false"));
+		
+		System.out.println("Test case 4: ");
+		System.out.print("List 4: ");
+		l4_1.PrintList();		
+		System.out.println("List 4 is palindromic? " +
+				(CheckList2(l4_1, CalLen(l4_1)).flag ? "true" : "false"));
+
+	}
+}
+
+class Result {
+	ListNode ln;
+	boolean flag;
+	public Result(ListNode ln, boolean flag) {
+		this.ln = ln;
+		this.flag = flag;
 	}
 }
