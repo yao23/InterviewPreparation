@@ -25,6 +25,7 @@ class SetOfStacks {
 		return stacks.get(stacks.size() - 1);
 	}
 	
+	@SuppressWarnings("null")
 	public void push(int elem) {
 		NewStack last = getLastStack();
 		if( last != null || !(last.isFull()) ) // add to last stack
