@@ -8,7 +8,8 @@ public class StackSets {
 		NewStack ns3 = new NewStack(3);
 		SetOfStacks s = new SetOfStacks(3);
 		s.stacks.add(ns1); s.stacks.add(ns2); s.stacks.add(ns3);
-		s.push(0);
+		s.push(0); s.push(1);
+		s.pop();
 	}
 }
 
