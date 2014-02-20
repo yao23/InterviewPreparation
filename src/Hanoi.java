@@ -6,9 +6,9 @@ public class Hanoi {
 		int n = 3;
 		Tower[] towers = new Tower[3];
 		for( int i = 0; i < n; i++ )
-			towers[i] = new Tower(i + 1);
+			towers[i] = new Tower(i + 1); // initialize towers
 		for( int i = n; i > 0; i-- ) 
-			towers[0].add(i);
+			towers[0].add(i); // add all disks to tower 1
 		towers[0].MoveWithSupport(n, towers[2], towers[1]);
 	}
 }
@@ -43,7 +43,7 @@ class Tower {
 	public void MoveDirectlyTo(Tower t) {
 		int data = this.disks.pop();
 		t.disks.push(data);
-		System.out.println("Move disk " + data + " from " 
-							+ this.idx + " to " + t.idx);
+		System.out.println("Move disk " + data + " from tower " 
+							+ this.idx + " to tower " + t.idx);
 	}
 }
