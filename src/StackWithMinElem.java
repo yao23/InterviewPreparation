@@ -5,7 +5,7 @@ public class StackWithMinElem {
 	private static Stack<Integer> MinStack = new Stack<Integer>();
 	
 	public static void push(int elem, Stack<Integer> st) {
-		if( MinStack.isEmpty() || elem < MinStack.peek() )
+		if( MinStack.isEmpty() || elem <= MinStack.peek() )
 			MinStack.push(elem);
 		st.push(elem);
 		System.out.println("Push " + elem + " into Stack!");
