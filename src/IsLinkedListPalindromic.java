@@ -48,13 +48,13 @@ public class IsLinkedListPalindromic {
 		l2_5.next = l2_6; l2_6.next = null;
 		
 		System.out.println("Test case 1: ");
-		System.out.println("List 1: ");
+		System.out.print("List 1: ");
 		l1_1.PrintList();
 		System.out.println("List 1 is palindromic? " +
 							(CheckList(l1_1) ? "true" : "false"));
 		
 		System.out.println("Test case 2: ");
-		System.out.println("List 2: ");
+		System.out.print("List 2: ");
 		l2_1.PrintList();		
 		System.out.println("List 2 is palindromic? " +
 				(CheckList(l2_1) ? "true" : "false"));
@@ -63,7 +63,7 @@ public class IsLinkedListPalindromic {
 		ListNode l3_3 = new ListNode(7);	
 		l3_1.next = l3_2; l3_2.next = l3_3; l3_3.next = null; 
 		System.out.println("Test case 3: ");
-		System.out.println("List 3: ");
+		System.out.print("List 3: ");
 		l3_1.PrintList();
 		System.out.println("List 3 is palindromic? " +
 							(CheckList(l3_1) ? "true" : "false"));
@@ -72,7 +72,7 @@ public class IsLinkedListPalindromic {
 		ListNode l4_3 = new ListNode(5);	ListNode l4_4 = new ListNode(5);
 		l4_1.next = l4_2; l4_2.next = l4_3; l4_3.next = l4_4; l4_4.next = null;
 		System.out.println("Test case 4: ");
-		System.out.println("List 4: ");
+		System.out.print("List 4: ");
 		l4_1.PrintList();		
 		System.out.println("List 4 is palindromic? " +
 				(CheckList(l4_1) ? "true" : "false"));
