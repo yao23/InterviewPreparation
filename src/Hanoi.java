@@ -23,7 +23,7 @@ class Tower {
 			return;
 		this.MoveWithSupport(n - 1, sup, dest);
 		this.MoveDirectly(dest);
-		this.MoveWithSupport(n - 1, dest, this);
+		sup.MoveWithSupport(n - 1, dest, this);
 	}
 	
 	public void MoveDirectly(Tower t) {
