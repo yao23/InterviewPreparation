@@ -59,4 +59,8 @@ class StackElem {
 		System.out.println("Peek " + nums[idx] + " in Stack " + StackId + "!");
 		return nums[idx];
 	}
+	
+	public boolean IsEmpty(int[] nums, int StackNum) {
+		return (TopIdx == -1);
+	}
 }
