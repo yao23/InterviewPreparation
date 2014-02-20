@@ -15,15 +15,12 @@ public class IsLinkedListPalindromic {
 		}
 		
 		if( fast == null ) { // list length is even
-			if( slow.data != FirstHalf.peek().data )
-				return false;
-			FirstHalf.pop();
+			// nothing, two elements in the middle, process later
 		}
 		else { // fast.next == null, list length is odd
-			// nothing, slow is in the middle, skip it
+			slow = slow.next;
 		}
-		slow = slow.next;
-		
+				
 		while( slow != null ) {
 			if( slow.data != FirstHalf.peek().data )
 				return false; 
