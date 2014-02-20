@@ -9,6 +9,8 @@ public class ArrayToThreeStacks {
 		s1.push(1, nums, StackNum);
 		s1.push(2, nums, StackNum);
 		s1.push(3, nums, StackNum);
+		s1.peek(nums, StackNum);
+		s1.pop(nums, StackNum);
 		s1.push(4, nums, StackNum);
 		s2.pop(nums, StackNum);
 		s3.peek(nums, StackNum);
@@ -43,6 +45,7 @@ class StackElem {
 		else {
 			int idx = (StackId - 1) * (nums.length / StackNum) + TopIdx;
 			TopIdx--;
+			System.out.println("Pop " + nums[idx] + " out of Stack " + StackId + "!");
 			return nums[idx];
 		}
 	}
@@ -53,6 +56,7 @@ class StackElem {
 			return Integer.MIN_VALUE;
 		}
 		int idx = (StackId - 1) * (nums.length / StackNum) + TopIdx;
+		System.out.println("Peek " + nums[idx] + " in Stack " + StackId + "!");
 		return nums[idx];
 	}
 }
