@@ -3,8 +3,6 @@ import java.util.ArrayList;
 public class BinaryTreeSumPath {
 	public static ArrayList<ArrayList<Integer>> FindSumPathRecur(int CurSum, int ExpSum, 
 			MyTree root, ArrayList<Integer> path, ArrayList<ArrayList<Integer>> paths) {
-		if( root == null )
-			return paths;
 		if(  CurSum > ExpSum )
 			return paths;
 		else if( CurSum == ExpSum ) {
@@ -15,10 +13,12 @@ public class BinaryTreeSumPath {
 			return paths;
 		}
 		else {
+			if( root == null )
+				return paths;
 			path.add(root.data);
 			CurSum += root.data;
 			FindSumPathRecur(CurSum, ExpSum, root.left, path, paths);
-			FindSumPathRecur(CurSum, ExpSum, root.left, path, paths);
+			FindSumPathRecur(CurSum, ExpSum, root.right, path, paths);
 			path.remove(path.size() - 1);
 			return paths;
 		}
