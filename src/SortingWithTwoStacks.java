@@ -6,18 +6,14 @@ public class SortingWithTwoStacks {
 		Stack<Integer> res = new Stack<Integer>();
 		if( nums == null || nums.isEmpty() )
 			return res;
-		int tmp;
-		res.push(nums.pop());
 		
 		while( !nums.isEmpty() ) {
-			if( nums.peek() <= res.peek() )
-				res.push(nums.pop());
-			else {
-				tmp = nums.pop();
-				while( !res.isEmpty() && res.peek() < tmp ) 
-					nums.push(res.pop());
-				res.push(tmp);
-			}				
+			int tmp = nums.pop();
+			
+			while( !res.isEmpty() && res.peek() < tmp ) 
+				nums.push(res.pop());
+				
+			res.push(tmp);				
 		}
 		
 		return res;
