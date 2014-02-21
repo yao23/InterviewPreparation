@@ -94,20 +94,15 @@ class Animal {
 }
 
 class Dog extends Animal {
-	//private int id;
-	//private String category;
 	Dog(int i) {
-		//id = i;
 		super(i);
-		super.category = "dog";
+		super.SetCategory("dog");
 	}
 }
 
 class Cat extends Animal {
-	private int id;
-	private String category;
 	Cat(int i) {
-		id = i;
-		category = "cat";
+		super(i);
+		super.SetCategory("cat");
 	}
 }
