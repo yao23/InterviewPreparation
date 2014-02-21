@@ -4,8 +4,8 @@ public class AnimalShelter {
 	
 	
 	public static void main(String[] args) {
-		Dog a1 = new Dog(0); Cat a2 = new Cat(1);
-		Cat a3 = new Cat(2); Dog a4 = new Dog(3);
+		Dog a1 = new Dog(); Cat a2 = new Cat();
+		Cat a3 = new Cat(); Dog a4 = new Dog();
 		Shelter s = new Shelter();
 		s.dequeueAny(); s.dequeueCat(); s.dequeueDog();
 		s.enqueue(a1); s.dequeueCat();
@@ -18,6 +18,7 @@ public class AnimalShelter {
 class Shelter {
 	LinkedList<Dog> dogs;
 	LinkedList<Cat> cats;
+	private int order = 0; // set as a timestamp
 	
 	Shelter() {
 		dogs = new LinkedList<Dog>();
@@ -25,7 +26,9 @@ class Shelter {
 	}
 	
 	public void enqueue(Animal a) {
-		if( a.GetCategory() == "dog" ) {
+		a.SetId(order);
+		order++;
+		if( a instanceof Dog ) {
 			dogs.add((Dog)a);
 			System.out.println("Dog " + a.GetId() + " is in shelter!");
 		}
@@ -40,12 +43,18 @@ class Shelter {
 			System.out.println("Shelter is empty! Cannot Dequeue!");
 			return null;
 		}
+		else if( dogs.isEmpty() )
+			dequeueCat();
+		else if( cats.isEmpty() )
+			dequeueDog();
 		
-		if( dogs.getFirst().GetId() <= cats.getFirst().GetId() ) {
+		Dog dog = dogs.getFirst();
+		Cat cat = cats.getFirst();
+		
+		if( dog.IsOlderThan(cat) ) {
 			System.out.println("Dog " + dogs.getFirst().GetId() + " is out!");
 			return (Animal)dogs.removeFirst();
-		}
-			
+		}			
 		else {
 			System.out.println("Cat " + cats.getFirst().GetId() + " is out!");
 			return (Animal)cats.removeFirst();			
@@ -72,7 +81,7 @@ class Shelter {
 	}
 }
 
-class Animal {
+abstract class Animal {
 	private int id;
 	private String category;
 	Animal() {
@@ -82,8 +91,7 @@ class Animal {
 		id = i;
 		category = "animal";
 	}
-	Animal(int i, String s) {
-		id = i;
+	Animal(String s) {
 		category = s;
 	}
 	public int GetId() {
@@ -92,21 +100,25 @@ class Animal {
 	public String GetCategory() {
 		return category;
 	}
+	public void SetId(int i) {
+		id = i;
+	}
 	public void SetCategory(String c) {
 		category = c;
+	}
+	public boolean IsOlderThan(Animal a) {
+		return (this.GetId() <= a.GetId());
 	}
 }
 
 class Dog extends Animal {
-	Dog(int i) {
-		super(i);
-		super.SetCategory("dog");
+	Dog() {
+		super("dog");
 	}
 }
 
 class Cat extends Animal {
-	Cat(int i) {
-		super(i);
-		super.SetCategory("cat");
+	Cat() {
+		super("cat");
 	}
 }
