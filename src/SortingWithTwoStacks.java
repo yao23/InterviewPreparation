@@ -16,8 +16,7 @@ public class SortingWithTwoStacks {
 				tmp = nums.pop();
 				while( !res.isEmpty() && res.peek() < tmp ) 
 					nums.push(res.pop());
-				if( res.isEmpty() ) 
-					res.push(tmp);
+				res.push(tmp);
 			}				
 		}
 		
