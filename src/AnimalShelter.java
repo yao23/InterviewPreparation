@@ -7,6 +7,10 @@ public class AnimalShelter {
 		Dog a1 = new Dog(0); Cat a2 = new Cat(1);
 		Cat a3 = new Cat(2); Dog a4 = new Dog(3);
 		Shelter s = new Shelter();
+		s.dequeueAny(); s.dequeueCat(); s.dequeueDog();
+		s.enqueue(a1); s.dequeueCat();
+		s.enqueue(a2); s.enqueue(a3); s.enqueue(a4);
+		s.dequeueDog();
 	}
 	
 }
