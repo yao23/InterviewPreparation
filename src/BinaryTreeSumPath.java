@@ -89,6 +89,9 @@ class MyTreeNode {
 	int val;
 	MyTreeNode left;
 	MyTreeNode right;
+	MyTreeNode(String n) {
+		name = n;
+	}
 	MyTreeNode(String n, int v, MyTreeNode l, MyTreeNode r) {
 		name = n;
 		val = v; 
