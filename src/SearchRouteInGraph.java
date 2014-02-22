@@ -55,6 +55,13 @@ public class SearchRouteInGraph {
 		System.out.println("A route from " + v1.GetName() + " to " +
 							v6.GetName() + " existed? " + 
 							(SearchRoute(v1, v6, g) ? "true" : "false"));
+		
+		ResetVertex(g); 
+		
+		System.out.println("Test case 3:");
+		System.out.println("A route from " + v2.GetName() + " to " +
+							v6.GetName() + " existed? " + 
+							(SearchRoute(v2, v6, g) ? "true" : "false"));
 	}
 }
 
