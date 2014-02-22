@@ -11,6 +11,7 @@ public class InorderNextNodeinBST {
 			if( root.GetRight() == null ) { // no right subtree
 				MyTreeNode2 tmp = root;
 				
+				// find the one which is the left child of its parent
 				while( tmp.GetParent() != null && tmp != tmp.GetParent().GetLeft() )
 					tmp = tmp.GetParent();
 
