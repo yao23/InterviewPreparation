@@ -13,7 +13,7 @@ public class InorderNextNodeinBST {
 				
 				while( tmp.GetParent() != null && tmp != tmp.GetParent().GetLeft() )
 					tmp = tmp.GetParent();
-				
+
 				return tmp.GetParent();
 			}
 			else { // result is the most left node in right subtree
@@ -39,6 +39,8 @@ public class InorderNextNodeinBST {
 		root.SetParentChild(null, n1, n2);
 		n1.SetParentChild(root, n3, n4);
 		n2.SetParentChild(root, n5, null);
+		n3.SetParent(n1); n4.SetParent(n1);
+		n5.SetParent(n2);
 		
 		MyTreeNode2 res = NextNode(root, n1);
 		System.out.println("Test case 1: ");
