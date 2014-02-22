@@ -4,14 +4,14 @@ prepare interview questions from Careercup and Cracking the Code Interview in Ja
 
 <ul>
 <li>4.1:</li> 
-<li>4.2: SearchRouteInGraph</li>
+<li>4.2: SearchRouteInGraph.java (Graph defined) </li>
 <li>4.3:</li>
 <li>4.4:</li>
 <li>4.5:</li>
 <li>4.6:</li>
 <li>4.7:</li>
 <li>4.8:</li>
-<li>4.9: BinaryTreeSumPath.java</li>
+<li>4.9: BinaryTreeSumPath.java (MyTreeNode defined)</li>
 </ul>
 
 <ul>
