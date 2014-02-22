@@ -42,17 +42,22 @@ public class InorderNextNodeinBST {
 		
 		MyTreeNode2 res = NextNode(root, n1);
 		System.out.println("Test case 1: ");
-		System.out.println("Next node of " + n1.name + ": " + 
+		System.out.println("Next node of " + n1.name + " is " + 
 							( res == null ? "null" : res.name) );
 		
 		res = NextNode(root, root);
 		System.out.println("Test case 2: ");
-		System.out.println("Next node of " + root.name + ": " + 
+		System.out.println("Next node of " + root.name + " is " + 
 							( res == null ? "null" : res.name) );
 		
 		res = NextNode(root, n2);
 		System.out.println("Test case 3: ");
-		System.out.println("Next node of " + n2.name + ": " + 
+		System.out.println("Next node of " + n2.name + " is " + 
+							( res == null ? "null" : res.name) );
+		
+		res = NextNode(root, n4);
+		System.out.println("Test case 4: ");
+		System.out.println("Next node of " + n4.name + " is " + 
 							( res == null ? "null" : res.name) );
 	}
 }
