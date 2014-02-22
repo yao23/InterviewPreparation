@@ -1,58 +1,114 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class BinaryTreeSumPath {
-	public static ArrayList<ArrayList<Integer>> FindSumPathRecur(int CurSum, int ExpSum, 
-			MyTree root, ArrayList<Integer> path, ArrayList<ArrayList<Integer>> paths) {
-		if(  CurSum > ExpSum )
-			return paths;
-		else if( CurSum == ExpSum ) {
-			ArrayList<Integer> TmpPath = new ArrayList<Integer>();
-			TmpPath.addAll(path);
-			paths.add(TmpPath);
-			path.remove(path.size() - 1);
-			return paths;
+	public static ArrayList<Pair> AppendRootToPath(MyTreeNode root, 
+			MyTreeNode child, HashMap<String, Integer> result) {
+		ArrayList<Pair> ret = new ArrayList<Pair>(); // base case for upper level 
+		if( root == null || child == null ) 
+		return ret; 
+		ArrayList<Pair> subResult = GetPath(child, result);
+		
+		for( int i = 0; i < subResult.size(); i++ ) {
+		Pair tmp = subResult.get(i);
+		String key = root.name + tmp.GetName();
+		int value = root.val + tmp.GetVal();
+		result.put(key, value);
+		ret.add(new Pair(key, value));
 		}
-		else {
-			if( root == null )
-				return paths;
-			path.add(root.data);
-			CurSum += root.data;
-			FindSumPathRecur(CurSum, ExpSum, root.left, path, paths);
-			FindSumPathRecur(CurSum, ExpSum, root.right, path, paths);
-			path.remove(path.size() - 1);
-			return paths;
+		
+		return ret;
+	}
+
+	public static ArrayList<Pair> GetPath(MyTreeNode root, HashMap<String, Integer> result) {
+		ArrayList<Pair> ret = new ArrayList<Pair>(); // base case for upper level
+		if( root == null ) 
+			return ret;
+		if( root.left == null && root.right == null ) { // leaf node
+			ret.add(new Pair(root.name, root.val));
+			return ret;
 		}
+		ArrayList<Pair> left = new ArrayList<Pair>();
+		ArrayList<Pair> right = new ArrayList<Pair>();
+		if( root.left != null ) {
+			left = AppendRootToPath(root, root.left, result);
+			ret.addAll(left);
+		}
+		if( root.right != null ) {
+			right = AppendRootToPath(root, root.right, result);
+			ret.addAll(right);
+		}
+		if( !left.isEmpty() && !right.isEmpty() ) {
+			for( int i = 0; i < left.size(); i++ ) {
+				Pair tmp = left.get(i);
+				for( int j = 0; j < right.size(); j++ ) {
+					Pair tmp2 = right.get(j);
+					String reverseStr = tmp.GetName();
+					reverseStr = new StringBuilder(reverseStr).reverse().toString();
+					reverseStr = reverseStr.substring(0, reverseStr.length() - 1);
+					result.put(reverseStr + tmp2.GetName(), tmp.GetVal() - root.val + tmp2.GetVal());
+				}
+			}
+		}
+		
+		return ret;
 	}
-	
-	public static ArrayList<ArrayList<Integer>> FindSumPath(MyTree root, int target) {
-		ArrayList<ArrayList<Integer>> paths = new ArrayList<ArrayList<Integer>>();
-		if( root == null )
-			return paths;
-		ArrayList<Integer> path = new ArrayList<Integer>();
-		FindSumPathRecur(0, target, root, path, paths);
-		return paths;
-	}
+
 	public static void main(String[] args) {
-		MyTree t1 = new MyTree(1); MyTree t2 = new MyTree(2);
-		MyTree t3 = new MyTree(3); MyTree t4 = new MyTree(4); 
-		MyTree t5 = new MyTree(5); MyTree t6 = new MyTree(6);
-		t1.left = t2; t1.right = t3; t2.left = t4; t3.left = t6;
-		t4.right = t5;
-		ArrayList<ArrayList<Integer>> paths = FindSumPath(t1, 10);
-		for( int i = 0; i < paths.size(); i++ ) {
-			System.out.print("{");
-			for( int j = 0; j < paths.get(i).size(); j++ ) 
-				System.out.print(paths.get(i).get(j) + " ");
-			System.out.println("}");
+		MyTreeNode root = new MyTreeNode("A", 0, null, null);
+		MyTreeNode n1 = new MyTreeNode("B", 1, null, null);
+		MyTreeNode n2 = new MyTreeNode("C", 2, null, null);
+		MyTreeNode n3 = new MyTreeNode("D", 3, null, null);
+		MyTreeNode n4 = new MyTreeNode("E", 4, null, null);
+		MyTreeNode n5 = new MyTreeNode("F", 5, null, null);
+		root.left = n1;	root.right = n2; n1.left = n3;
+		n1.right = n4;	n2.left = n5;
+		
+		HashMap<String, Integer> res = new HashMap<String, Integer>();
+		
+		int target = 5;
+		GetPath(root, res);
+		
+		if( res.containsValue(target) ) {			
+			Iterator<Map.Entry<String, Integer>> it = res.entrySet().iterator();
+			
+			while (it.hasNext()) {
+				Map.Entry<String, Integer> pairs = it.next();
+				if( pairs.getValue() == target )
+				System.out.println(pairs.getKey());
+				it.remove(); // avoids a ConcurrentModificationException
+			}
 		}
 	}
 }
 
-class MyTree {
-	int data;
-	MyTree left;
-	MyTree right;
-	MyTree(int i) {
-		data = i;
+class MyTreeNode {
+	String name;
+	int val;
+	MyTreeNode left;
+	MyTreeNode right;
+	MyTreeNode(String n, int v, MyTreeNode l, MyTreeNode r) {
+		name = n;
+		val = v; 
+		left = l;
+		right = r;
 	}
 }
+	
+class Pair {
+	private String name;
+	private int val;
+	Pair(String s, int i) {
+		name = s;
+		val = i;
+	}
+	public String GetName() {
+		return name;
+	}
+	public int GetVal() {
+		return val;
+	}
+}
+	
