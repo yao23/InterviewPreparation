@@ -1,18 +1,20 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class SearchRouteInGraph {
 	private static boolean SearchRoute(Vertex s, Vertex e, Graph g) {
 		ArrayList<Vertex> vertices = g.GetVertices();
-		ArrayList<Vertex> q = new ArrayList<Vertex>();
+		LinkedList<Vertex> q = new LinkedList<Vertex>();
 		for( int i = 0; i < vertices.size(); i++ ) { // find start vertex
 			Vertex cur = vertices.get(i);
 			if( cur == s ) {
 				q.add(cur);
 			
 				while( !q.isEmpty() ) {
-					cur = q.remove(0);
+					cur = q.removeFirst();
 					System.out.println("Current vertex is: " + cur.GetName()); 
 					for( Vertex adj : cur.GetAdjacency() ) {
+						System.out.println("Adjacent vertex is: " + adj.GetName()); 
 						if( !adj.IsVisited() ) {
 							if( adj == e ) // find the route
 								return true;
@@ -21,6 +23,8 @@ public class SearchRouteInGraph {
 						}
 					}
 				}
+				
+				System.out.println("Vertex queue is empty!");
 			}
 		}
 		return false;
@@ -38,12 +42,12 @@ public class SearchRouteInGraph {
 		g.AddVertex(v5); g.AddVertex(v6);
 		g.AddEdge(e1); g.AddEdge(e2); g.AddEdge(e3); g.AddEdge(e4);
 		g.AddEdge(e5);
-		
+		/*
 		System.out.println("Test case 1:");
 		System.out.println("A route from " + v1.GetName() + " to " +
 							v5.GetName() + " existed? " + 
 							(SearchRoute(v1, v5, g) ? "true" : "false"));
-		
+		*/
 		System.out.println("Test case 2:");
 		System.out.println("A route from " + v1.GetName() + " to " +
 							v6.GetName() + " existed? " + 
