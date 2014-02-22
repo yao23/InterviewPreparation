@@ -8,7 +8,7 @@ prepare interview questions from Careercup and Cracking the Code Interview in Ja
 <li>4.3:</li>
 <li>4.4:</li>
 <li>4.5:</li>
-<li>4.6:</li>
+<li>4.6: InorderNextNodeinBST.java (MyTreeNode2 defined, with parent pointer)</li>
 <li>4.7:</li>
 <li>4.8:</li>
 <li>4.9: BinaryTreeSumPath.java (MyTreeNode defined)</li>
