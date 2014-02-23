@@ -70,7 +70,7 @@ public class BinaryTreeSumPath {
 		
 		int target = 5;
 		GetPath(root, res);
-		
+		System.out.println("Paths whose sum is " + target + ": ");
 		if( res.containsValue(target) ) {			
 			Iterator<Map.Entry<String, Integer>> it = res.entrySet().iterator();
 			
