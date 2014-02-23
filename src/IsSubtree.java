@@ -7,7 +7,7 @@ public class IsSubtree {
 			return false;			
 		else if( t1.name == t2.name )
 			return (TreeMatch(t1.left, t2.right) && TreeMatch(t1.right, t2.right));
-		else 
+		else // t1.name != t2.name
 			return false;
 	}
 	public boolean subtree(MyTreeNode t1, MyTreeNode t2) {
@@ -17,8 +17,8 @@ public class IsSubtree {
 			return false;
 		if( t1.name == t2.name ) {
 			if( TreeMatch(t1, t2) )
-			return true;
+				return true;
 		}
-		return subtree(t1.left, t2) || subtree(t1.right, t2);
+		return (subtree(t1.left, t2) || subtree(t1.right, t2));
 	}
 }
