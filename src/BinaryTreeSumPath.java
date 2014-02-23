@@ -76,8 +76,12 @@ public class BinaryTreeSumPath {
 			
 			while (it.hasNext()) {
 				Map.Entry<String, Integer> pairs = it.next();
-				if( pairs.getValue() == target )
-				System.out.println(pairs.getKey());
+				if( pairs.getValue() == target ) {
+					String tmp = pairs.getKey();
+					for( int i = 0; i < (tmp.length() - 1); i++ )
+						System.out.print(tmp.charAt(i) + "->");
+					System.out.println(tmp.charAt(tmp.length() - 1));
+				}
 				it.remove(); // avoids a ConcurrentModificationException
 			}
 		}
