@@ -14,6 +14,16 @@ prepare interview questions from Careercup and Cracking the Code Interview in Ja
 </ul>
 
 <ul>
+<li>2.1 RemoveDuplicatesFromUnsortedLinkedList.java</li>
+<li>2.2 RemoveNthNodeFromEndofList.java (LeetCode)</li>
+<li>2.3 RemoveMidNode.java</li>
+<li>2.4 PartitionList.java (LeetCode)</li>
+<li>2.5 AddTwoNumbers.java (LeetCode)</li>
+<li>2.6 LinkedListCycle2.java (LeetCode)</li>
+<li>2.7 IsLinkedListPalindromic.java</li> 
+</ul>
+
+<ul>
 <li>4.1 BalancedBinaryTree.java (LeetCode)</li> 
 <li>4.2 SearchRouteInGraph.java (Graph defined) </li>
 <li>4.3 ConvertSortedArraytoBinarySearchTree.java (LeetCode)</li>
