@@ -24,6 +24,16 @@ prepare interview questions from Careercup and Cracking the Code Interview in Ja
 </ul>
 
 <ul>
+<li>3.1 ArrayToThreeStacks.java</li>
+<li>3.2 StackWithMinElem.java</li>
+<li>3.3 StackSets.java</li>
+<li>3.4 Hanoi.java</li>
+<li>3.5 QueueWithTwoStacks.java</li>
+<li>3.6 SortingWithTwoStacks.java</li>
+<li>3.7 AnimalShelter.java</li>
+</ul>
+
+<ul>
 <li>4.1 BalancedBinaryTree.java (LeetCode)</li> 
 <li>4.2 SearchRouteInGraph.java (Graph defined) </li>
 <li>4.3 ConvertSortedArraytoBinarySearchTree.java (LeetCode)</li>
