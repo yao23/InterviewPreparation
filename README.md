@@ -10,7 +10,7 @@ prepare interview questions from Careercup and Cracking the Code Interview in Ja
 <li>4.5: ValidateBinarySearchTree.java (LeetCode)</li>
 <li>4.6: InorderNextNodeinBST.java (MyTreeNode2 defined, with parent pointer)</li>
 <li>4.7: LowestCommonAncestor.java (Node and TreeNode defined)</li>
-<li>4.8: </li>
+<li>4.8: SameTree.java (LeetCode)</li>
 <li>4.9: BinaryTreeSumPath.java (MyTreeNode defined)</li>
 </ul>
 
