@@ -4,25 +4,25 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class BinaryTreeSumPath {
-	public static ArrayList<Pair> AppendRootToPath(MyTreeNode root, 
+	public static ArrayList<Pair> appendRootToPath(MyTreeNode root, 
 			MyTreeNode child, HashMap<String, Integer> result) {
 		ArrayList<Pair> ret = new ArrayList<Pair>(); // base case for upper level 
 		if( root == null || child == null ) 
 		return ret; 
-		ArrayList<Pair> subResult = GetPath(child, result);
+		ArrayList<Pair> subResult = getPath(child, result);
 		
 		for( int i = 0; i < subResult.size(); i++ ) {
-		Pair tmp = subResult.get(i);
-		String key = root.name + tmp.GetName();
-		int value = root.val + tmp.GetVal();
-		result.put(key, value);
-		ret.add(new Pair(key, value));
+			Pair tmp = subResult.get(i);
+			String key = root.name + tmp.getName();
+			int value = root.val + tmp.getVal();
+			result.put(key, value);
+			ret.add(new Pair(key, value));
 		}
 		
 		return ret;
 	}
 
-	public static ArrayList<Pair> GetPath(MyTreeNode root, HashMap<String, Integer> result) {
+	public static ArrayList<Pair> getPath(MyTreeNode root, HashMap<String, Integer> result) {
 		ArrayList<Pair> ret = new ArrayList<Pair>(); // base case for upper level
 		if( root == null ) 
 			return ret;
@@ -33,11 +33,11 @@ public class BinaryTreeSumPath {
 		ArrayList<Pair> left = new ArrayList<Pair>();
 		ArrayList<Pair> right = new ArrayList<Pair>();
 		if( root.left != null ) {
-			left = AppendRootToPath(root, root.left, result);
+			left = appendRootToPath(root, root.left, result);
 			ret.addAll(left);
 		}
 		if( root.right != null ) {
-			right = AppendRootToPath(root, root.right, result);
+			right = appendRootToPath(root, root.right, result);
 			ret.addAll(right);
 		}
 		if( !left.isEmpty() && !right.isEmpty() ) {
@@ -45,10 +45,10 @@ public class BinaryTreeSumPath {
 				Pair tmp = left.get(i);
 				for( int j = 0; j < right.size(); j++ ) {
 					Pair tmp2 = right.get(j);
-					String reverseStr = tmp.GetName();
+					String reverseStr = tmp.getName();
 					reverseStr = new StringBuilder(reverseStr).reverse().toString();
 					reverseStr = reverseStr.substring(0, reverseStr.length() - 1);
-					result.put(reverseStr + tmp2.GetName(), tmp.GetVal() - root.val + tmp2.GetVal());
+					result.put(reverseStr + tmp2.getName(), tmp.getVal() - root.val + tmp2.getVal());
 				}
 			}
 		}
@@ -69,7 +69,7 @@ public class BinaryTreeSumPath {
 		HashMap<String, Integer> res = new HashMap<String, Integer>();
 		
 		int target = 5;
-		GetPath(root, res);
+		getPath(root, res);
 		System.out.println("Paths whose sum is " + target + ": ");
 		if( res.containsValue(target) ) {			
 			Iterator<Map.Entry<String, Integer>> it = res.entrySet().iterator();
@@ -111,10 +111,10 @@ class Pair {
 		name = s;
 		val = i;
 	}
-	public String GetName() {
+	public String getName() {
 		return name;
 	}
-	public int GetVal() {
+	public int getVal() {
 		return val;
 	}
 }
