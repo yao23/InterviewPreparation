@@ -7,8 +7,9 @@ public class BinaryTreeSumPath {
 	public static ArrayList<Pair> appendRootToPath(MyTreeNode root, 
 			MyTreeNode child, HashMap<String, Integer> result) {
 		ArrayList<Pair> ret = new ArrayList<Pair>(); // base case for upper level 
-		if( root == null || child == null ) 
-		return ret; 
+		if( root == null || child == null ) { 
+			return ret;
+		}
 		ArrayList<Pair> subResult = getPath(child, result);
 		
 		for( int i = 0; i < subResult.size(); i++ ) {
@@ -24,8 +25,9 @@ public class BinaryTreeSumPath {
 
 	public static ArrayList<Pair> getPath(MyTreeNode root, HashMap<String, Integer> result) {
 		ArrayList<Pair> ret = new ArrayList<Pair>(); // base case for upper level
-		if( root == null ) 
+		if( root == null ) { 
 			return ret;
+		}
 		if( root.left == null && root.right == null ) { // leaf node
 			ret.add(new Pair(root.name, root.val));
 			return ret;
@@ -78,8 +80,9 @@ public class BinaryTreeSumPath {
 				Map.Entry<String, Integer> pairs = it.next();
 				if( pairs.getValue() == target ) {
 					String tmp = pairs.getKey();
-					for( int i = 0; i < (tmp.length() - 1); i++ )
+					for( int i = 0; i < (tmp.length() - 1); i++ ) {
 						System.out.print(tmp.charAt(i) + "->");
+					}
 					System.out.println(tmp.charAt(tmp.length() - 1));
 				}
 				it.remove(); // avoids a ConcurrentModificationException
