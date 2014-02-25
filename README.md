@@ -50,5 +50,7 @@ prepare interview questions from Careercup and Cracking the Code Interview in Ja
 <li>9.2 UniquePaths.java & UniquePaths2.java (LeetCode)</li>
 <li>9.3 FirstMissingPositive.java (LeetCode)</li>
 <li>9.4 Subsets.java & Subsets2.java (LeetCode)</li>
-<li>9.5 Permutations.java & Permutations2.java</li>
+<li>9.5 Permutations.java & Permutations2.java (LeetCode)</li>
+<li>9.6 GenerateParentheses.java (LeetCode)</li>
+
 </ul>
