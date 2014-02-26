@@ -21,7 +21,7 @@ public class TallestPeopleTower {
 		if (depth >= circus.size())
 			return;
 		ArrayList<Person> tmpRes = null;
-		for (int i = 0; i < depth; i++) {
+		for (int i = 0; i < depth; i++) { 
 			if (circus.get(i).isBefore(circus.get(depth))){
 				tmpRes = pickLongerSeq(tmpRes, res.get(i));
 			}
@@ -40,6 +40,8 @@ public class TallestPeopleTower {
 			return res;
 		Collections.sort(circus);
 		int depth = 0;
+		// tallest person tower until the current person
+		// (longest increasing subsequence until cur index)
 		ArrayList<ArrayList<Person>> tmpRes = new ArrayList<ArrayList<Person>>();
 		buildTower(circus, tmpRes, depth);
 		for (int i = 0; i < tmpRes.size(); i++) {
