@@ -26,10 +26,16 @@ public class StringSorting {
 			}
 			else if (tmp[l].compareToIgnoreCase(tmp[rIdx]) < 0) {
 				s[idx] = tmp[l];
+				while ((l + 1 <= m) && isAnagram(tmp[l], tmp[l + 1])) { 
+					s[++idx] = tmp[++l]; // copy anagram
+				}
 				l++;
 			}
 			else {
 				s[idx] = tmp[rIdx];
+				while ((rIdx + 1 <= r) && isAnagram(tmp[rIdx], tmp[rIdx + 1])) { 
+					s[++idx] = tmp[++rIdx]; // copy anagram
+				}
 				rIdx++;
 			}
 			idx++;
