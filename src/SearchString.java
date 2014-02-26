@@ -44,6 +44,8 @@ public class SearchString {
 	}
 	public static void main(String[] args) {
 		String[] s = {"abc", "apple", "cba", "dog", "google"};
+		String[] s2 = {"at", " ", " ", " ", "ball", " ", " ", "car", 
+				" ", " ", "dad", " ", " "};
 		System.out.println("Test case 1: ");
 		System.out.println("Original string array: ");
 		for (int i = 0; i < s.length; i++) {
@@ -51,5 +53,13 @@ public class SearchString {
 		}
 		System.out.println();
 		System.out.println("Target found at index: " + search(s, "apple"));
+		
+		System.out.println("Test case 2: ");
+		System.out.println("Original string array: ");
+		for (int i = 0; i < s2.length; i++) {
+			System.out.print(s2[i] + " ");
+		}
+		System.out.println();
+		System.out.println("Target found at index: " + search(s2, "ball"));
 	}
 }
