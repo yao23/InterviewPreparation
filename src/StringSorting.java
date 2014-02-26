@@ -47,11 +47,10 @@ public class StringSorting {
 		merge(s, l, m, r);
 	}
 	
-	public static String[] sortStrings(String[] s) {
+	public static void sortStrings(String[] s) {
 		int l = 0; 
 		int r = s.length;
 		mergeSort(s, l, r);
-		return s;
 	}
 	
 	public static void main(String[] args) {
