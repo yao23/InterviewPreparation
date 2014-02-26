@@ -7,12 +7,12 @@ public class BinaryTreeSumPath {
 	public static ArrayList<Pair> appendRootToPath(MyTreeNode root, 
 			MyTreeNode child, HashMap<String, Integer> result) {
 		ArrayList<Pair> ret = new ArrayList<Pair>(); // base case for upper level 
-		if( root == null || child == null ) { 
+		if (root == null || child == null) { 
 			return ret;
 		}
 		ArrayList<Pair> subResult = getPath(child, result);
 		
-		for( int i = 0; i < subResult.size(); i++ ) {
+		for (int i = 0; i < subResult.size(); i++) {
 			Pair tmp = subResult.get(i);
 			String key = root.name + tmp.getName();
 			int value = root.val + tmp.getVal();
@@ -25,27 +25,27 @@ public class BinaryTreeSumPath {
 
 	public static ArrayList<Pair> getPath(MyTreeNode root, HashMap<String, Integer> result) {
 		ArrayList<Pair> ret = new ArrayList<Pair>(); // base case for upper level
-		if( root == null ) { 
+		if (root == null) { 
 			return ret;
 		}
-		if( root.left == null && root.right == null ) { // leaf node
+		if (root.left == null && root.right == null) { // leaf node
 			ret.add(new Pair(root.name, root.val));
 			return ret;
 		}
 		ArrayList<Pair> left = new ArrayList<Pair>();
 		ArrayList<Pair> right = new ArrayList<Pair>();
-		if( root.left != null ) {
+		if (root.left != null) {
 			left = appendRootToPath(root, root.left, result);
 			ret.addAll(left);
 		}
-		if( root.right != null ) {
+		if (root.right != null) {
 			right = appendRootToPath(root, root.right, result);
 			ret.addAll(right);
 		}
-		if( !left.isEmpty() && !right.isEmpty() ) {
-			for( int i = 0; i < left.size(); i++ ) {
+		if (!left.isEmpty() && !right.isEmpty()) {
+			for (int i = 0; i < left.size(); i++) {
 				Pair tmp = left.get(i);
-				for( int j = 0; j < right.size(); j++ ) {
+				for (int j = 0; j < right.size(); j++) {
 					Pair tmp2 = right.get(j);
 					String reverseStr = tmp.getName();
 					reverseStr = new StringBuilder(reverseStr).reverse().toString();
@@ -73,14 +73,14 @@ public class BinaryTreeSumPath {
 		int target = 5;
 		getPath(root, res);
 		System.out.println("Paths whose sum is " + target + ": ");
-		if( res.containsValue(target) ) {			
+		if (res.containsValue(target)) {			
 			Iterator<Map.Entry<String, Integer>> it = res.entrySet().iterator();
 			
 			while (it.hasNext()) {
 				Map.Entry<String, Integer> pairs = it.next();
-				if( pairs.getValue() == target ) {
+				if (pairs.getValue() == target) {
 					String tmp = pairs.getKey();
-					for( int i = 0; i < (tmp.length() - 1); i++ ) {
+					for (int i = 0; i < (tmp.length() - 1); i++) {
 						System.out.print(tmp.charAt(i) + "->");
 					}
 					System.out.println(tmp.charAt(tmp.length() - 1));
