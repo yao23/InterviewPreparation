@@ -41,15 +41,17 @@ public class StringSorting {
 	}
 	
 	public static void mergeSort(String[] s, int l, int r) {
-		int m = (l + r) / 2;
-		mergeSort(s, l, m);
-		mergeSort(s, m + 1, r);
-		merge(s, l, m, r);
+		if (l < r) {
+			int m = (l + r) / 2;
+			mergeSort(s, l, m);
+			mergeSort(s, m + 1, r);
+			merge(s, l, m, r);
+		}
 	}
 	
 	public static void sortStrings(String[] s) {
 		int l = 0; 
-		int r = s.length;
+		int r = s.length - 1;
 		mergeSort(s, l, r);
 	}
 	
