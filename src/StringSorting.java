@@ -99,7 +99,13 @@ public class StringSorting {
 			anagrams.add(str);
 		}
 		int idx = 0;
-		for (String key : ss.keySet()) {
+		String[] keySets = new String[ss.keySet().size()];
+		for (String str : ss.keySet()) {
+			keySets[idx++] = str; 
+		}
+		Arrays.sort(keySets);
+		idx = 0;
+		for (String key : keySets) {
 			LinkedList<String> anagrams = ss.get(key);
 			for (String str : anagrams) {
 				s[idx++] = str;
@@ -119,7 +125,7 @@ public class StringSorting {
 		System.out.println();
 		System.out.println("After sorting: ");
 		for (int i = 0; i < s.length; i++) {
-			System.out.print(s[i] + ", ");
+			System.out.print(s[i] + " ");
 		}
 		
 		System.out.println();
@@ -132,7 +138,7 @@ public class StringSorting {
 		System.out.println();
 		System.out.println("After sorting: ");
 		for (int i = 0; i < s.length; i++) {
-			System.out.print(s[i] + ", ");
+			System.out.print(s[i] + " ");
 		}
 		
 		System.out.println();
@@ -145,7 +151,7 @@ public class StringSorting {
 		System.out.println();
 		System.out.println("After sorting: ");
 		for (int i = 0; i < s.length; i++) {
-			System.out.print(s[i] + ", ");
+			System.out.print(s[i] + " ");
 		}
 	}
 }
