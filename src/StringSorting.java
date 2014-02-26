@@ -12,7 +12,7 @@ public class StringSorting {
 		int rIdx = m + 1;
 		int idx = 0;
 		String[] tmp = new String[s.length];
-		for (int i = 0; i < s.length; i++) {
+		for (int i = l; i <= r ; i++) {
 			tmp[i] = s[i];
 		}
 		
@@ -24,7 +24,7 @@ public class StringSorting {
 				s[idx] = tmp[rIdx];
 				rIdx++;
 			}
-			if (tmp[l].compareToIgnoreCase(tmp[rIdx]) < 0) {
+			else if (tmp[l].compareToIgnoreCase(tmp[rIdx]) < 0) {
 				s[idx] = tmp[l];
 				l++;
 			}
