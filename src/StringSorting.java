@@ -10,7 +10,7 @@ public class StringSorting {
 	}
 	public static void merge(String[] s, int l, int m, int r) {
 		int rIdx = m + 1;
-		int idx = 0;
+		int idx = l;
 		String[] tmp = new String[s.length];
 		for (int i = l; i <= r ; i++) {
 			tmp[i] = s[i];
