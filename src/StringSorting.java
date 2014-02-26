@@ -1,11 +1,18 @@
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Comparator;
 
 
 public class StringSorting {
+	private static String sortString(String s) {
+		char[] content = s.toCharArray();
+		Arrays.sort(content);
+		return new String(content);
+	}
+	
 	private static boolean isAnagram(String s1, String s2) {
-		char[] cs = s2.toCharArray();
-		Arrays.sort(cs);
-		String tmp = new String(cs);
+		String tmp = sortString(s2);
 		return (s1.equals(tmp));
 	}
 	public static void merge(String[] s, int l, int m, int r) {
@@ -59,6 +66,34 @@ public class StringSorting {
 		int l = 0; 
 		int r = s.length - 1;
 		mergeSort(s, l, r);
+	}
+	
+	
+	
+	public static void sortStrings2(String[] s) {
+		class AnagramComparator implements Comparator<String> {
+			public String sortChars(String s) {
+				char[] content = s.toCharArray();
+				Arrays.sort(content);
+				return new String(content);
+			}
+			
+			public int compare(String s1, String s2) {
+				return sortChars(s1).compareTo(sortChars(s2));
+			}
+		}
+		
+		Arrays.sort(s, new AnagramComparator());
+		
+	}
+	
+	public static void sortStrings3(String[] s) {
+		HashMap<String, LinkedList<String>> ss = 
+				new HashMap<String, LinkedList<String>>();
+		for (String str : s) {
+			String tmp = sortString(str);
+		}
+		
 	}
 	
 	public static void main(String[] args) {
