@@ -26,11 +26,12 @@ public class TallestPeopleTower {
 				tmpRes = pickLongerSeq(tmpRes, res.get(i));
 			}
 		}
-		if (tmpRes == null) {
-			tmpRes = new ArrayList<Person>();
+		ArrayList<Person> newRes = new ArrayList<Person>();
+		if (tmpRes != null) {
+			newRes.addAll(tmpRes);
 		}
-		res.get(depth).addAll(tmpRes);
-		res.get(depth).add(circus.get(depth));
+		newRes.add(circus.get(depth));
+		res.add(newRes);
 		buildTower(circus, res, depth + 1);
 	}
 	public static ArrayList<Person> tower(ArrayList<Person> circus){
@@ -72,7 +73,7 @@ public class TallestPeopleTower {
 		System.out.println("The tallest tower member: ");
 		for (int i = 0; i < res.size(); i++) {
 			System.out.print(res.get(i).GetId() + "(" + res.get(i).GetHeight() + 
-					", " + res.get(i).GetWeight() + "->");
+					", " + res.get(i).GetWeight() + ")->");
 		}
 	}
 }
