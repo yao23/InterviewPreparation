@@ -91,7 +91,19 @@ public class StringSorting {
 		HashMap<String, LinkedList<String>> ss = 
 				new HashMap<String, LinkedList<String>>();
 		for (String str : s) {
-			String tmp = sortString(str);
+			String key = sortString(str);
+			if (!ss.containsKey(key)) {
+				ss.put(key, new LinkedList<String>());
+			}
+			LinkedList<String> anagrams = ss.get(key);
+			anagrams.add(str);
+		}
+		int idx = 0;
+		for (String key : ss.keySet()) {
+			LinkedList<String> anagrams = ss.get(key);
+			for (String str : anagrams) {
+				s[idx++] = str;
+			}
 		}
 		
 	}
@@ -104,6 +116,32 @@ public class StringSorting {
 			System.out.print(s[i] + " ");
 		}
 		sortStrings(s);
+		System.out.println();
+		System.out.println("After sorting: ");
+		for (int i = 0; i < s.length; i++) {
+			System.out.print(s[i] + ", ");
+		}
+		
+		System.out.println();
+		System.out.println("Test case 2: ");
+		System.out.println("Before sorting: ");
+		for (int i = 0; i < s.length; i++) {
+			System.out.print(s[i] + " ");
+		}
+		sortStrings2(s);
+		System.out.println();
+		System.out.println("After sorting: ");
+		for (int i = 0; i < s.length; i++) {
+			System.out.print(s[i] + ", ");
+		}
+		
+		System.out.println();
+		System.out.println("Test case 3: ");
+		System.out.println("Before sorting: ");
+		for (int i = 0; i < s.length; i++) {
+			System.out.print(s[i] + " ");
+		}
+		sortStrings3(s);
 		System.out.println();
 		System.out.println("After sorting: ");
 		for (int i = 0; i < s.length; i++) {
