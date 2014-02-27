@@ -41,15 +41,13 @@ class RankNode {
 		if (n < this.val) {
 			if (this.left == null) {
 				this.left = new RankNode(n);
-				this.leftSize++;
-				return;
 			} else {
 				this.left.insertNode(n);
 			}
+			this.leftSize++;
 		} else {
 			if (this.right == null) {
 				this.right = new RankNode(n);
-				return;
 			} else {
 				this.right.insertNode(n);
 			}
