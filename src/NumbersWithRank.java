@@ -2,24 +2,17 @@
 public class NumbersWithRank {
 	public static void main(String[] args) {
 		RankNode n0 = new RankNode(20);
-		RankNode n1 = new RankNode(15);
-		RankNode n2 = new RankNode(25);
-		RankNode n3 = new RankNode(10);
-		RankNode n4 = new RankNode(23);
-		RankNode n5 = new RankNode(5);
-		RankNode n6 = new RankNode(13);
-		RankNode n7 = new RankNode(24);
-		n0.insertNode(n1.GetVal());
-		n0.insertNode(n2.GetVal());
-		n0.insertNode(n3.GetVal());
-		n0.insertNode(n4.GetVal());
-		n0.insertNode(n5.GetVal());
-		n0.insertNode(n6.GetVal());
-		n0.insertNode(n7.GetVal());
+		n0.insertNode(15);
+		n0.insertNode(25);
+		n0.insertNode(10);
+		n0.insertNode(23);
+		n0.insertNode(5);
+		n0.insertNode(13);
+		n0.insertNode(24);
 		
 		System.out.println("Test case 1:");
-		System.out.println("Node " + n7.GetVal() + " rank is: " + 
-				n0.getRankOfNumber(n7.GetVal()));
+		System.out.println("Node " + 24 + " rank is: " + 
+				n0.getRankOfNumber(24));
 	}
 }
 
