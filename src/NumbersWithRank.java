@@ -13,6 +13,24 @@ public class NumbersWithRank {
 		System.out.println("Test case 1:");
 		System.out.println("Node " + 24 + " rank is: " + 
 				n0.getRankOfNumber(24));
+		
+		RankNode n1 = new RankNode(5);
+		n1.insertNode(1);
+		n1.insertNode(4);
+		n1.insertNode(4);
+		n1.insertNode(5);
+		n1.insertNode(9);
+		n1.insertNode(7);
+		n1.insertNode(13);
+		n1.insertNode(3);
+		
+		System.out.println("Test case 2:");
+		System.out.println("Node " + 1 + " rank is: " + 
+				n1.getRankOfNumber(1));
+		System.out.println("Node " + 3 + " rank is: " + 
+				n1.getRankOfNumber(3));
+		System.out.println("Node " + 4 + " rank is: " + 
+				n1.getRankOfNumber(4));
 	}
 }
 
