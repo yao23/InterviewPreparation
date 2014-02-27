@@ -58,3 +58,14 @@ prepare interview questions from Careercup and Cracking the Code Interview in Ja
 <li>9.10 TallestStack.java</li>
 <li>9.11 ParenthesizeBooleanExpression.java</li>
 </ul>
+
+<ul>
+<li>11.1 MergeSortedArray.java (LeetCode)</li>
+<li>11.2 StringSorting.java</li>
+<li>11.3 SearchinRotatedSortedArray2.java (LeetCode)</li>
+<li>11.4 MergeIntervals.java (LeetCode)</li>
+<li>11.5 SearchString.java (LeetCode)</li>
+<li>11.6 Searcha2DMatrix.java (LeetCode)</li>
+<li>11.7 TallestPeopleTower.java</li>
+<li>11.8 NumbersWithRank.java</li>
+</ul>
