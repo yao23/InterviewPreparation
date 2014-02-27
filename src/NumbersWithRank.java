@@ -38,7 +38,7 @@ class RankNode {
 	}
 	
 	public void insertNode(int n) {
-		if (n < this.val) {
+		if (n <= this.val) {
 			if (this.left == null) {
 				this.left = new RankNode(n);
 			} else {
