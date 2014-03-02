@@ -2,13 +2,13 @@
 public class DecimalToBinary {
 	private static String decimalToBinary(double d) {
 		if (d >= 1 || d <= 0) {
-			System.out.println("ERROR");
+			return "ERROR";
 		}
 		double frac = 0.5;
 		StringBuilder res = new StringBuilder();
 		while (d > 0) {
 			if (res.length() >= 32) {
-				System.out.println("ERROR");
+				return "ERROR";
 			}
 			if (d - frac > 0) {
 				res.append("1");
