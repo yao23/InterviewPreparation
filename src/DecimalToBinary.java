@@ -9,7 +9,7 @@ public class DecimalToBinary {
 		res.append(".");
 		while (d > 0) {
 			if (res.length() > 32) {
-				return "ERROR";
+				return "Cannot be in binary";
 			}
 			if (d >= frac) {
 				res.append("1");
@@ -23,8 +23,12 @@ public class DecimalToBinary {
 	}
 	public static void main(String[] args) {
 		double d = 0.72;
+		double d1 = 0.75;
 		System.out.println("Test case 1");
 		System.out.println("Number: " + d + " binary:" + 
 				decimalToBinary(d));
+		System.out.println("Test case 1");
+		System.out.println("Number: " + d1 + " binary:" + 
+				decimalToBinary(d1));
 	}
 }
