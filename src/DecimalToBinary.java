@@ -6,8 +6,9 @@ public class DecimalToBinary {
 		}
 		double frac = 0.5;
 		StringBuilder res = new StringBuilder();
+		res.append(".");
 		while (d > 0) {
-			if (res.length() >= 32) {
+			if (res.length() > 32) {
 				return "ERROR";
 			}
 			if (d >= frac) {
