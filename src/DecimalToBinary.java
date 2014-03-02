@@ -10,7 +10,7 @@ public class DecimalToBinary {
 			if (res.length() >= 32) {
 				return "ERROR";
 			}
-			if (d - frac > 0) {
+			if (d >= frac) {
 				res.append("1");
 				d -= frac;
 			} else {
