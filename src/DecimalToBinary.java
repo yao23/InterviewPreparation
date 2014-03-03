@@ -60,8 +60,6 @@ public class DecimalToBinary {
 		
 		System.out.println("Test case 2 in 2nd solution");
 		System.out.println("Number: " + d1 + " binary:" + 
-				decimalToBinary2(d1));
-		
-		
+				decimalToBinary2(d1));	
 	}
 }
