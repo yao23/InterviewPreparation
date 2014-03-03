@@ -87,22 +87,26 @@ public class NextNumber {
 	}
 	
 	public static void main(String[] args) {
-		int N1 = Integer.parseInt("10000000000", 2); // binary to decimal 
-		int N2 = Integer.parseInt("10000000000", 2); // 
+		int N1 = Integer.parseInt("11011001111100", 2); // binary to decimal 
+		int N2 = Integer.parseInt("10011110000011", 2); // 
 		System.out.println("Test case 1");
-		System.out.println("Number: " + N1 + " largest smaller one:" + 
-				getPrev(N1) + " smallest larger one:" + getNext(N1));
+		System.out.println("Number: " + Integer.toBinaryString(N1) + ", largest smaller one:" + 
+				Integer.toBinaryString(getPrev(N1)) + 
+				", smallest larger one:" + Integer.toBinaryString(getNext(N1)));
 		
 		System.out.println("Test case 1 in 2nd solution");
-		System.out.println("Number: " + N1 + " largest smaller one:" + 
-				getPrev2(N1) + " smallest larger one:" + getNext2(N1));
+		System.out.println("Number: " + Integer.toBinaryString(N1) + ", largest smaller one:" + 
+				Integer.toBinaryString(getPrev2(N1)) + 
+				", smallest larger one:" + Integer.toBinaryString(getNext2(N1)));
 		
 		System.out.println("Test case 2");
-		System.out.println("Number: " + N2 + " largest smaller one:" + 
-				getPrev(N2) + " smallest larger one:" + getNext(N2));
+		System.out.println("Number: " + Integer.toBinaryString(N2) + ", largest smaller one:" + 
+				Integer.toBinaryString(getPrev(N2)) + 
+				", smallest larger one:" + Integer.toBinaryString(getNext(N2)));
 		
 		System.out.println("Test case 2 in 2nd solution");
-		System.out.println("Number: " + N2 + " largest smaller one:" + 
-				getPrev2(N2) + " smallest larger one:" + getNext2(N2));
+		System.out.println("Number: " + Integer.toBinaryString(N2) + ", largest smaller one:" + 
+				Integer.toBinaryString(getPrev2(N2)) + 
+				", smallest larger one:" + Integer.toBinaryString(getNext2(N2)));
 	}
 }
