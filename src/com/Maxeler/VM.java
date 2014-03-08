@@ -15,6 +15,7 @@ public class VM {
 	private static String filePath = new File("").getAbsolutePath();
 	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
 	private static final String outputPath = filePath.concat("/src/com/output/output.txt");
+	private static final int lineSize = 8;
 	
 	/** Run the example. 
 	 * @throws UnsupportedEncodingException */
@@ -96,22 +97,30 @@ public class VM {
 		 System.out.println(String.valueOf(aThing));
 	 }
 	 
-	 private static void storeInstruction(byte[] image, int[] data, int imageSize) {
-		 log("byte array size: " + image.length);
+	 private static int getNumber(byte[] image, int offset) 
+			 throws UnsupportedEncodingException {
+		 String decoded = "";
+		 // lineSize == 8
+		 // item in index 8 is new line sign '\n'
+		 for (int i = 0; i < lineSize; i++) { 
+			 decoded += new String(new byte[] {image[i + offset * (lineSize + 1)]}, "UTF-8");
+		 }
+		 return Integer.parseInt(decoded, 16);
 	 }
 	 
-	 private static void load(byte[] image) throws UnsupportedEncodingException {
-		 String decoded = "";
-		 String decoded2 = "";
-		 for (int i = 0; i < 8; i++) { // item in index 8 is new line sign \n
-		   decoded += new String(new byte[] {image[i]}, "UTF-8");
-		   decoded2 += new String(new byte[] {image[i + 9]}, "UTF-8");
+	 private static void storeInstruction(byte[] image, int[] data, int imageSize) 
+			 throws UnsupportedEncodingException {
+		 log("byte array size: " + image.length);
+		 // instruction start from line in index 2
+		 for (int i = 0; i < imageSize; i++) {  
+			 data[i] = getNumber(image, i + 2); 
 		 }
-		 
-		 int dataSize = Integer.parseInt(decoded, 16);
-		 int imageSize = Integer.parseInt(decoded2, 16);
+	 }
+	 
+	 private static void load(byte[] image) throws UnsupportedEncodingException {		 
+		 int dataSize = getNumber(image, 0); log("data size: " + dataSize);
+		 int imageSize = getNumber(image, 1); log("image size: " + imageSize);
 		 int[] data = new int[dataSize];
-		 storeInstruction(image, data, imageSize);
-		 
+		 //storeInstruction(image, data, imageSize);
 	 }
 }
