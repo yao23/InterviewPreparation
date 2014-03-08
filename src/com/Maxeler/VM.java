@@ -12,22 +12,22 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class VM {
-	private static final String INPUT_FILE_NAME = "/src/com/input/task1.bin";
-	private static final String OUTPUT_FILE_NAME = "/src/com/output/out1.txt";
-	//private static String filePath = new File("").getAbsolutePath();
-	//private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
-	//private static final String outputPath = filePath.concat("/src/com/output/output.txt");
+	//private static final String INPUT_FILE_NAME = "/src/com/input/task1.bin";
+	//private static final String OUTPUT_FILE_NAME = "/src/com/output/out1.txt";
+	private static String filePath = new File("").getAbsolutePath();
+	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
+	private static final String outputPath = filePath.concat("/src/com/output/output.txt");
 	
 	/** Run the example. */
 	public static void main(String[] Args) {
 		VM test = new VM();
 	    //read in the bytes
-	    byte[] fileContents = test.read(INPUT_FILE_NAME);
-	    //byte[] fileContents = test.read(inputPath);
+		byte[] fileContents = test.read(inputPath);
+	    //byte[] fileContents = test.read(INPUT_FILE_NAME);
 	    //test.readAlternateImpl(INPUT_FILE_NAME);
 	    //write it back out to a different file name
-	    test.write(fileContents, OUTPUT_FILE_NAME);
-	    //test.write(fileContents, outputPath);
+	    test.write(fileContents, outputPath);
+	    //test.write(fileContents, OUTPUT_FILE_NAME);
 	}
 	
 	/** Read the given binary file, and return its contents as a byte array.*/ 
