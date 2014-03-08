@@ -96,20 +96,22 @@ public class VM {
 		 System.out.println(String.valueOf(aThing));
 	 }
 	 
+	 private static void storeInstruction(byte[] image, int[] data, int imageSize) {
+		 log("byte array size: " + image.length);
+	 }
+	 
 	 private static void load(byte[] image) throws UnsupportedEncodingException {
 		 String decoded = "";
-		 for (int i = 0; i < 8; i++) {
+		 String decoded2 = "";
+		 for (int i = 0; i < 8; i++) { // item in index 8 is new line sign \n
 		   decoded += new String(new byte[] {image[i]}, "UTF-8");
+		   decoded2 += new String(new byte[] {image[i + 9]}, "UTF-8");
 		 }
-		 log("decoded: " + decoded);
-		 int dataSize = Integer.parseInt(decoded,16);
-		 //Byte b = image[0];
-		 //int dataSize = b.intValue();
+		 
+		 int dataSize = Integer.parseInt(decoded, 16);
+		 int imageSize = Integer.parseInt(decoded2, 16);
 		 int[] data = new int[dataSize];
-		 //log("dataSize: " + dataSize + ", origin: " + b);
-		 log("dataSize: " + dataSize);
-		 for (int i = 0; i < 10; i++) {
-			 System.out.print(image[i] + " ");
-		 }
+		 storeInstruction(image, data, imageSize);
+		 
 	 }
 }
