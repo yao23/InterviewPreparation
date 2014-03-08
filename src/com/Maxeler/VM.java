@@ -128,7 +128,8 @@ public class VM {
 		 int imageSize = getNumber(image, 1); log("image size: " + imageSize);
 		 int[] data = new int[dataSize];
 		 storeInstruction(image, data, imageSize);
-		 log("4th instruction: " + data[3]);
+		 log("4th instruction: " + data[3] + ", hexadecimal: " + 
+				 Integer.toHexString(data[3]));
 		 
 		 
 		 String decoded = "";
