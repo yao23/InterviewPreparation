@@ -99,21 +99,27 @@ public class VM {
 	 
 	 private static int getNumber(byte[] image, int offset) 
 			 throws UnsupportedEncodingException {
-		 String decoded = "";
+		 int d = 0;
 		 // lineSize == 8
 		 // item in index 8 is new line sign '\n'
-		 for (int i = 0; i < lineSize; i++) { 
-			 decoded += new String(new byte[] {image[i + offset * (lineSize + 1)]}, "UTF-8");
+		 for (int i = 0; i < lineSize; i++) {
+			 String digit = new String(new byte[] {image[i + offset * (lineSize + 1)]}, "UTF-8");
+			 int dTmp = Integer.parseInt(digit, 16);
+			 if (dTmp > 0) {
+				 for (int j = 0; j < (lineSize - 1 - i); j++) {
+					 dTmp *= 16; // convert to decimal number
+				 }
+			 }
+			 d += dTmp;
 		 }
-		 return Integer.parseInt(decoded, 16);
+		 return d;
 	 }
 	 
 	 private static void storeInstruction(byte[] image, int[] data, int imageSize) 
 			 throws UnsupportedEncodingException {
 		 log("byte array size: " + image.length);
-		 // instruction start from line in index 2
 		 for (int i = 0; i < imageSize; i++) {  
-			 data[i] = getNumber(image, i + 2); 
+			 data[i] = getNumber(image, i + 2); // instruction start from line in index 2
 		 }
 	 }
 	 
@@ -121,6 +127,21 @@ public class VM {
 		 int dataSize = getNumber(image, 0); log("data size: " + dataSize);
 		 int imageSize = getNumber(image, 1); log("image size: " + imageSize);
 		 int[] data = new int[dataSize];
-		 //storeInstruction(image, data, imageSize);
+		 storeInstruction(image, data, imageSize);
+		 log("4th instruction: " + data[3]);
+		 
+		 
+		 String decoded = "";
+		 for (int i = 0; i < lineSize; i++) { 
+			 decoded += new String(new byte[] {image[i + 5 * (lineSize + 1)]}, "UTF-8");
+		 }
+		 log("decoded: " + decoded);
+		 
+		 log("origin2: " + image[0]);
+		 String decoded2 = "";
+		 for (int i = 0; i < 1; i++) { 
+			 decoded2 += new String(new byte[] {image[i]}, "UTF-8");
+		 }
+		 log("decoded2: " + decoded2);
 	 }
 }
