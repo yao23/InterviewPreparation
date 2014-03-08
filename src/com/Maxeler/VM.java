@@ -9,19 +9,22 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
 public class VM {
 	private static String filePath = new File("").getAbsolutePath();
 	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
 	private static final String outputPath = filePath.concat("/src/com/output/output.txt");
 	
-	/** Run the example. */
-	public static void main(String[] Args) {
+	/** Run the example. 
+	 * @throws UnsupportedEncodingException */
+	public static void main(String[] Args) throws UnsupportedEncodingException {
 		VM test = new VM();
 	    //read in the bytes
 		byte[] fileContents = test.read(inputPath);
+		load(fileContents);
 	    //write it back out to a different file name
-	    test.write(fileContents, outputPath);
+	    //test.write(fileContents, outputPath);
 	}
 	
 	/** Read the given binary file, and return its contents as a byte array.*/ 
@@ -91,5 +94,22 @@ public class VM {
 	  
 	 private static void log(Object aThing){
 		 System.out.println(String.valueOf(aThing));
-	 } 
+	 }
+	 
+	 private static void load(byte[] image) throws UnsupportedEncodingException {
+		 String decoded = "";
+		 for (int i = 0; i < 8; i++) {
+		   decoded += new String(new byte[] {image[i]}, "UTF-8");
+		 }
+		 log("decoded: " + decoded);
+		 int dataSize = Integer.parseInt(decoded,16);
+		 //Byte b = image[0];
+		 //int dataSize = b.intValue();
+		 int[] data = new int[dataSize];
+		 //log("dataSize: " + dataSize + ", origin: " + b);
+		 log("dataSize: " + dataSize);
+		 for (int i = 0; i < 10; i++) {
+			 System.out.print(image[i] + " ");
+		 }
+	 }
 }
