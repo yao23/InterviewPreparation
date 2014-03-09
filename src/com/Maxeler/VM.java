@@ -10,22 +10,38 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 public class VM {
 	private static String filePath = new File("").getAbsolutePath();
 	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
-	private static final String outputPath = filePath.concat("/src/com/output/output.txt");
+	private static final String dataPath = filePath.concat("/src/com/output/task1_data.txt");
+	private static final String outputPath = filePath.concat("/src/com/output/output_task1.txt");
 	private static final int lineSize = 8;
 	
 	/** Run the example. 
 	 * @throws UnsupportedEncodingException */
 	public static void main(String[] Args) throws UnsupportedEncodingException {
 		VM test = new VM();
-	    //read in the bytes
+	    // read in the bytes
 		byte[] fileContents = test.read(inputPath);
-		load(fileContents);
-	    //write it back out to a different file name
-	    //test.write(fileContents, outputPath);
+	    // write data back out to a different file name
+	    test.write(fileContents, dataPath);
+
+		int[] intRes = load(fileContents);
+		byte[] byteRes = new byte[intRes.length * 4];
+		toByteArray(byteRes, intRes);
+		// write result
+	    test.write(byteRes, outputPath);
+	}
+	
+	private static void toByteArray(byte[] byteArray, int[] intArray) { 
+		ByteBuffer byteBuffer = ByteBuffer.allocate(intArray.length * 4);        
+	    IntBuffer intBuffer = byteBuffer.asIntBuffer();
+	    intBuffer.put(intArray);
+	
+	    byteArray = byteBuffer.array();
 	}
 	
 	/** Read the given binary file, and return its contents as a byte array.*/ 
@@ -235,30 +251,39 @@ public class VM {
 				 	case 0: 
 				 		sp = f(data, sp, a + b);
 				 		break;
+				 		
 				 	case 1:
 				 		sp = f(data, sp, a - b);
 				 		break;
+				 		
 				 	case 2:
 				 		sp = f(data, sp, a * b);
 				 		break;
+				 		
 				 	case 3:
 				 		sp = f(data, sp, a / b);
 				 		break;
+				 		
 				 	case 4:
 				 		sp = f(data, sp, a & b);
 				 		break;
+				 		
 				 	case 5:
 				 		sp = f(data, sp, a | b);
 				 		break;
+				 		
 				 	case 6:
 				 		sp = f(data, sp, a ^ b);
 				 		break;
+				 		
 				 	case 7:
 				 		sp = f(data, sp, (a == b ? 1 : 0));
 				 		break;
+				 		
 				 	case 8:
 				 		sp = f(data, sp, (a < b ? 1 : 0));
 				 		break;
+				 		
 				 	default:
 				 		log("Invalid operation!");
 				 		break;
@@ -267,7 +292,7 @@ public class VM {
 		 }
 	 }
 	 
-	 private static void load(byte[] image) throws UnsupportedEncodingException {		 
+	 private static int[] load(byte[] image) throws UnsupportedEncodingException {		 
 		 int dataSize = getNumber(image, 0); log("data size: " + dataSize);
 		 int imageSize = getNumber(image, 1); log("image size: " + imageSize);
 		 int[] data = new int[dataSize];
@@ -288,5 +313,7 @@ public class VM {
 			 decoded2 += new String(new byte[] {image[i]}, "UTF-8");
 		 }
 		 log("decoded2: " + decoded2);
+		 
+		 return data;
 	 }
 }
