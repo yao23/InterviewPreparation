@@ -142,11 +142,11 @@ public class VM {
 			 ip = ip + 1;
 		   	 // decode instruction
 			 int binop = 1 << 31;
-			 binop &= data[ip];
+			 binop &= curInstruction;
 			 int operation = ((1 << 7) - 1) << 24;
-			 operation &= data[ip];
+			 operation &= curInstruction;
 			 int optionalData = (1 << 24) - 1;
-			 optionalData &= data[ip];
+			 optionalData &= curInstruction;
 			 // perform action based on operation
 			 if (binop == 0) {
 				 int addr; 
@@ -212,7 +212,7 @@ public class VM {
 						try { 
 							x = System.in.read(); // read exactly one byte from stdin
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
+							log("Read error from stdin!");
 							e.printStackTrace();
 						} 
 				 		x = // cast x to 32bits
@@ -227,7 +227,42 @@ public class VM {
 				 		break;
 				 }
 			 } else {
-				 
+				 int b = g(data, sp);
+				 sp++;
+				 int a = g(data, sp);
+				 sp++;
+				 switch (operation) {
+				 	case 0: 
+				 		sp = f(data, sp, a + b);
+				 		break;
+				 	case 1:
+				 		sp = f(data, sp, a - b);
+				 		break;
+				 	case 2:
+				 		sp = f(data, sp, a * b);
+				 		break;
+				 	case 3:
+				 		sp = f(data, sp, a / b);
+				 		break;
+				 	case 4:
+				 		sp = f(data, sp, a & b);
+				 		break;
+				 	case 5:
+				 		sp = f(data, sp, a | b);
+				 		break;
+				 	case 6:
+				 		sp = f(data, sp, a ^ b);
+				 		break;
+				 	case 7:
+				 		sp = f(data, sp, (a == b ? 1 : 0));
+				 		break;
+				 	case 8:
+				 		sp = f(data, sp, (a < b ? 1 : 0));
+				 		break;
+				 	default:
+				 		log("Invalid operation!");
+				 		break;
+				 }
 			 }
 		 }
 	 }
@@ -240,7 +275,7 @@ public class VM {
 		 log("4th instruction: " + data[3] + ", hexadecimal: " + 
 				 Integer.toHexString(data[3]));
 		 
-		 
+		 executeInstruction(data);
 		 String decoded = "";
 		 for (int i = 0; i < lineSize; i++) { 
 			 decoded += new String(new byte[] {image[i + 5 * (lineSize + 1)]}, "UTF-8");
