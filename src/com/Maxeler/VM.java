@@ -201,8 +201,8 @@ public class VM {
 	 
 	 private static void executeInstruction(int[] data, int imageSize) {
 		 int sp = data.length;
-		 for (int ip = 0; ip < 4; ) { //ip++) {
-		 //for (int ip = 0; ip < imageSize; ) { //ip++) {
+		 //for (int ip = 0; ip < 4; ) { //ip++) {
+		 for (int ip = 0; ip < imageSize; ) { //ip++) {
 			 int curInstruction = data[ip]; 
 			 ip = ip + 1;
 			 log("I " + ip + ":"  + Integer.toHexString(curInstruction) + 
