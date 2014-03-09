@@ -17,7 +17,9 @@ import java.nio.channels.FileChannel;
 public class VM {
 	private static String filePath = new File("").getAbsolutePath();
 	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
+//	private static final String inputPath2 = filePath.concat(new String("/src/com/input/task2.bin"));
 	private static final String dataPath = filePath.concat("/src/com/output/task1_data.txt");
+//	private static final String dataPath2 = filePath.concat("/src/com/output/task2_data.txt");
 	private static final String outputPath = filePath.concat("/src/com/output/output_task1.txt");
 	private static final String testPath = filePath.concat("/src/com/output/test_task1.txt");
 	private static final int lineSize = 8;
@@ -28,12 +30,14 @@ public class VM {
 		//VM test = new VM();
 	    // read in the bytes
 		byte[] fileContents = test.read(inputPath);
+//		byte[] fileContents2 = test.read(inputPath2);
 	    // write data back out to a different file name
 	    //test.write(fileContents, dataPath);
+//	    test.write(fileContents2, dataPath2);
 
 		int[] intRes = loadImage(fileContents);
-		log("Result " + (intRes.length-1) + ": " + intRes[intRes.length-1] + ", hexadecimal: " + 
-				 Integer.toHexString(intRes[intRes.length-1]));
+//		log("Result " + (intRes.length-1) + ": " + intRes[intRes.length-1] + ", hexadecimal: " + 
+//				 Integer.toHexString(intRes[intRes.length-1]));
 		
 /*		for (int i = 0; i < 5; i++) {
 			 log("Result " + i + ": " + intRes[i] + ", hexadecimal: " + 
@@ -154,11 +158,17 @@ public class VM {
 	 private static int getNumber(byte[] image, int offset) 
 			 throws UnsupportedEncodingException {
 		 int d = 0;
+		 int signBitMask = 0x80;
+		 boolean isNegative = false;
 		 // lineSize == 8
 		 // item in index 8 is new line sign '\n'
-		 for (int i = 0; i < lineSize; i++) {
+		 for (int i = 0; i < lineSize; i++) {			 
 			 String digit = new String(new byte[] {image[i + offset * (lineSize + 1)]}, "UTF-8");
 			 int dTmp = Integer.parseInt(digit, 16);
+			 if (i == 0 && ((dTmp & signBitMask) == signBitMask)) { // get sign 
+				 dTmp &= 0xf;
+				 isNegative = true;
+			 }
 			 if (dTmp > 0) {
 				 for (int j = 0; j < (lineSize - 1 - i); j++) {
 					 dTmp *= 16; // convert to decimal number
@@ -166,7 +176,7 @@ public class VM {
 			 }
 			 d += dTmp;
 		 }
-		 return d;
+		 return (isNegative ? (d * (-1)) : d);
 	 }
 	 
 	 private static void storeInstruction(byte[] image, int[] data, int imageSize) 
@@ -191,12 +201,12 @@ public class VM {
 	 
 	 private static void executeInstruction(int[] data, int imageSize) {
 		 int sp = data.length;
-		 //for (int ip = 0; ip < 1; ) { //ip++) {
-		 for (int ip = 0; ip < imageSize; ) { //ip++) {
-			 int curInstruction = data[ip];
+		 for (int ip = 0; ip < 4; ) { //ip++) {
+		 //for (int ip = 0; ip < imageSize; ) { //ip++) {
+			 int curInstruction = data[ip]; 
 			 ip = ip + 1;
-			 //log("Instruction " + (ip - 1) + ": " + curInstruction + ", hexadecimal: " + 
-				//	 Integer.toHexString(curInstruction));
+			 log("I " + ip + ":"  + Integer.toHexString(curInstruction) + 
+					 ", binary: " + Integer.toBinaryString(curInstruction));
 			 //log("current instruction: " + Integer.toBinaryString(curInstruction));
 		   	 // decode instruction
 			 int binop = 1 << 31;
@@ -207,12 +217,15 @@ public class VM {
 			 operation >>= 24; // log("operation: " + Integer.toBinaryString(operation));
 			 int optionalData = (1 << 24) - 1;
 			 optionalData &= curInstruction; // log("optional data: " + Integer.toBinaryString(optionalData));
+			 System.out.print("binop: " + Integer.toBinaryString(binop) + " " + 
+					 "operation: " + Integer.toBinaryString(operation) + " " + 
+					 "optional data: " + Integer.toBinaryString(optionalData) + "\n");
 			 // perform action based on operation
 			 if (binop == 0) {
 				 int addr; //log("Before, sp: " + sp + ", data: " + Integer.toHexString(data[sp-1]));
 				 switch (operation) {
 				 	case 0: // pop 
-				 		sp = sp + 1;
+				 		sp = sp + 1; log("Update sp!");
 				 		break;
 				 		
 				 	case 1: // "push <const>"
@@ -279,7 +292,7 @@ public class VM {
 				 		break;
 
 				 	case 9: // "getc"
-					int x = 0;
+				 		int x = 0;
 						try { 
 							x = System.in.read(); // read exactly one byte from stdin
 						} catch (IOException e) {
