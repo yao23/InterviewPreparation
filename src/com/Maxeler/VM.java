@@ -122,6 +122,115 @@ public class VM {
 			 data[i] = getNumber(image, i + 2); // instruction start from line in index 2
 		 }
 	 }
+
+	 private static int f(int[] data, int sp, int v) {
+		 sp = sp - 1;
+		 data[sp] = v;
+		 return sp;
+	 }
+	 
+	 private static int g(int[] data, int sp) {
+			int v = data[sp];
+			sp = sp + 1;
+			return v;
+	 }
+	 
+	 private static void executeInstruction(int[] data) {
+		 int sp = data.length;
+		 for (int ip = 0; ip < data.length; ip++) {
+			 int curInstruction = data[ip];
+			 ip = ip + 1;
+		   	 // decode instruction
+			 int binop = 1 << 31;
+			 binop &= data[ip];
+			 int operation = ((1 << 7) - 1) << 24;
+			 operation &= data[ip];
+			 int optionalData = (1 << 24) - 1;
+			 optionalData &= data[ip];
+			 // perform action based on operation
+			 if (binop == 0) {
+				 int addr; 
+				 switch (operation) {
+				 	case 0: // pop 
+				 		sp = sp + 1;
+				 		break;
+				 		
+				 	case 1: // "push <const>"
+				 		sp = f(data, sp, optionalData);
+				 		break;
+
+				 	case 2: // "push ip"
+				 		sp = f(data, sp, ip);
+				 		break;
+				 		
+				 	case 3: // "push sp"
+				 		sp = f(data, sp, sp);
+				 		break;
+
+				 	case 4: // "load"
+				 		addr = g(data, sp);
+				 		sp++; // sp is a local variable and update after g() operation every time
+				 		sp = f(data, sp, data[addr]);
+				 		break;
+
+				 	case 5: // "store"
+				 		int st_data = g(data, sp);
+				 		sp++;
+				 		addr = g(data, sp);
+				 		sp++;
+				 		data[addr] = st_data;
+				 		break;
+
+				 	case 6: // "jmp"
+				 		int cond = g(data, sp);
+				 		sp++;
+				 		addr = g(data, sp);
+				 		sp++;
+				 		if (cond != 0) { // if cond is not equal to zero then set ip = addr
+				 			ip = addr;
+				 		}
+				 		break;
+
+				 	case 7: // "not"
+				 		if (g(data, sp) == 0)  { // if g() equals 0 then f(1) else f(0)
+				 			sp = f(data, sp, 1);
+				 		} else {
+				 			sp = f(data, sp, 0);
+				 		}
+				 		break;
+				 		
+				 	case 8: // "putc"
+				 		// output exactly one byte = (g() & 0xff) to stdout
+				 		log(g(data, sp) & 0xff);
+				 		sp++;
+				 		// Note: Output from the supplied VM images will always be ASCII text when
+				 		// functioning correctly and will use '\n' (= 0x0A) to indicate new-line.
+				 		break;
+
+				 	case 9: // "getc"
+					int x = 0;
+						try { 
+							x = System.in.read(); // read exactly one byte from stdin
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} 
+				 		x = // cast x to 32bits
+				 		sp = f(data, sp, x & 0xff); // x & 0xff, hexa to dec
+				 		break;
+
+				 	case 10: // (0x0A) - halt
+				 		return; // Stop execution
+
+				 	default:
+				 		log("Invalid operation!");
+				 		break;
+				 }
+			 } else {
+				 
+			 }
+		 }
+	 }
 	 
 	 private static void load(byte[] image) throws UnsupportedEncodingException {		 
 		 int dataSize = getNumber(image, 0); log("data size: " + dataSize);
