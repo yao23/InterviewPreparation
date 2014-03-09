@@ -12,6 +12,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.nio.channels.FileChannel;
 
 public class VM {
 	private static String filePath = new File("").getAbsolutePath();
@@ -30,11 +31,46 @@ public class VM {
 	    //test.write(fileContents, dataPath);
 
 		int[] intRes = loadImage(fileContents);
+		 log("Result " + (intRes.length-1) + ": " + intRes[intRes.length-1] + ", hexadecimal: " + 
+				 Integer.toHexString(intRes[intRes.length-1]));
+/*		for (int i = 0; i < 5; i++) {
+			 log("Result " + i + ": " + intRes[i] + ", hexadecimal: " + 
+					 Integer.toHexString(intRes[i]));
+		}
+		*///storeFC(intRes);
+/*		
 		byte[] byteRes = new byte[intRes.length * 4];
 		toByteArray(byteRes, intRes);
 		// write result
-	    //test.write(byteRes, outputPath);
-	}
+	    test.write(byteRes, outputPath);
+*/	}
+	
+	private static void storeFC(int[] ints) {
+		  FileOutputStream out = null;
+		  try {
+		    out = new FileOutputStream(outputPath);
+		    FileChannel file = out.getChannel();
+		    ByteBuffer buf = file.map(FileChannel.MapMode.READ_WRITE, 0, 4 * ints.length);
+		    for (int i : ints) {
+		      buf.putInt(i);
+		    }
+		    file.close();
+		  } catch (IOException e) {
+		    throw new RuntimeException(e);
+		  } finally {
+		    safeClose(out);
+		  }
+		}
+
+		private static void safeClose(OutputStream out) {
+		  try {
+		    if (out != null) {
+		      out.close();
+		    }
+		  } catch (IOException e) {
+		    // do nothing
+		  }
+		}
 	
 	private static void toByteArray(byte[] byteArray, int[] intArray) { 
 		ByteBuffer byteBuffer = ByteBuffer.allocate(intArray.length * 4);        
@@ -157,28 +193,28 @@ public class VM {
 		 //for (int ip = 0; ip < data.length; ip++) {
 			 int curInstruction = data[ip];
 			 ip = ip + 1;
-			 log("Instruction: " + curInstruction + ", hexadecimal: " + 
+			 log("Instruction " + (ip - 1) + ": " + curInstruction + ", hexadecimal: " + 
 					 Integer.toHexString(curInstruction));
 			 log("current instruction: " + Integer.toBinaryString(curInstruction));
 		   	 // decode instruction
 			 int binop = 1 << 31;
 			 binop &= curInstruction; 
-			 binop >>= 31; log("binop: " + Integer.toBinaryString(binop));
+			 binop >>= 31;  log("binop: " + Integer.toBinaryString(binop));
 			 int operation = ((1 << 7) - 1) << 24; 
 			 operation &= curInstruction; 
-			 operation >>= 24; log("operation: " + Integer.toBinaryString(operation));
+			 operation >>= 24;  log("operation: " + Integer.toBinaryString(operation));
 			 int optionalData = (1 << 24) - 1;
-			 optionalData &= curInstruction; log("optional data: " + Integer.toBinaryString(optionalData));
+			 optionalData &= curInstruction;  log("optional data: " + Integer.toBinaryString(optionalData));
 			 // perform action based on operation
 			 if (binop == 0) {
-				 int addr; 
+				 int addr; log("Before, sp: " + sp + ", data: " + Integer.toHexString(data[sp-1]));
 				 switch (operation) {
 				 	case 0: // pop 
 				 		sp = sp + 1;
 				 		break;
 				 		
 				 	case 1: // "push <const>"
-				 		sp = f(data, sp, optionalData);
+				 		sp = f(data, sp, optionalData); log("After, sp: " + sp + ", data: " + Integer.toHexString(data[sp]));
 				 		break;
 
 				 	case 2: // "push ip"
