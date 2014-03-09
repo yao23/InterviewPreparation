@@ -158,7 +158,7 @@ public class VM {
 	 private static int getNumber(byte[] image, int offset) 
 			 throws UnsupportedEncodingException {
 		 int d = 0;
-		 int signBitMask = 0x80;
+		 int signBitMask = 0x8;
 		 boolean isNegative = false;
 		 // lineSize == 8
 		 // item in index 8 is new line sign '\n'
@@ -166,7 +166,7 @@ public class VM {
 			 String digit = new String(new byte[] {image[i + offset * (lineSize + 1)]}, "UTF-8");
 			 int dTmp = Integer.parseInt(digit, 16);
 			 if (i == 0 && ((dTmp & signBitMask) == signBitMask)) { // get sign 
-				 dTmp &= 0xf;
+				 dTmp &= 0x7;
 				 isNegative = true;
 			 }
 			 if (dTmp > 0) {
