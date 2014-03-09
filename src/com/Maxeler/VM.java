@@ -19,12 +19,13 @@ public class VM {
 	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
 	private static final String dataPath = filePath.concat("/src/com/output/task1_data.txt");
 	private static final String outputPath = filePath.concat("/src/com/output/output_task1.txt");
+	private static final String testPath = filePath.concat("/src/com/output/test_task1.txt");
 	private static final int lineSize = 8;
-	
+	private static VM test = new VM();
 	/** Run the example. 
 	 * @throws UnsupportedEncodingException */
 	public static void main(String[] Args) throws UnsupportedEncodingException {
-		VM test = new VM();
+		//VM test = new VM();
 	    // read in the bytes
 		byte[] fileContents = test.read(inputPath);
 	    // write data back out to a different file name
@@ -34,8 +35,6 @@ public class VM {
 		log("Result " + (intRes.length-1) + ": " + intRes[intRes.length-1] + ", hexadecimal: " + 
 				 Integer.toHexString(intRes[intRes.length-1]));
 		
-		byte b = 1;
-		log("byte: " + b); 
 /*		for (int i = 0; i < 5; i++) {
 			 log("Result " + i + ": " + intRes[i] + ", hexadecimal: " + 
 					 Integer.toHexString(intRes[i]));
@@ -186,7 +185,7 @@ public class VM {
 	 
 	 private static int g(int[] data, int sp) {
 			int v = data[sp];
-			sp = sp + 1;
+			// sp = sp + 1; // sp is a local variable, cannot update here
 			return v;
 	 }
 	 
@@ -196,16 +195,16 @@ public class VM {
 		 for (int ip = 0; ip < imageSize; ) { //ip++) {
 			 int curInstruction = data[ip];
 			 ip = ip + 1;
-			 log("Instruction " + (ip - 1) + ": " + curInstruction + ", hexadecimal: " + 
-					 Integer.toHexString(curInstruction));
+			 //log("Instruction " + (ip - 1) + ": " + curInstruction + ", hexadecimal: " + 
+				//	 Integer.toHexString(curInstruction));
 			 //log("current instruction: " + Integer.toBinaryString(curInstruction));
 		   	 // decode instruction
 			 int binop = 1 << 31;
 			 binop &= curInstruction; 
-			 binop >>= 31;  log("binop: " + Integer.toBinaryString(binop));
+			 binop >>= 31;  //log("binop: " + Integer.toBinaryString(binop));
 			 int operation = ((1 << 7) - 1) << 24; 
 			 operation &= curInstruction; 
-			 operation >>= 24;  log("operation: " + Integer.toBinaryString(operation));
+			 operation >>= 24; // log("operation: " + Integer.toBinaryString(operation));
 			 int optionalData = (1 << 24) - 1;
 			 optionalData &= curInstruction; // log("optional data: " + Integer.toBinaryString(optionalData));
 			 // perform action based on operation
@@ -218,20 +217,24 @@ public class VM {
 				 		
 				 	case 1: // "push <const>"
 				 		sp = f(data, sp, optionalData); //log("After, sp: " + sp + ", data: " + Integer.toHexString(data[sp]));
+				 		log("Push const: " + optionalData + ", hexa: " + Integer.toHexString(optionalData) + ", at " + sp);
 				 		break;
 
 				 	case 2: // "push ip"
 				 		sp = f(data, sp, ip);
+				 		log("Push ip: " + ip + ", hexa: " + Integer.toHexString(ip) + ", at " + sp);
 				 		break;
 				 		
 				 	case 3: // "push sp"
 				 		sp = f(data, sp, sp);
+				 		log("Push ip: " + (sp+1) + ", hexa: " + Integer.toHexString(sp+1) + ", at " + sp);
 				 		break;
 
 				 	case 4: // "load"
 				 		addr = g(data, sp);
 				 		sp++; // sp is a local variable and update after g() operation every time
 				 		sp = f(data, sp, data[addr]);
+				 		log("load");
 				 		break;
 
 				 	case 5: // "store"
@@ -240,6 +243,7 @@ public class VM {
 				 		addr = g(data, sp);
 				 		sp++;
 				 		data[addr] = st_data;
+				 		log("store");
 				 		break;
 
 				 	case 6: // "jmp"
@@ -250,6 +254,7 @@ public class VM {
 				 		if (cond != 0) { // if cond is not equal to zero then set ip = addr
 				 			ip = addr;
 				 		}
+				 		log("jmp");
 				 		break;
 
 				 	case 7: // "not"
@@ -258,6 +263,7 @@ public class VM {
 				 		} else {
 				 			sp = f(data, sp, 0);
 				 		}
+				 		log("not");
 				 		break;
 				 		
 				 	case 8: // "putc"
@@ -266,9 +272,10 @@ public class VM {
 				 		byte res = (byte)(g(data, sp) & 0xff);
 				 		sp++;
 				 		System.out.println((char)res);
-				 		
+				 		test.write(new byte[]{res}, testPath);
 				 		// Note: Output from the supplied VM images will always be ASCII text when
 				 		// functioning correctly and will use '\n' (= 0x0A) to indicate new-line.
+				 		log("putc");
 				 		break;
 
 				 	case 9: // "getc"
@@ -280,10 +287,12 @@ public class VM {
 							e.printStackTrace();
 						} 
 				 		x &= 0xff; // cast x to 32bits
-				 		sp = f(data, sp, x & 0xff); // x is ok, x & 0xff is unnecessary  
+				 		sp = f(data, sp, x & 0xff); // x is ok, x & 0xff is unnecessary
+				 		log("getc");
 				 		break;
 
 				 	case 10: // (0x0A) - halt
+				 		log("halt");
 				 		return; // Stop execution
 
 				 	default:
@@ -297,39 +306,39 @@ public class VM {
 				 sp++;
 				 switch (operation) {
 				 	case 0: 
-				 		sp = f(data, sp, a + b);
+				 		sp = f(data, sp, a + b); log("+ operation!");
 				 		break;
 				 		
 				 	case 1:
-				 		sp = f(data, sp, a - b);
+				 		sp = f(data, sp, a - b); log("- operation!");
 				 		break;
 				 		
 				 	case 2:
-				 		sp = f(data, sp, a * b);
+				 		sp = f(data, sp, a * b); log("* operation!");
 				 		break;
 				 		
 				 	case 3:
-				 		sp = f(data, sp, a / b);
+				 		sp = f(data, sp, a / b); log("/ operation!");
 				 		break;
 				 		
 				 	case 4:
-				 		sp = f(data, sp, a & b);
+				 		sp = f(data, sp, a & b); log("& operation!");
 				 		break;
 				 		
 				 	case 5:
-				 		sp = f(data, sp, a | b);
+				 		sp = f(data, sp, a | b); log("| operation!");
 				 		break;
 				 		
 				 	case 6:
-				 		sp = f(data, sp, a ^ b);
+				 		sp = f(data, sp, a ^ b); log("^ operation!");
 				 		break;
 				 		
 				 	case 7:
-				 		sp = f(data, sp, (a == b ? 1 : 0));
+				 		sp = f(data, sp, (a == b ? 1 : 0)); log("= operation!");
 				 		break;
 				 		
 				 	case 8:
-				 		sp = f(data, sp, (a < b ? 1 : 0));
+				 		sp = f(data, sp, (a < b ? 1 : 0)); log("< operation!");
 				 		break;
 				 		
 				 	default:
