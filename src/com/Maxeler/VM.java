@@ -31,8 +31,11 @@ public class VM {
 	    //test.write(fileContents, dataPath);
 
 		int[] intRes = loadImage(fileContents);
-		 log("Result " + (intRes.length-1) + ": " + intRes[intRes.length-1] + ", hexadecimal: " + 
+		log("Result " + (intRes.length-1) + ": " + intRes[intRes.length-1] + ", hexadecimal: " + 
 				 Integer.toHexString(intRes[intRes.length-1]));
+		
+		byte b = 1;
+		log("byte: " + b); 
 /*		for (int i = 0; i < 5; i++) {
 			 log("Result " + i + ": " + intRes[i] + ", hexadecimal: " + 
 					 Integer.toHexString(intRes[i]));
@@ -193,16 +196,16 @@ public class VM {
 		 for (int ip = 0; ip < imageSize; ) { //ip++) {
 			 int curInstruction = data[ip];
 			 ip = ip + 1;
-/*			 log("Instruction " + (ip - 1) + ": " + curInstruction + ", hexadecimal: " + 
+			 log("Instruction " + (ip - 1) + ": " + curInstruction + ", hexadecimal: " + 
 					 Integer.toHexString(curInstruction));
-			 log("current instruction: " + Integer.toBinaryString(curInstruction));
-*/		   	 // decode instruction
+			 //log("current instruction: " + Integer.toBinaryString(curInstruction));
+		   	 // decode instruction
 			 int binop = 1 << 31;
 			 binop &= curInstruction; 
-			 binop >>= 31;  //log("binop: " + Integer.toBinaryString(binop));
+			 binop >>= 31;  log("binop: " + Integer.toBinaryString(binop));
 			 int operation = ((1 << 7) - 1) << 24; 
 			 operation &= curInstruction; 
-			 operation >>= 24; // log("operation: " + Integer.toBinaryString(operation));
+			 operation >>= 24;  log("operation: " + Integer.toBinaryString(operation));
 			 int optionalData = (1 << 24) - 1;
 			 optionalData &= curInstruction; // log("optional data: " + Integer.toBinaryString(optionalData));
 			 // perform action based on operation
@@ -259,8 +262,11 @@ public class VM {
 				 		
 				 	case 8: // "putc"
 				 		// output exactly one byte = (g() & 0xff) to stdout
-				 		log(g(data, sp) & 0xff);
+				 		//int res = g(data, sp) & 0xff;
+				 		byte res = (byte)(g(data, sp) & 0xff);
 				 		sp++;
+				 		System.out.println((char)res);
+				 		
 				 		// Note: Output from the supplied VM images will always be ASCII text when
 				 		// functioning correctly and will use '\n' (= 0x0A) to indicate new-line.
 				 		break;
@@ -273,8 +279,8 @@ public class VM {
 							log("Read error from stdin!");
 							e.printStackTrace();
 						} 
-				 		x = // cast x to 32bits
-				 		sp = f(data, sp, x & 0xff); // x & 0xff, hexa to dec
+				 		x &= 0xff; // cast x to 32bits
+				 		sp = f(data, sp, x & 0xff); // x is ok, x & 0xff is unnecessary  
 				 		break;
 
 				 	case 10: // (0x0A) - halt
