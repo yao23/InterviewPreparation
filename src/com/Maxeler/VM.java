@@ -27,13 +27,13 @@ public class VM {
 	    // read in the bytes
 		byte[] fileContents = test.read(inputPath);
 	    // write data back out to a different file name
-	    test.write(fileContents, dataPath);
+	    //test.write(fileContents, dataPath);
 
-		int[] intRes = load(fileContents);
+		int[] intRes = loadImage(fileContents);
 		byte[] byteRes = new byte[intRes.length * 4];
 		toByteArray(byteRes, intRes);
 		// write result
-	    test.write(byteRes, outputPath);
+	    //test.write(byteRes, outputPath);
 	}
 	
 	private static void toByteArray(byte[] byteArray, int[] intArray) { 
@@ -153,16 +153,22 @@ public class VM {
 	 
 	 private static void executeInstruction(int[] data) {
 		 int sp = data.length;
-		 for (int ip = 0; ip < data.length; ip++) {
+		 for (int ip = 0; ip < 1; ) { //ip++) {
+		 //for (int ip = 0; ip < data.length; ip++) {
 			 int curInstruction = data[ip];
 			 ip = ip + 1;
+			 log("Instruction: " + curInstruction + ", hexadecimal: " + 
+					 Integer.toHexString(curInstruction));
+			 log("current instruction: " + Integer.toBinaryString(curInstruction));
 		   	 // decode instruction
 			 int binop = 1 << 31;
-			 binop &= curInstruction;
-			 int operation = ((1 << 7) - 1) << 24;
-			 operation &= curInstruction;
+			 binop &= curInstruction; 
+			 binop >>= 31; log("binop: " + Integer.toBinaryString(binop));
+			 int operation = ((1 << 7) - 1) << 24; 
+			 operation &= curInstruction; 
+			 operation >>= 24; log("operation: " + Integer.toBinaryString(operation));
 			 int optionalData = (1 << 24) - 1;
-			 optionalData &= curInstruction;
+			 optionalData &= curInstruction; log("optional data: " + Integer.toBinaryString(optionalData));
 			 // perform action based on operation
 			 if (binop == 0) {
 				 int addr; 
@@ -292,15 +298,22 @@ public class VM {
 		 }
 	 }
 	 
-	 private static int[] load(byte[] image) throws UnsupportedEncodingException {		 
+	 private static int[] loadImage(byte[] image) throws UnsupportedEncodingException {		 
 		 int dataSize = getNumber(image, 0); log("data size: " + dataSize);
 		 int imageSize = getNumber(image, 1); log("image size: " + imageSize);
 		 int[] data = new int[dataSize];
 		 storeInstruction(image, data, imageSize);
+/*		  
+		 for (int i = 0; i < 5; i++) {
+			 log("Instruction: " + data[i] + ", hexadecimal: " + 
+					 Integer.toHexString(data[i]));
+		 }
+*/		 
+		 executeInstruction(data);
+/*		 
 		 log("4th instruction: " + data[3] + ", hexadecimal: " + 
 				 Integer.toHexString(data[3]));
 		 
-		 executeInstruction(data);
 		 String decoded = "";
 		 for (int i = 0; i < lineSize; i++) { 
 			 decoded += new String(new byte[] {image[i + 5 * (lineSize + 1)]}, "UTF-8");
@@ -313,7 +326,7 @@ public class VM {
 			 decoded2 += new String(new byte[] {image[i]}, "UTF-8");
 		 }
 		 log("decoded2: " + decoded2);
-		 
+*/		 
 		 return data;
 	 }
 }
