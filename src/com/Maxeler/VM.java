@@ -187,34 +187,34 @@ public class VM {
 			return v;
 	 }
 	 
-	 private static void executeInstruction(int[] data) {
+	 private static void executeInstruction(int[] data, int imageSize) {
 		 int sp = data.length;
-		 for (int ip = 0; ip < 1; ) { //ip++) {
-		 //for (int ip = 0; ip < data.length; ip++) {
+		 //for (int ip = 0; ip < 1; ) { //ip++) {
+		 for (int ip = 0; ip < imageSize; ) { //ip++) {
 			 int curInstruction = data[ip];
 			 ip = ip + 1;
-			 log("Instruction " + (ip - 1) + ": " + curInstruction + ", hexadecimal: " + 
+/*			 log("Instruction " + (ip - 1) + ": " + curInstruction + ", hexadecimal: " + 
 					 Integer.toHexString(curInstruction));
 			 log("current instruction: " + Integer.toBinaryString(curInstruction));
-		   	 // decode instruction
+*/		   	 // decode instruction
 			 int binop = 1 << 31;
 			 binop &= curInstruction; 
-			 binop >>= 31;  log("binop: " + Integer.toBinaryString(binop));
+			 binop >>= 31;  //log("binop: " + Integer.toBinaryString(binop));
 			 int operation = ((1 << 7) - 1) << 24; 
 			 operation &= curInstruction; 
-			 operation >>= 24;  log("operation: " + Integer.toBinaryString(operation));
+			 operation >>= 24; // log("operation: " + Integer.toBinaryString(operation));
 			 int optionalData = (1 << 24) - 1;
-			 optionalData &= curInstruction;  log("optional data: " + Integer.toBinaryString(optionalData));
+			 optionalData &= curInstruction; // log("optional data: " + Integer.toBinaryString(optionalData));
 			 // perform action based on operation
 			 if (binop == 0) {
-				 int addr; log("Before, sp: " + sp + ", data: " + Integer.toHexString(data[sp-1]));
+				 int addr; //log("Before, sp: " + sp + ", data: " + Integer.toHexString(data[sp-1]));
 				 switch (operation) {
 				 	case 0: // pop 
 				 		sp = sp + 1;
 				 		break;
 				 		
 				 	case 1: // "push <const>"
-				 		sp = f(data, sp, optionalData); log("After, sp: " + sp + ", data: " + Integer.toHexString(data[sp]));
+				 		sp = f(data, sp, optionalData); //log("After, sp: " + sp + ", data: " + Integer.toHexString(data[sp]));
 				 		break;
 
 				 	case 2: // "push ip"
@@ -345,7 +345,7 @@ public class VM {
 					 Integer.toHexString(data[i]));
 		 }
 */		 
-		 executeInstruction(data);
+		 executeInstruction(data, imageSize);
 /*		 
 		 log("4th instruction: " + data[3] + ", hexadecimal: " + 
 				 Integer.toHexString(data[3]));
