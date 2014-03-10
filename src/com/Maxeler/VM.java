@@ -17,7 +17,7 @@ import java.nio.channels.FileChannel;
 public class VM {
 	private static String filePath = new File("").getAbsolutePath();
 //	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
-	private static final String inputPath = filePath.concat(new String("/src/com/input/test03.bin"));
+	private static final String inputPath = filePath.concat(new String("/src/com/input/test25.bin"));
 //	private static final String inputPath2 = filePath.concat(new String("/src/com/input/task2.bin"));
 	private static final String dataPath = filePath.concat("/src/com/output/task1_data.txt");
 //	private static final String dataPath2 = filePath.concat("/src/com/output/task2_data.txt");
@@ -209,7 +209,7 @@ public class VM {
 			 ip = ip + 1;
 			 //log("I " + ip + ":"  + Integer.toString(curInstruction, 16) + 
 			 //		 ", binary: " + Integer.toString(curInstruction, 2));
-			 //log("current instruction: " + Integer.toBinaryString(curInstruction));
+			 
 		   	 // decode instruction
 			 int binop = 0;
 			 int operation = 0;
@@ -250,22 +250,23 @@ public class VM {
 				 int addr; //log("Before, sp: " + sp + ", data: " + Integer.toHexString(data[sp-1]));
 				 switch (operation) {
 				 	case 0: // pop 
-				 		sp = sp + 1; //log("Update sp!");
+				 		sp = sp + 1; 
+				 		log("pop");
 				 		break;
 				 		
 				 	case 1: // "push <const>"
 				 		sp = f(data, sp, optionalData); //log("After, sp: " + sp + ", data: " + Integer.toHexString(data[sp]));
-				 		log("Push const: " + optionalData + ", hexa: " + Integer.toHexString(optionalData) + ", at " + sp);
+				 		log("push_const: " + optionalData + ", hexa: " + Integer.toHexString(optionalData) + ", at " + sp);
 				 		break;
 
 				 	case 2: // "push ip"
 				 		sp = f(data, sp, ip);
-				 		log("Push ip: " + ip + ", hexa: " + Integer.toHexString(ip) + ", at " + sp);
+				 		log("push_ip: " + ip + ", hexa: " + Integer.toHexString(ip) + ", at " + sp);
 				 		break;
 				 		
 				 	case 3: // "push sp"
 				 		sp = f(data, sp, sp);
-				 		log("Push sp: " + (sp+1) + ", hexa: " + Integer.toHexString(sp+1) + ", at " + sp);
+				 		log("push_sp: " + (sp+1) + ", hexa: " + Integer.toHexString(sp+1) + ", at " + sp);
 				 		break;
 
 				 	case 4: // "load"
@@ -306,11 +307,11 @@ public class VM {
 				 		
 				 	case 8: // "putc"
 				 		// output exactly one byte = (g() & 0xff) to stdout
-				 		int resTmp = g(data, sp); //System.out.println(resTmp);
+				 		int res = g(data, sp); //System.out.println(resTmp);
 				 		sp++;
-				 		resTmp &= 0xff; System.out.println((char)resTmp);	//	System.out.println(resTmp);		 		
-//				 		byte res = (byte)resTmp;
-//				 		System.out.println((char)res);System.out.println(res);
+				 		res &= 0xff; 
+				 		System.out.println((char)res);	//	ASCII text		 		
+
 //				 		test.write(new byte[]{res}, testPath);
 				 		// Note: Output from the supplied VM images will always be ASCII text when
 				 		// functioning correctly and will use '\n' (= 0x0A) to indicate new-line.
@@ -382,12 +383,12 @@ public class VM {
 				 		
 				 	case 7:
 				 		sp = f(data, sp, (a == b ? 1 : 0)); 
-				 		log("eql");
+				 		log("eq");
 				 		break;
 				 		
 				 	case 8:
 				 		sp = f(data, sp, (a < b ? 1 : 0)); 
-				 		log("les");
+				 		log("lt");
 				 		break;
 				 		
 				 	default:
