@@ -17,6 +17,7 @@ import java.nio.channels.FileChannel;
 public class VM {
 	private static String filePath = new File("").getAbsolutePath();
 	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
+//	private static final String inputPath = filePath.concat(new String("/src/com/input/test01.bin"));
 //	private static final String inputPath2 = filePath.concat(new String("/src/com/input/task2.bin"));
 	private static final String dataPath = filePath.concat("/src/com/output/task1_data.txt");
 //	private static final String dataPath2 = filePath.concat("/src/com/output/task2_data.txt");
@@ -181,7 +182,7 @@ public class VM {
 	 
 	 private static void storeInstruction(byte[] image, int[] data, int imageSize) 
 			 throws UnsupportedEncodingException {
-		 log("byte array size: " + image.length);
+		 //log("byte array size: " + image.length);
 		 for (int i = 0; i < imageSize; i++) {  
 			 data[i] = getNumber(image, i + 2); // instruction start from line in index 2
 		 }
@@ -206,8 +207,8 @@ public class VM {
 		 for (int ip = 0; ip < imageSize; ) { //ip++) {
 			 int curInstruction = data[ip]; 
 			 ip = ip + 1;
-			 log("I " + ip + ":"  + Integer.toString(curInstruction, 16) + 
-					 ", binary: " + Integer.toString(curInstruction, 2));
+			 //log("I " + ip + ":"  + Integer.toString(curInstruction, 16) + 
+			 //		 ", binary: " + Integer.toString(curInstruction, 2));
 			 //log("current instruction: " + Integer.toBinaryString(curInstruction));
 		   	 // decode instruction
 			 int binop = 0;
@@ -241,37 +242,37 @@ public class VM {
 				 operation = 0;
 				 optionalData = 0;
 			 }
-			 System.out.print("binop: " + Integer.toBinaryString(binop) + " " + 
+/*			 System.out.print("binop: " + Integer.toBinaryString(binop) + " " + 
 					 "operation: " + operation + "(" + Integer.toBinaryString(operation) + ")" + " " + 
 					 "optional data: " + Integer.toBinaryString(optionalData) + "\n");
-			 // perform action based on operation
+*/			 // perform action based on operation
 			 if (binop == 0) {
 				 int addr; //log("Before, sp: " + sp + ", data: " + Integer.toHexString(data[sp-1]));
 				 switch (operation) {
 				 	case 0: // pop 
-				 		sp = sp + 1; log("Update sp!");
+				 		sp = sp + 1; //log("Update sp!");
 				 		break;
 				 		
 				 	case 1: // "push <const>"
 				 		sp = f(data, sp, optionalData); //log("After, sp: " + sp + ", data: " + Integer.toHexString(data[sp]));
-				 		log("Push const: " + optionalData + ", hexa: " + Integer.toHexString(optionalData) + ", at " + sp);
+//				 		log("Push const: " + optionalData + ", hexa: " + Integer.toHexString(optionalData) + ", at " + sp);
 				 		break;
 
 				 	case 2: // "push ip"
 				 		sp = f(data, sp, ip);
-				 		log("Push ip: " + ip + ", hexa: " + Integer.toHexString(ip) + ", at " + sp);
+//				 		log("Push ip: " + ip + ", hexa: " + Integer.toHexString(ip) + ", at " + sp);
 				 		break;
 				 		
 				 	case 3: // "push sp"
 				 		sp = f(data, sp, sp);
-				 		log("Push ip: " + (sp+1) + ", hexa: " + Integer.toHexString(sp+1) + ", at " + sp);
+//				 		log("Push ip: " + (sp+1) + ", hexa: " + Integer.toHexString(sp+1) + ", at " + sp);
 				 		break;
 
 				 	case 4: // "load"
 				 		addr = g(data, sp);
 				 		sp++; // sp is a local variable and update after g() operation every time
 				 		sp = f(data, sp, data[addr]);
-				 		log("load");
+//				 		log("load");
 				 		break;
 
 				 	case 5: // "store"
@@ -280,7 +281,7 @@ public class VM {
 				 		addr = g(data, sp);
 				 		sp++;
 				 		data[addr] = st_data;
-				 		log("store");
+//				 		log("store");
 				 		break;
 
 				 	case 6: // "jmp"
@@ -291,7 +292,7 @@ public class VM {
 				 		if (cond != 0) { // if cond is not equal to zero then set ip = addr
 				 			ip = addr;
 				 		}
-				 		log("jmp");
+//				 		log("jmp");
 				 		break;
 
 				 	case 7: // "not"
@@ -300,19 +301,19 @@ public class VM {
 				 		} else {
 				 			sp = f(data, sp, 0);
 				 		}
-				 		log("not");
+//				 		log("not");
 				 		break;
 				 		
 				 	case 8: // "putc"
 				 		// output exactly one byte = (g() & 0xff) to stdout
-				 		//int res = g(data, sp) & 0xff;
-				 		byte res = (byte)(g(data, sp) & 0xff);
+				 		int resTmp = g(data, sp) & 0xff;
 				 		sp++;
-				 		System.out.println((char)res);
-				 		test.write(new byte[]{res}, testPath);
+				 		byte res = (byte)resTmp;
+				 		System.out.println((char)res);System.out.println(res);
+//				 		test.write(new byte[]{res}, testPath);
 				 		// Note: Output from the supplied VM images will always be ASCII text when
 				 		// functioning correctly and will use '\n' (= 0x0A) to indicate new-line.
-				 		log("putc");
+//				 		log("putc");
 				 		break;
 
 				 	case 9: // "getc"
@@ -325,7 +326,7 @@ public class VM {
 						} 
 				 		x &= 0xff; // cast x to 32bits
 				 		sp = f(data, sp, x & 0xff); // x is ok, x & 0xff is unnecessary
-				 		log("getc");
+//				 		log("getc");
 				 		break;
 
 				 	case 10: // (0x0A) - halt
@@ -343,39 +344,39 @@ public class VM {
 				 sp++;
 				 switch (operation) {
 				 	case 0: 
-				 		sp = f(data, sp, a + b); log("+ operation!");
+				 		sp = f(data, sp, a + b); //log("+ operation!");
 				 		break;
 				 		
 				 	case 1:
-				 		sp = f(data, sp, a - b); log("- operation!");
+				 		sp = f(data, sp, a - b); //log("- operation!");
 				 		break;
 				 		
 				 	case 2:
-				 		sp = f(data, sp, a * b); log("* operation!");
+				 		sp = f(data, sp, a * b); //log("* operation!");
 				 		break;
 				 		
 				 	case 3:
-				 		sp = f(data, sp, a / b); log("/ operation!");
+				 		sp = f(data, sp, a / b); //log("/ operation!");
 				 		break;
 				 		
 				 	case 4:
-				 		sp = f(data, sp, a & b); log("& operation!");
+				 		sp = f(data, sp, a & b); //log("& operation!");
 				 		break;
 				 		
 				 	case 5:
-				 		sp = f(data, sp, a | b); log("| operation!");
+				 		sp = f(data, sp, a | b); //log("| operation!");
 				 		break;
 				 		
 				 	case 6:
-				 		sp = f(data, sp, a ^ b); log("^ operation!");
+				 		sp = f(data, sp, a ^ b); //log("^ operation!");
 				 		break;
 				 		
 				 	case 7:
-				 		sp = f(data, sp, (a == b ? 1 : 0)); log("= operation!");
+				 		sp = f(data, sp, (a == b ? 1 : 0)); //log("= operation!");
 				 		break;
 				 		
 				 	case 8:
-				 		sp = f(data, sp, (a < b ? 1 : 0)); log("< operation!");
+				 		sp = f(data, sp, (a < b ? 1 : 0)); //log("< operation!");
 				 		break;
 				 		
 				 	default:
@@ -387,8 +388,8 @@ public class VM {
 	 }
 	 
 	 private static int[] loadImage(byte[] image) throws UnsupportedEncodingException {		 
-		 int dataSize = getNumber(image, 0); log("data size: " + dataSize);
-		 int imageSize = getNumber(image, 1); log("image size: " + imageSize);
+		 int dataSize = getNumber(image, 0); //log("data size: " + dataSize);
+		 int imageSize = getNumber(image, 1); //log("image size: " + imageSize);
 		 int[] data = new int[dataSize];
 		 storeInstruction(image, data, imageSize);
 /*		  
