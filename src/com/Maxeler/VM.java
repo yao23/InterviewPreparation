@@ -16,14 +16,16 @@ import java.nio.channels.FileChannel;
 
 public class VM {
 	private static String filePath = new File("").getAbsolutePath();
-//	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
-	private static final String inputPath = filePath.concat(new String("/src/com/input/test25.bin"));
+	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
+//	private static final String inputPath = filePath.concat(new String("/src/com/input/test25.bin"));
 //	private static final String inputPath2 = filePath.concat(new String("/src/com/input/task2.bin"));
 	private static final String dataPath = filePath.concat("/src/com/output/task1_data.txt");
 //	private static final String dataPath2 = filePath.concat("/src/com/output/task2_data.txt");
 	private static final String outputPath = filePath.concat("/src/com/output/output_task1.txt");
 	private static final String testPath = filePath.concat("/src/com/output/test_task1.txt");
 	private static final int lineSize = 8;
+	private static int ip = 0;
+	private static int sp = 0;
 	private static VM test = new VM();
 	/** Run the example. 
 	 * @throws UnsupportedEncodingException */
@@ -188,23 +190,22 @@ public class VM {
 		 }
 	 }
 
-	 private static int f(int[] data, int sp, int v) {
+	 private static void f(int[] data, int v) {
 		 sp = sp - 1;
 		 data[sp] = v;
-		 return sp;
 	 }
 	 
-	 private static int g(int[] data, int sp) {
+	 private static int g(int[] data) {
 			int v = data[sp];
-			// sp = sp + 1; // sp is a local variable, cannot update here
+			sp = sp + 1; 
 			return v;
 	 }
 	 
 	 private static void executeInstruction(int[] data, byte[] image, int imageSize) 
 			 throws UnsupportedEncodingException {
-		 int sp = data.length;
+		 sp = data.length;
 		 //for (int ip = 0; ip < 4; ) { //ip++) {
-		 for (int ip = 0; ip < imageSize; ) { //ip++) {
+		 for (ip = 0; ip < imageSize; ) { //ip++) {
 			 int curInstruction = data[ip]; 
 			 ip = ip + 1;
 			 //log("I " + ip + ":"  + Integer.toString(curInstruction, 16) + 
@@ -255,41 +256,36 @@ public class VM {
 				 		break;
 				 		
 				 	case 1: // "push <const>"
-				 		sp = f(data, sp, optionalData); //log("After, sp: " + sp + ", data: " + Integer.toHexString(data[sp]));
+				 		f(data, optionalData); //log("After, sp: " + sp + ", data: " + Integer.toHexString(data[sp]));
 				 		log("push_const: " + optionalData + ", hexa: " + Integer.toHexString(optionalData) + ", at " + sp);
 				 		break;
 
 				 	case 2: // "push ip"
-				 		sp = f(data, sp, ip);
+				 		f(data, ip);
 				 		log("push_ip: " + ip + ", hexa: " + Integer.toHexString(ip) + ", at " + sp);
 				 		break;
 				 		
 				 	case 3: // "push sp"
-				 		sp = f(data, sp, sp);
+				 		f(data, sp);
 				 		log("push_sp: " + (sp+1) + ", hexa: " + Integer.toHexString(sp+1) + ", at " + sp);
 				 		break;
 
 				 	case 4: // "load"
-				 		addr = g(data, sp);
-				 		sp++; // sp is a local variable and update after g() operation every time
-				 		sp = f(data, sp, data[addr]);
+				 		addr = g(data);
+				 		f(data, data[addr]);
 				 		log("load");
 				 		break;
 
 				 	case 5: // "store"
-				 		int st_data = g(data, sp);
-				 		sp++;
-				 		addr = g(data, sp);
-				 		sp++;
+				 		int st_data = g(data);
+				 		addr = g(data);
 				 		data[addr] = st_data;
 				 		log("store");
 				 		break;
 
 				 	case 6: // "jmp"
-				 		int cond = g(data, sp);
-				 		sp++;
-				 		addr = g(data, sp);
-				 		sp++;
+				 		int cond = g(data);
+				 		addr = g(data);
 				 		if (cond != 0) { // if cond is not equal to zero then set ip = addr
 				 			ip = addr;
 				 		}
@@ -297,18 +293,17 @@ public class VM {
 				 		break;
 
 				 	case 7: // "not"
-				 		if (g(data, sp) == 0)  { // if g() equals 0 then f(1) else f(0)
-				 			sp = f(data, sp, 1);
+				 		if (g(data) == 0)  { // if g() equals 0 then f(1) else f(0)
+				 			f(data, 1);
 				 		} else {
-				 			sp = f(data, sp, 0);
+				 			f(data, 0);
 				 		}
 				 		log("not");
 				 		break;
 				 		
 				 	case 8: // "putc"
 				 		// output exactly one byte = (g() & 0xff) to stdout
-				 		int res = g(data, sp); //System.out.println(resTmp);
-				 		sp++;
+				 		int res = g(data); 
 				 		res &= 0xff; 
 				 		System.out.println((char)res);	//	ASCII text		 		
 
@@ -328,7 +323,7 @@ public class VM {
 						} 
 				 		//x &= 0xff; // cast x to 32bits
 				 		x = Character.getNumericValue(x);
-				 		sp = f(data, sp, x & 0xff); // x is ok, x & 0xff is unnecessary
+				 		f(data, x & 0xff); // x is ok, x & 0xff is unnecessary
 				 		log("getc");
 				 		break;
 
@@ -341,53 +336,51 @@ public class VM {
 				 		break;
 				 }
 			 } else {
-				 int b = g(data, sp);
-				 sp++;
-				 int a = g(data, sp);
-				 sp++;
+				 int b = g(data);
+				 int a = g(data);
 				 switch (operation) {
 				 	case 0: 
-				 		sp = f(data, sp, a + b); 
+				 		f(data, a + b); 
 				 		log("add");
 				 		break;
 				 		
 				 	case 1:
-				 		sp = f(data, sp, a - b); 
+				 		f(data, a - b); 
 				 		log("sub");
 				 		break;
 				 		
 				 	case 2:
-				 		sp = f(data, sp, a * b); 
+				 		f(data, a * b); 
 				 		log("mul");
 				 		break;
 				 		
 				 	case 3:
-				 		sp = f(data, sp, a / b); 
+				 		f(data, a / b); 
 				 		log("div");
 				 		break;
 				 		
 				 	case 4:
-				 		sp = f(data, sp, a & b); 
+				 		f(data, a & b); 
 				 		log("and");
 				 		break;
 				 		
 				 	case 5:
-				 		sp = f(data, sp, a | b); 
+				 		f(data, a | b); 
 				 		log("or");
 				 		break;
 				 		
 				 	case 6:
-				 		sp = f(data, sp, a ^ b); 
+				 		f(data, a ^ b); 
 				 		log("xor");
 				 		break;
 				 		
 				 	case 7:
-				 		sp = f(data, sp, (a == b ? 1 : 0)); 
+				 		f(data, (a == b ? 1 : 0)); 
 				 		log("eq");
 				 		break;
 				 		
 				 	case 8:
-				 		sp = f(data, sp, (a < b ? 1 : 0)); 
+				 		f(data, (a < b ? 1 : 0)); 
 				 		log("lt");
 				 		break;
 				 		
