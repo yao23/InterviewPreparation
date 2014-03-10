@@ -18,7 +18,22 @@ public class PrintSVG {
 			new Point(205, 270), new Point(185, 270), new Point(305, 280), new Point(345, 280), 
 			new Point(250, 330), new Point(290, 330)
 	};
-*/	
+
+	private static Point[] points = new Point[] {
+		new Point(0,0), new Point(0, 40), new Point(0, 360), new Point(0, 400), 
+		new Point(400, 400), new Point(400, 360), new Point(220, 350), new Point(180, 350), 
+		new Point(110, 330), new Point(150, 330), new Point(95, 280), new Point(55, 280), 
+		new Point(50, 205), new Point(10, 205), new Point(55, 120), new Point(95, 120), 
+		new Point(110, 70), new Point(150, 70), new Point(180, 50), new Point(220, 50), 
+		new Point(400, 0), new Point(400, 40), new Point(290, 70), new Point(250, 70), 
+		new Point(305, 120), new Point(345, 120), new Point(280, 170), new Point(120, 170), 
+		new Point(140, 210), new Point(260, 210), new Point(350, 205), new Point(390, 205), 
+		new Point(240, 240), new Point(160, 240), new Point(180, 260), new Point(220, 260), 
+		new Point(205, 270), new Point(185, 270), new Point(305, 280), new Point(345, 280), 
+		new Point(250, 330), new Point(290, 330)
+	};
+*/
+	
 	private enum Direction {
 		U, D, L, R;
 	}
@@ -97,8 +112,14 @@ public class PrintSVG {
 		int botSpace = (len - len0 * 2) / len0; // bottom row 1 
 		String bot = addP(space(botSpace, Direction.R)) + mode(2);
 		String bot1 = addP(space(40 - 22, Direction.L) + space(36 - 35, Direction.D)) + "LULDLULD";
-		
-		s += (col1 + bot + bot1);
+		String bot2 = addP(space(18 - 15, Direction.L) + space(35 - 33, Direction.D)) + "LULDLULD" + 
+					  addP(space(25 - 11, Direction.R)) + "RURDRURD";
+		String bot3 = addP(space(34 - 29, Direction.R) + space(33 - 28, Direction.D)) + "ULDLULDL" + 
+				      addP(space(31 - 21, Direction.L) + space(28 - 27, Direction.D)) + "LDLULDLU" +
+				      addP(space(18 - 9, Direction.L) + space(28 - 27, Direction.U)) + "LULDLULD";
+		String bot4 = addP(space(18 - 5, Direction.R) + space(28 - 26, Direction.D)) + "DRURDRUR" + 
+			      addP(space(24 - 22, Direction.R) + space(26 - 24, Direction.D)) + "LDLULDLU";
+		s += (col1 + bot + bot1 + bot2 + bot3 + bot4);
 
 		return s;
 	}
