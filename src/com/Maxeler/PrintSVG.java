@@ -109,7 +109,7 @@ public class PrintSVG {
 		String s = "";
 		int col1Space = (len - len1 * 2) / len0; 
 		String col1 = mode(1) + addP(space(col1Space, Direction.U)) + mode(1); // left column 1
-		int botSpace = (len - len0 * 2) / len0; // bottom row 1 
+		int botSpace = len / len0; // bottom row 1 
 		String bot = addP(space(botSpace, Direction.R)) + mode(2);
 		String bot1 = addP(space(40 - 22, Direction.L) + space(36 - 35, Direction.D)) + "LULDLULD"; // regual
 		String bot2 = addP(space(18 - 15, Direction.L) + space(35 - 33, Direction.D)) + "LULDLULD" + 
