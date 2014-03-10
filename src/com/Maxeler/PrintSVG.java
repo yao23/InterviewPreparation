@@ -27,10 +27,10 @@ public class PrintSVG {
 		String s = "";
 		switch (m) {
 			case 1: 
-				s += "RULURULU"; // vertical mode 1
+				s += "RULURULU"; // vertical mode 1 
 				break;
 			case 2:
-				s += "LURULURU"; // vertical mode 2
+				s += "DLDRDLDR"; // vertical mode 2
 				break;
 			case 3:
 				s += "DRURDRUR"; // horizontal mode 1
@@ -56,6 +56,10 @@ public class PrintSVG {
 		for (int i = 0; i < l; i++) {
 			s += d;
 		}
+		return s;
+	}
+	
+	private static String addP(String s) {
 		return ("P" + s + "P");
 	}
 /*	
@@ -88,12 +92,13 @@ public class PrintSVG {
 */	
 	private static String draw2() {
 		String s = "";
-		int col1Space = (len - len1 * 2) / 10; 
-		String col1 = mode(1) + space(col1Space, Direction.U) + mode(1); // left column 1
-//		int bot1Space = len / len0; // bottom row 1 
-//		String bot1 = space(bot1Space, Direction.R);
+		int col1Space = (len - len1 * 2) / len0; 
+		String col1 = mode(1) + addP(space(col1Space, Direction.U)) + mode(1); // left column 1
+		int botSpace = (len - len0 * 2) / len0; // bottom row 1 
+		String bot = addP(space(botSpace, Direction.R)) + mode(2);
+		String bot1 = addP(space(40 - 22, Direction.L) + space(36 - 35, Direction.D)) + "LULDLULD";
 		
-		s += col1;
+		s += (col1 + bot + bot1);
 
 		return s;
 	}
