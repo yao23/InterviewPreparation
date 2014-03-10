@@ -40,9 +40,7 @@ public class VM {
 	
 	/** Read the given binary file, and return its contents as a byte array.*/ 
 	public static byte[] read(String aInputFileName){
-//		log("Reading in binary file named : " + aInputFileName);
 		File file = new File(aInputFileName);
-//		log("File size: " + file.length());
 		byte[] result = new byte[(int)file.length()];
 		try {
 			InputStream input = null;
@@ -62,10 +60,8 @@ public class VM {
 		         'result' is an output parameter;
 		         the while loop usually has a single iteration only.
 		        */
-//		        log("Num bytes read: " + totalBytesRead);
 		     }
 		     finally {
-//		        log("Closing input stream.");
 		        input.close();
 		     }
 		}
@@ -153,7 +149,7 @@ public class VM {
 			 throws UnsupportedEncodingException {
 		 sp = data.length;
 
-		 for (ip = 0; ip < imageSize; ) { //ip++) {
+		 for (ip = 0; ip < imageSize; ) { 
 			 int curInstruction = data[ip]; 
 			 ip = ip + 1;
 			 
@@ -164,12 +160,12 @@ public class VM {
 			 if (curInstruction > 0) {
 				 binop = 1 << 31;
 				 binop &= curInstruction; 
-				 binop >>= 31;  //log("binop: " + Integer.toBinaryString(binop));
+				 binop >>= 31;  
 				 operation = ((1 << 7) - 1) << 24; 
 				 operation &= curInstruction; 
-				 operation >>= 24; // log("operation: " + Integer.toBinaryString(operation));
+				 operation >>= 24; 
 				 optionalData = (1 << 24) - 1;
-				 optionalData &= curInstruction; // log("optional data: " + Integer.toBinaryString(optionalData));
+				 optionalData &= curInstruction; 
 			 } else if (curInstruction < 0) {
 				 binop = 1;
 				 int tmpCur = curInstruction * (-1);
@@ -190,39 +186,33 @@ public class VM {
 			 }
 			 // perform action based on operation
 			 if (binop == 0) {
-				 int addr; //log("Before, sp: " + sp + ", data: " + Integer.toHexString(data[sp-1]));
+				 int addr; 
 				 switch (operation) {
 				 	case 0: // pop 
 				 		sp = sp + 1; 
-//				 		log("pop");
 				 		break;
 				 		
 				 	case 1: // "push <const>"
-				 		f(optionalData); //log("After, sp: " + sp + ", data: " + Integer.toHexString(data[sp]));
-//				 		log("push_const: " + optionalData + ", hexa: " + Integer.toHexString(optionalData) + ", at " + sp);
+				 		f(optionalData); 
 				 		break;
 
 				 	case 2: // "push ip"
 				 		f(ip);
-//				 		log("push_ip: " + ip + ", hexa: " + Integer.toHexString(ip) + ", at " + sp);
 				 		break;
 				 		
 				 	case 3: // "push sp"
 				 		f(sp);
-//				 		log("push_sp: " + (sp+1) + ", hexa: " + Integer.toHexString(sp+1) + ", at " + sp);
 				 		break;
 
 				 	case 4: // "load"
 				 		addr = g();
 				 		f(data[addr]);
-//				 		log("load");
 				 		break;
 
 				 	case 5: // "store"
 				 		int st_data = g();
 				 		addr = g();
 				 		data[addr] = st_data;
-//				 		log("store");
 				 		break;
 
 				 	case 6: // "jmp"
@@ -231,7 +221,6 @@ public class VM {
 				 		if (cond != 0) { // if cond is not equal to zero then set ip = addr
 				 			ip = addr;
 				 		}
-//				 		log("jmp");
 				 		break;
 
 				 	case 7: // "not"
@@ -240,7 +229,6 @@ public class VM {
 				 		} else {
 				 			f(0);
 				 		}
-//				 		log("not");
 				 		break;
 				 		
 				 	case 8: // "putc"
@@ -251,7 +239,6 @@ public class VM {
 
 				 		// Note: Output from the supplied VM images will always be ASCII text when
 				 		// functioning correctly and will use '\n' (= 0x0A) to indicate new-line.
-//				 		log("putc");
 				 		break;
 
 				 	case 9: // "getc"
@@ -264,11 +251,9 @@ public class VM {
 						} 
 
 				 		f(x & 0xff); 
-//				 		log("getc");
 				 		break;
 
 				 	case 10: // (0x0A) - halt
-//				 		log("halt");
 				 		return; // Stop execution
 
 				 	default:
@@ -281,47 +266,38 @@ public class VM {
 				 switch (operation) {
 				 	case 0: 
 				 		f(a + b); 
-//				 		log("add");
 				 		break;
 				 		
 				 	case 1:
 				 		f(a - b); 
-//				 		log("sub");
 				 		break;
 				 		
 				 	case 2:
 				 		f(a * b); 
-//				 		log("mul");
 				 		break;
 				 		
 				 	case 3:
 				 		f(a / b); 
-//				 		log("div");
 				 		break;
 				 		
 				 	case 4:
 				 		f(a & b); 
-//				 		log("and");
 				 		break;
 				 		
 				 	case 5:
 				 		f(a | b); 
-//				 		log("or");
 				 		break;
 				 		
 				 	case 6:
 				 		f(a ^ b); 
-//				 		log("xor");
 				 		break;
 				 		
 				 	case 7:
 				 		f(a == b ? 1 : 0); 
-//				 		log("eq");
 				 		break;
 				 		
 				 	case 8:
 				 		f(a < b ? 1 : 0); 
-//				 		log("lt");
 				 		break;
 				 		
 				 	default:
@@ -333,8 +309,8 @@ public class VM {
 	 }
 	 
 	 private static void loadImage() throws UnsupportedEncodingException {		 
-		 int dataSize = getNumber(0); //log("data size: " + dataSize);
-		 int imageSize = getNumber(1); //log("image size: " + imageSize);
+		 int dataSize = getNumber(0); 
+		 int imageSize = getNumber(1); 
 		 data = new int[dataSize];
 		 storeInstruction(imageSize);
 		 executeInstruction(imageSize);
