@@ -199,7 +199,8 @@ public class VM {
 			return v;
 	 }
 	 
-	 private static void executeInstruction(int[] data, byte[] image, int imageSize) {
+	 private static void executeInstruction(int[] data, byte[] image, int imageSize) 
+			 throws UnsupportedEncodingException {
 		 int sp = data.length;
 		 //for (int ip = 0; ip < 4; ) { //ip++) {
 		 for (int ip = 0; ip < imageSize; ) { //ip++) {
@@ -228,8 +229,11 @@ public class VM {
 				 optionalData = ((1 << 24) - 1) & tmpCur;
 			 } else { // curInstruction == 0
 				 int lineNum = ip - 1 + 2; // 2 is offset, 0 for dataSize, 1 for imageSize
-				 byte b = image[lineNum * (lineSize + 1)];
-				 if ((Integer.valueOf(b) & 0x80) > 0) {
+				 String digit = new String(new byte[] {image[lineNum * (lineSize + 1)]}, "UTF-8");
+				 int dTmp = Integer.parseInt(digit, 16);
+				 int signMask = 0x8;
+				 //byte b = image[lineNum * (lineSize + 1)];
+				 if (((dTmp & signMask) == signMask)) { // get sign 
 					 binop = 1;
 				 } else {
 					 binop = 0;
