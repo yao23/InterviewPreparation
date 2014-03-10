@@ -16,8 +16,8 @@ import java.nio.channels.FileChannel;
 
 public class VM {
 	private static String filePath = new File("").getAbsolutePath();
-	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
-//	private static final String inputPath = filePath.concat(new String("/src/com/input/test01.bin"));
+//	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
+	private static final String inputPath = filePath.concat(new String("/src/com/input/test03.bin"));
 //	private static final String inputPath2 = filePath.concat(new String("/src/com/input/task2.bin"));
 	private static final String dataPath = filePath.concat("/src/com/output/task1_data.txt");
 //	private static final String dataPath2 = filePath.concat("/src/com/output/task2_data.txt");
@@ -255,24 +255,24 @@ public class VM {
 				 		
 				 	case 1: // "push <const>"
 				 		sp = f(data, sp, optionalData); //log("After, sp: " + sp + ", data: " + Integer.toHexString(data[sp]));
-//				 		log("Push const: " + optionalData + ", hexa: " + Integer.toHexString(optionalData) + ", at " + sp);
+				 		log("Push const: " + optionalData + ", hexa: " + Integer.toHexString(optionalData) + ", at " + sp);
 				 		break;
 
 				 	case 2: // "push ip"
 				 		sp = f(data, sp, ip);
-//				 		log("Push ip: " + ip + ", hexa: " + Integer.toHexString(ip) + ", at " + sp);
+				 		log("Push ip: " + ip + ", hexa: " + Integer.toHexString(ip) + ", at " + sp);
 				 		break;
 				 		
 				 	case 3: // "push sp"
 				 		sp = f(data, sp, sp);
-//				 		log("Push ip: " + (sp+1) + ", hexa: " + Integer.toHexString(sp+1) + ", at " + sp);
+				 		log("Push sp: " + (sp+1) + ", hexa: " + Integer.toHexString(sp+1) + ", at " + sp);
 				 		break;
 
 				 	case 4: // "load"
 				 		addr = g(data, sp);
 				 		sp++; // sp is a local variable and update after g() operation every time
 				 		sp = f(data, sp, data[addr]);
-//				 		log("load");
+				 		log("load");
 				 		break;
 
 				 	case 5: // "store"
@@ -281,7 +281,7 @@ public class VM {
 				 		addr = g(data, sp);
 				 		sp++;
 				 		data[addr] = st_data;
-//				 		log("store");
+				 		log("store");
 				 		break;
 
 				 	case 6: // "jmp"
@@ -292,7 +292,7 @@ public class VM {
 				 		if (cond != 0) { // if cond is not equal to zero then set ip = addr
 				 			ip = addr;
 				 		}
-//				 		log("jmp");
+				 		log("jmp");
 				 		break;
 
 				 	case 7: // "not"
@@ -301,19 +301,20 @@ public class VM {
 				 		} else {
 				 			sp = f(data, sp, 0);
 				 		}
-//				 		log("not");
+				 		log("not");
 				 		break;
 				 		
 				 	case 8: // "putc"
 				 		// output exactly one byte = (g() & 0xff) to stdout
-				 		int resTmp = g(data, sp) & 0xff;
+				 		int resTmp = g(data, sp); //System.out.println(resTmp);
 				 		sp++;
-				 		byte res = (byte)resTmp;
-				 		System.out.println((char)res);System.out.println(res);
+				 		resTmp &= 0xff; System.out.println((char)resTmp);	//	System.out.println(resTmp);		 		
+//				 		byte res = (byte)resTmp;
+//				 		System.out.println((char)res);System.out.println(res);
 //				 		test.write(new byte[]{res}, testPath);
 				 		// Note: Output from the supplied VM images will always be ASCII text when
 				 		// functioning correctly and will use '\n' (= 0x0A) to indicate new-line.
-//				 		log("putc");
+				 		log("putc");
 				 		break;
 
 				 	case 9: // "getc"
@@ -324,9 +325,10 @@ public class VM {
 							log("Read error from stdin!");
 							e.printStackTrace();
 						} 
-				 		x &= 0xff; // cast x to 32bits
+				 		//x &= 0xff; // cast x to 32bits
+				 		x = Character.getNumericValue(x);
 				 		sp = f(data, sp, x & 0xff); // x is ok, x & 0xff is unnecessary
-//				 		log("getc");
+				 		log("getc");
 				 		break;
 
 				 	case 10: // (0x0A) - halt
@@ -344,39 +346,48 @@ public class VM {
 				 sp++;
 				 switch (operation) {
 				 	case 0: 
-				 		sp = f(data, sp, a + b); //log("+ operation!");
+				 		sp = f(data, sp, a + b); 
+				 		log("add");
 				 		break;
 				 		
 				 	case 1:
-				 		sp = f(data, sp, a - b); //log("- operation!");
+				 		sp = f(data, sp, a - b); 
+				 		log("sub");
 				 		break;
 				 		
 				 	case 2:
-				 		sp = f(data, sp, a * b); //log("* operation!");
+				 		sp = f(data, sp, a * b); 
+				 		log("mul");
 				 		break;
 				 		
 				 	case 3:
-				 		sp = f(data, sp, a / b); //log("/ operation!");
+				 		sp = f(data, sp, a / b); 
+				 		log("div");
 				 		break;
 				 		
 				 	case 4:
-				 		sp = f(data, sp, a & b); //log("& operation!");
+				 		sp = f(data, sp, a & b); 
+				 		log("and");
 				 		break;
 				 		
 				 	case 5:
-				 		sp = f(data, sp, a | b); //log("| operation!");
+				 		sp = f(data, sp, a | b); 
+				 		log("or");
 				 		break;
 				 		
 				 	case 6:
-				 		sp = f(data, sp, a ^ b); //log("^ operation!");
+				 		sp = f(data, sp, a ^ b); 
+				 		log("xor");
 				 		break;
 				 		
 				 	case 7:
-				 		sp = f(data, sp, (a == b ? 1 : 0)); //log("= operation!");
+				 		sp = f(data, sp, (a == b ? 1 : 0)); 
+				 		log("eql");
 				 		break;
 				 		
 				 	case 8:
-				 		sp = f(data, sp, (a < b ? 1 : 0)); //log("< operation!");
+				 		sp = f(data, sp, (a < b ? 1 : 0)); 
+				 		log("les");
 				 		break;
 				 		
 				 	default:
