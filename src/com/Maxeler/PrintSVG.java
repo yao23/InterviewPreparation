@@ -123,7 +123,7 @@ public class PrintSVG {
 			         addP(space(14 - 5, Direction.R) + space(21 - 20, Direction.U)) + "DRURDRUR" +
 			         addP(space(35 - 26, Direction.R) + space(21 - 20, Direction.D)) + "RDRURDRU";
 		String top4 = addP(space(39 - 26, Direction.L) + space(20 - 17, Direction.D)) + "LDLULDLU"; // adjust from 28 to 26
-		String top3 = addP(space(12 - 5, Direction.L) + space(17 - 12, Direction.D)) + "DRURDRUR" + 
+		String top3 = addP(space(17 - 5, Direction.L) + space(17 - 12, Direction.D)) + "DRURDRUR" + // adjust from 12 in first space() to 17
 				      addP(space(30 - 9, Direction.R)) + "RDRURDRU";
 		String top2 = addP(space(35 - 29, Direction.L) + space(12 - 7, Direction.D)) + "DLULDLUL" + 
 				      addP(space(25 - 15, Direction.L)) + "LDLULDLU";
