@@ -13,30 +13,33 @@ import java.io.UnsupportedEncodingException;
 
 public class VM {
 	private static String filePath = new File("").getAbsolutePath();
-	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
-//	private static final String inputPath2 = filePath.concat(new String("/src/com/input/task2.bin"));
+//	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
+//	private static final String inputPath = filePath.concat(new String("/src/com/input/test01.bin"));
+	private static final String inputPath2 = filePath.concat(new String("/src/com/input/task2.bin"));
 //	private static final String dataPath = filePath.concat("/src/com/output/task1_data.txt");
 
 	private static final int lineSize = 8;
 	private static int ip = 0;
 	private static int sp = 0;
-	private static VM test = new VM();
+	private static int[] data;
+	private static byte[] image;
+
 	/** Run the example. 
 	 * @throws UnsupportedEncodingException */
 	public static void main(String[] Args) throws UnsupportedEncodingException {
 
 	    // read in the bytes
-		byte[] fileContents = test.read(inputPath);
+		image = read(inputPath2);
 
 	    // write data back out to a different file name
 	    //test.write(fileContents, dataPath);
 
-		loadImage(fileContents);
+		loadImage();
 	}
 	
 	
 	/** Read the given binary file, and return its contents as a byte array.*/ 
-	byte[] read(String aInputFileName){
+	public static byte[] read(String aInputFileName){
 //		log("Reading in binary file named : " + aInputFileName);
 		File file = new File(aInputFileName);
 //		log("File size: " + file.length());
@@ -79,7 +82,7 @@ public class VM {
 	 Write a byte array to the given file. 
 	 Writing binary data is significantly simpler than reading it. 
 	*/
-	void write(byte[] aInput, String aOutputFileName){
+	public static void write(byte[] aInput, String aOutputFileName){
 		log("Writing binary file..." + aOutputFileName);
 	    try {
 	    	OutputStream output = null;
@@ -104,7 +107,7 @@ public class VM {
 		 System.out.println(String.valueOf(aThing));
 	 }
 	 
-	 private static int getNumber(byte[] image, int offset) 
+	 private static int getNumber(int offset) 
 			 throws UnsupportedEncodingException {
 		 int d = 0;
 		 int signBitMask = 0x8;
@@ -128,25 +131,25 @@ public class VM {
 		 return (isNegative ? (d * (-1)) : d);
 	 }
 	 
-	 private static void storeInstruction(byte[] image, int[] data, int imageSize) 
+	 private static void storeInstruction(int imageSize) 
 			 throws UnsupportedEncodingException {
 		 for (int i = 0; i < imageSize; i++) {  
-			 data[i] = getNumber(image, i + 2); // instruction start from line in index 2
+			 data[i] = getNumber(i + 2); // instruction start from line in index 2
 		 }
 	 }
 
-	 private static void f(int[] data, int v) {
+	 private static void f(int v) {
 		 sp = sp - 1;
 		 data[sp] = v;
 	 }
 	 
-	 private static int g(int[] data) {
+	 private static int g() {
 			int v = data[sp];
 			sp = sp + 1; 
 			return v;
 	 }
 	 
-	 private static void executeInstruction(int[] data, byte[] image, int imageSize) 
+	 private static void executeInstruction(int imageSize) 
 			 throws UnsupportedEncodingException {
 		 sp = data.length;
 
@@ -195,36 +198,36 @@ public class VM {
 				 		break;
 				 		
 				 	case 1: // "push <const>"
-				 		f(data, optionalData); //log("After, sp: " + sp + ", data: " + Integer.toHexString(data[sp]));
+				 		f(optionalData); //log("After, sp: " + sp + ", data: " + Integer.toHexString(data[sp]));
 //				 		log("push_const: " + optionalData + ", hexa: " + Integer.toHexString(optionalData) + ", at " + sp);
 				 		break;
 
 				 	case 2: // "push ip"
-				 		f(data, ip);
+				 		f(ip);
 //				 		log("push_ip: " + ip + ", hexa: " + Integer.toHexString(ip) + ", at " + sp);
 				 		break;
 				 		
 				 	case 3: // "push sp"
-				 		f(data, sp);
+				 		f(sp);
 //				 		log("push_sp: " + (sp+1) + ", hexa: " + Integer.toHexString(sp+1) + ", at " + sp);
 				 		break;
 
 				 	case 4: // "load"
-				 		addr = g(data);
-				 		f(data, data[addr]);
+				 		addr = g();
+				 		f(data[addr]);
 //				 		log("load");
 				 		break;
 
 				 	case 5: // "store"
-				 		int st_data = g(data);
-				 		addr = g(data);
+				 		int st_data = g();
+				 		addr = g();
 				 		data[addr] = st_data;
 //				 		log("store");
 				 		break;
 
 				 	case 6: // "jmp"
-				 		int cond = g(data);
-				 		addr = g(data);
+				 		int cond = g();
+				 		addr = g();
 				 		if (cond != 0) { // if cond is not equal to zero then set ip = addr
 				 			ip = addr;
 				 		}
@@ -232,17 +235,17 @@ public class VM {
 				 		break;
 
 				 	case 7: // "not"
-				 		if (g(data) == 0)  { // if g() equals 0 then f(1) else f(0)
-				 			f(data, 1);
+				 		if (g() == 0)  { // if g() equals 0 then f(1) else f(0)
+				 			f(1);
 				 		} else {
-				 			f(data, 0);
+				 			f(0);
 				 		}
 //				 		log("not");
 				 		break;
 				 		
 				 	case 8: // "putc"
 				 		// output exactly one byte = (g() & 0xff) to stdout
-				 		int res = g(data); 
+				 		int res = g(); 
 				 		res &= 0xff; 
 				 		System.out.print((char)res);	//	ASCII text		 		
 
@@ -252,16 +255,15 @@ public class VM {
 				 		break;
 
 				 	case 9: // "getc"
-				 		int x = 0;
+				 		int x = 0; // cast x to 32bits
 						try { 
 							x = System.in.read(); // read exactly one byte from stdin
 						} catch (IOException e) {
 							log("Read error from stdin!");
 							e.printStackTrace();
 						} 
-				 		//x &= 0xff; // cast x to 32bits
-				 		x = Character.getNumericValue(x);
-				 		f(data, x & 0xff); 
+
+				 		f(x & 0xff); 
 //				 		log("getc");
 				 		break;
 
@@ -274,51 +276,51 @@ public class VM {
 				 		break;
 				 }
 			 } else {
-				 int b = g(data);
-				 int a = g(data);
+				 int b = g();
+				 int a = g();
 				 switch (operation) {
 				 	case 0: 
-				 		f(data, a + b); 
+				 		f(a + b); 
 //				 		log("add");
 				 		break;
 				 		
 				 	case 1:
-				 		f(data, a - b); 
+				 		f(a - b); 
 //				 		log("sub");
 				 		break;
 				 		
 				 	case 2:
-				 		f(data, a * b); 
+				 		f(a * b); 
 //				 		log("mul");
 				 		break;
 				 		
 				 	case 3:
-				 		f(data, a / b); 
+				 		f(a / b); 
 //				 		log("div");
 				 		break;
 				 		
 				 	case 4:
-				 		f(data, a & b); 
+				 		f(a & b); 
 //				 		log("and");
 				 		break;
 				 		
 				 	case 5:
-				 		f(data, a | b); 
+				 		f(a | b); 
 //				 		log("or");
 				 		break;
 				 		
 				 	case 6:
-				 		f(data, a ^ b); 
+				 		f(a ^ b); 
 //				 		log("xor");
 				 		break;
 				 		
 				 	case 7:
-				 		f(data, (a == b ? 1 : 0)); 
+				 		f(a == b ? 1 : 0); 
 //				 		log("eq");
 				 		break;
 				 		
 				 	case 8:
-				 		f(data, (a < b ? 1 : 0)); 
+				 		f(a < b ? 1 : 0); 
 //				 		log("lt");
 				 		break;
 				 		
@@ -330,11 +332,11 @@ public class VM {
 		 }
 	 }
 	 
-	 private static void loadImage(byte[] image) throws UnsupportedEncodingException {		 
-		 int dataSize = getNumber(image, 0); //log("data size: " + dataSize);
-		 int imageSize = getNumber(image, 1); //log("image size: " + imageSize);
-		 int[] data = new int[dataSize];
-		 storeInstruction(image, data, imageSize);
-		 executeInstruction(data, image, imageSize);
+	 private static void loadImage() throws UnsupportedEncodingException {		 
+		 int dataSize = getNumber(0); //log("data size: " + dataSize);
+		 int imageSize = getNumber(1); //log("image size: " + imageSize);
+		 data = new int[dataSize];
+		 storeInstruction(imageSize);
+		 executeInstruction(imageSize);
 	 }
 }
