@@ -117,7 +117,7 @@ public class PrintSVG {
 		String bot3 = addP(space(34 - 29, Direction.R) + space(33 - 28, Direction.D)) + "ULDLULDL" + 
 				      addP(space(31 - 23, Direction.L) + space(29 - 28, Direction.U)) + "JJJJJLMMMMMDLULDLUKKKKKNNNNN" + // small
 				      addP(space(18 - 10, Direction.L) + space(28 - 27, Direction.D)) + "LULDLULD";
-		String bot4 = addP(space(18 - 6, Direction.R) + space(28 - 26, Direction.D)) + "DRURDRUR" + // regular
+		String bot4 = addP(space(18 - 7, Direction.R) + "JJJJJRKKKKK" + space(28 - 28, Direction.D)) + "DRURDRUR" + // regular, adjust from 6 in first space() to 7
 			          addP(space(24 - 22, Direction.R) + space(26 - 24, Direction.D)) + "LLDDLLUULLDDLLUU"; // 2x large
 		String mid = addP(space(12 - 1, Direction.L) + space(24 - 21, Direction.D)) + "DRURDRUR" + // adjust from 16 in first space() to 12
 			         addP(space(14 - 5, Direction.R) + space(21 - 20, Direction.U)) + "DRURDRUR" + // 3x large
