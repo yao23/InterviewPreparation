@@ -252,35 +252,35 @@ public class VM {
 				 switch (operation) {
 				 	case 0: // pop 
 				 		sp = sp + 1; 
-				 		log("pop");
+//				 		log("pop");
 				 		break;
 				 		
 				 	case 1: // "push <const>"
 				 		f(data, optionalData); //log("After, sp: " + sp + ", data: " + Integer.toHexString(data[sp]));
-				 		log("push_const: " + optionalData + ", hexa: " + Integer.toHexString(optionalData) + ", at " + sp);
+//				 		log("push_const: " + optionalData + ", hexa: " + Integer.toHexString(optionalData) + ", at " + sp);
 				 		break;
 
 				 	case 2: // "push ip"
 				 		f(data, ip);
-				 		log("push_ip: " + ip + ", hexa: " + Integer.toHexString(ip) + ", at " + sp);
+//				 		log("push_ip: " + ip + ", hexa: " + Integer.toHexString(ip) + ", at " + sp);
 				 		break;
 				 		
 				 	case 3: // "push sp"
 				 		f(data, sp);
-				 		log("push_sp: " + (sp+1) + ", hexa: " + Integer.toHexString(sp+1) + ", at " + sp);
+//				 		log("push_sp: " + (sp+1) + ", hexa: " + Integer.toHexString(sp+1) + ", at " + sp);
 				 		break;
 
 				 	case 4: // "load"
 				 		addr = g(data);
 				 		f(data, data[addr]);
-				 		log("load");
+//				 		log("load");
 				 		break;
 
 				 	case 5: // "store"
 				 		int st_data = g(data);
 				 		addr = g(data);
 				 		data[addr] = st_data;
-				 		log("store");
+//				 		log("store");
 				 		break;
 
 				 	case 6: // "jmp"
@@ -289,7 +289,7 @@ public class VM {
 				 		if (cond != 0) { // if cond is not equal to zero then set ip = addr
 				 			ip = addr;
 				 		}
-				 		log("jmp");
+//				 		log("jmp");
 				 		break;
 
 				 	case 7: // "not"
@@ -298,19 +298,19 @@ public class VM {
 				 		} else {
 				 			f(data, 0);
 				 		}
-				 		log("not");
+//				 		log("not");
 				 		break;
 				 		
 				 	case 8: // "putc"
 				 		// output exactly one byte = (g() & 0xff) to stdout
 				 		int res = g(data); 
 				 		res &= 0xff; 
-				 		System.out.println((char)res);	//	ASCII text		 		
+				 		System.out.print((char)res);	//	ASCII text		 		
 
 //				 		test.write(new byte[]{res}, testPath);
 				 		// Note: Output from the supplied VM images will always be ASCII text when
 				 		// functioning correctly and will use '\n' (= 0x0A) to indicate new-line.
-				 		log("putc");
+//				 		log("putc");
 				 		break;
 
 				 	case 9: // "getc"
@@ -324,11 +324,11 @@ public class VM {
 				 		//x &= 0xff; // cast x to 32bits
 				 		x = Character.getNumericValue(x);
 				 		f(data, x & 0xff); // x is ok, x & 0xff is unnecessary
-				 		log("getc");
+//				 		log("getc");
 				 		break;
 
 				 	case 10: // (0x0A) - halt
-				 		log("halt");
+//				 		log("halt");
 				 		return; // Stop execution
 
 				 	default:
@@ -341,47 +341,47 @@ public class VM {
 				 switch (operation) {
 				 	case 0: 
 				 		f(data, a + b); 
-				 		log("add");
+//				 		log("add");
 				 		break;
 				 		
 				 	case 1:
 				 		f(data, a - b); 
-				 		log("sub");
+//				 		log("sub");
 				 		break;
 				 		
 				 	case 2:
 				 		f(data, a * b); 
-				 		log("mul");
+//				 		log("mul");
 				 		break;
 				 		
 				 	case 3:
 				 		f(data, a / b); 
-				 		log("div");
+//				 		log("div");
 				 		break;
 				 		
 				 	case 4:
 				 		f(data, a & b); 
-				 		log("and");
+//				 		log("and");
 				 		break;
 				 		
 				 	case 5:
 				 		f(data, a | b); 
-				 		log("or");
+//				 		log("or");
 				 		break;
 				 		
 				 	case 6:
 				 		f(data, a ^ b); 
-				 		log("xor");
+//				 		log("xor");
 				 		break;
 				 		
 				 	case 7:
 				 		f(data, (a == b ? 1 : 0)); 
-				 		log("eq");
+//				 		log("eq");
 				 		break;
 				 		
 				 	case 8:
 				 		f(data, (a < b ? 1 : 0)); 
-				 		log("lt");
+//				 		log("lt");
 				 		break;
 				 		
 				 	default:
