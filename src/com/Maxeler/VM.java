@@ -199,7 +199,7 @@ public class VM {
 			return v;
 	 }
 	 
-	 private static void executeInstruction(int[] data, int imageSize) {
+	 private static void executeInstruction(int[] data, byte[] image, int imageSize) {
 		 int sp = data.length;
 		 //for (int ip = 0; ip < 4; ) { //ip++) {
 		 for (int ip = 0; ip < imageSize; ) { //ip++) {
@@ -209,14 +209,34 @@ public class VM {
 					 ", binary: " + Integer.toString(curInstruction, 2));
 			 //log("current instruction: " + Integer.toBinaryString(curInstruction));
 		   	 // decode instruction
-			 int binop = 1 << 31;
-			 binop &= curInstruction; 
-			 binop >>= 31;  //log("binop: " + Integer.toBinaryString(binop));
-			 int operation = ((1 << 7) - 1) << 24; 
-			 operation &= curInstruction; 
-			 operation >>= 24; // log("operation: " + Integer.toBinaryString(operation));
-			 int optionalData = (1 << 24) - 1;
-			 optionalData &= curInstruction; // log("optional data: " + Integer.toBinaryString(optionalData));
+			 int binop = 0;
+			 int operation = 0;
+			 int optionalData = 0;
+			 if (curInstruction > 0) {
+				 binop = 1 << 31;
+				 binop &= curInstruction; 
+				 binop >>= 31;  //log("binop: " + Integer.toBinaryString(binop));
+				 operation = ((1 << 7) - 1) << 24; 
+				 operation &= curInstruction; 
+				 operation >>= 24; // log("operation: " + Integer.toBinaryString(operation));
+				 optionalData = (1 << 24) - 1;
+				 optionalData &= curInstruction; // log("optional data: " + Integer.toBinaryString(optionalData));
+			 } else if (curInstruction < 0) {
+				 binop = 1;
+				 int tmpCur = curInstruction * (-1);
+				 operation = (((1 << 7) - 1) & (tmpCur >> 24));
+				 optionalData = ((1 << 24) - 1) & tmpCur;
+			 } else { // curInstruction == 0
+				 int lineNum = ip - 1 + 2; // 2 is offset, 0 for dataSize, 1 for imageSize
+				 byte b = image[lineNum * (lineSize + 1)];
+				 if ((Integer.valueOf(b) & 0x80) > 0) {
+					 binop = 1;
+				 } else {
+					 binop = 0;
+				 }
+				 operation = 0;
+				 optionalData = 0;
+			 }
 			 System.out.print("binop: " + Integer.toBinaryString(binop) + " " + 
 					 "operation: " + operation + "(" + Integer.toBinaryString(operation) + ")" + " " + 
 					 "optional data: " + Integer.toBinaryString(optionalData) + "\n");
@@ -373,7 +393,7 @@ public class VM {
 					 Integer.toHexString(data[i]));
 		 }
 */		 
-		 executeInstruction(data, imageSize);
+		 executeInstruction(data, image, imageSize);
 /*		 
 		 log("4th instruction: " + data[3] + ", hexadecimal: " + 
 				 Integer.toHexString(data[3]));
