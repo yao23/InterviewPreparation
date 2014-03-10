@@ -10,15 +10,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-import java.nio.channels.FileChannel;
 
 public class VM {
 	private static String filePath = new File("").getAbsolutePath();
 	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
 //	private static final String inputPath2 = filePath.concat(new String("/src/com/input/task2.bin"));
-	private static final String dataPath = filePath.concat("/src/com/output/task1_data.txt");
+//	private static final String dataPath = filePath.concat("/src/com/output/task1_data.txt");
 
 	private static final int lineSize = 8;
 	private static int ip = 0;
