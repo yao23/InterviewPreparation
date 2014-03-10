@@ -115,11 +115,22 @@ public class PrintSVG {
 		String bot2 = addP(space(18 - 15, Direction.L) + space(35 - 33, Direction.D)) + "LULDLULD" + 
 					  addP(space(25 - 11, Direction.R)) + "RURDRURD";
 		String bot3 = addP(space(34 - 29, Direction.R) + space(33 - 28, Direction.D)) + "ULDLULDL" + 
-				      addP(space(31 - 21, Direction.L) + space(28 - 27, Direction.D)) + "LDLULDLU" +
-				      addP(space(18 - 9, Direction.L) + space(28 - 27, Direction.U)) + "LULDLULD";
-		String bot4 = addP(space(18 - 5, Direction.R) + space(28 - 26, Direction.D)) + "DRURDRUR" + 
-			      addP(space(24 - 22, Direction.R) + space(26 - 24, Direction.D)) + "LDLULDLU";
-		s += (col1 + bot + bot1 + bot2 + bot3 + bot4);
+				      addP(space(31 - 23, Direction.L) + space(29 - 28, Direction.U)) + "LDLULDLU" +
+				      addP(space(18 - 10, Direction.L) + space(28 - 27, Direction.D)) + "LULDLULD";
+		String bot4 = addP(space(18 - 6, Direction.R) + space(28 - 26, Direction.D)) + "DRURDRUR" + 
+			          addP(space(24 - 22, Direction.R) + space(26 - 24, Direction.D)) + "LDLULDLU";
+		String mid = addP(space(16 - 1, Direction.L) + space(24 - 21, Direction.D)) + "DRURDRUR" + 
+			         addP(space(14 - 5, Direction.R) + space(21 - 20, Direction.U)) + "DRURDRUR" +
+			         addP(space(35 - 26, Direction.R) + space(21 - 20, Direction.D)) + "RDRURDRU";
+		String top4 = addP(space(39 - 26, Direction.L) + space(20 - 17, Direction.D)) + "LDLULDLU"; // adjust from 28 to 26
+		String top3 = addP(space(12 - 5, Direction.L) + space(17 - 12, Direction.D)) + "DRURDRUR" + 
+				      addP(space(30 - 9, Direction.R)) + "RDRURDRU";
+		String top2 = addP(space(35 - 29, Direction.L) + space(12 - 7, Direction.D)) + "DLULDLUL" + 
+				      addP(space(25 - 15, Direction.L)) + "LDLULDLU";
+		String top1 = addP(space(18 - 11, Direction.R) + space(7 - 5, Direction.D)) + "DRURDRUR";
+		String top = addP(space(140- 22, Direction.R) + space(5 - 4, Direction.D)) + "DLDRDLDR"; 
+		
+		s += (col1 + bot + bot1 + bot2 + bot3 + bot4 + mid + top4 + top3 + top2 + top1 + top);
 
 		return s;
 	}
