@@ -205,8 +205,8 @@ public class VM {
 		 for (int ip = 0; ip < imageSize; ) { //ip++) {
 			 int curInstruction = data[ip]; 
 			 ip = ip + 1;
-			 log("I " + ip + ":"  + Integer.toHexString(curInstruction) + 
-					 ", binary: " + Integer.toBinaryString(curInstruction));
+			 log("I " + ip + ":"  + Integer.toString(curInstruction, 16) + 
+					 ", binary: " + Integer.toString(curInstruction, 2));
 			 //log("current instruction: " + Integer.toBinaryString(curInstruction));
 		   	 // decode instruction
 			 int binop = 1 << 31;
@@ -218,7 +218,7 @@ public class VM {
 			 int optionalData = (1 << 24) - 1;
 			 optionalData &= curInstruction; // log("optional data: " + Integer.toBinaryString(optionalData));
 			 System.out.print("binop: " + Integer.toBinaryString(binop) + " " + 
-					 "operation: " + Integer.toBinaryString(operation) + " " + 
+					 "operation: " + operation + "(" + Integer.toBinaryString(operation) + ")" + " " + 
 					 "optional data: " + Integer.toBinaryString(optionalData) + "\n");
 			 // perform action based on operation
 			 if (binop == 0) {
