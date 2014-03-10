@@ -17,12 +17,9 @@ import java.nio.channels.FileChannel;
 public class VM {
 	private static String filePath = new File("").getAbsolutePath();
 	private static final String inputPath = filePath.concat(new String("/src/com/input/task1.bin"));
-//	private static final String inputPath = filePath.concat(new String("/src/com/input/test25.bin"));
 //	private static final String inputPath2 = filePath.concat(new String("/src/com/input/task2.bin"));
 	private static final String dataPath = filePath.concat("/src/com/output/task1_data.txt");
-//	private static final String dataPath2 = filePath.concat("/src/com/output/task2_data.txt");
-	private static final String outputPath = filePath.concat("/src/com/output/output_task1.txt");
-	private static final String testPath = filePath.concat("/src/com/output/test_task1.txt");
+
 	private static final int lineSize = 8;
 	private static int ip = 0;
 	private static int sp = 0;
@@ -30,70 +27,22 @@ public class VM {
 	/** Run the example. 
 	 * @throws UnsupportedEncodingException */
 	public static void main(String[] Args) throws UnsupportedEncodingException {
-		//VM test = new VM();
+
 	    // read in the bytes
 		byte[] fileContents = test.read(inputPath);
-//		byte[] fileContents2 = test.read(inputPath2);
+
 	    // write data back out to a different file name
 	    //test.write(fileContents, dataPath);
-//	    test.write(fileContents2, dataPath2);
 
-		int[] intRes = loadImage(fileContents);
-//		log("Result " + (intRes.length-1) + ": " + intRes[intRes.length-1] + ", hexadecimal: " + 
-//				 Integer.toHexString(intRes[intRes.length-1]));
-		
-/*		for (int i = 0; i < 5; i++) {
-			 log("Result " + i + ": " + intRes[i] + ", hexadecimal: " + 
-					 Integer.toHexString(intRes[i]));
-		}
-		*///storeFC(intRes);
-/*		
-		byte[] byteRes = new byte[intRes.length * 4];
-		toByteArray(byteRes, intRes);
-		// write result
-	    test.write(byteRes, outputPath);
-*/	}
-	
-	private static void storeFC(int[] ints) {
-		  FileOutputStream out = null;
-		  try {
-		    out = new FileOutputStream(outputPath);
-		    FileChannel file = out.getChannel();
-		    ByteBuffer buf = file.map(FileChannel.MapMode.READ_WRITE, 0, 4 * ints.length);
-		    for (int i : ints) {
-		      buf.putInt(i);
-		    }
-		    file.close();
-		  } catch (IOException e) {
-		    throw new RuntimeException(e);
-		  } finally {
-		    safeClose(out);
-		  }
-		}
-
-		private static void safeClose(OutputStream out) {
-		  try {
-		    if (out != null) {
-		      out.close();
-		    }
-		  } catch (IOException e) {
-		    // do nothing
-		  }
-		}
-	
-	private static void toByteArray(byte[] byteArray, int[] intArray) { 
-		ByteBuffer byteBuffer = ByteBuffer.allocate(intArray.length * 4);        
-	    IntBuffer intBuffer = byteBuffer.asIntBuffer();
-	    intBuffer.put(intArray);
-	
-	    byteArray = byteBuffer.array();
+		loadImage(fileContents);
 	}
+	
 	
 	/** Read the given binary file, and return its contents as a byte array.*/ 
 	byte[] read(String aInputFileName){
-		log("Reading in binary file named : " + aInputFileName);
+//		log("Reading in binary file named : " + aInputFileName);
 		File file = new File(aInputFileName);
-		log("File size: " + file.length());
+//		log("File size: " + file.length());
 		byte[] result = new byte[(int)file.length()];
 		try {
 			InputStream input = null;
@@ -113,10 +62,10 @@ public class VM {
 		         'result' is an output parameter;
 		         the while loop usually has a single iteration only.
 		        */
-		        log("Num bytes read: " + totalBytesRead);
+//		        log("Num bytes read: " + totalBytesRead);
 		     }
 		     finally {
-		        log("Closing input stream.");
+//		        log("Closing input stream.");
 		        input.close();
 		     }
 		}
@@ -184,7 +133,6 @@ public class VM {
 	 
 	 private static void storeInstruction(byte[] image, int[] data, int imageSize) 
 			 throws UnsupportedEncodingException {
-		 //log("byte array size: " + image.length);
 		 for (int i = 0; i < imageSize; i++) {  
 			 data[i] = getNumber(image, i + 2); // instruction start from line in index 2
 		 }
@@ -204,12 +152,10 @@ public class VM {
 	 private static void executeInstruction(int[] data, byte[] image, int imageSize) 
 			 throws UnsupportedEncodingException {
 		 sp = data.length;
-		 //for (int ip = 0; ip < 4; ) { //ip++) {
+
 		 for (ip = 0; ip < imageSize; ) { //ip++) {
 			 int curInstruction = data[ip]; 
 			 ip = ip + 1;
-			 //log("I " + ip + ":"  + Integer.toString(curInstruction, 16) + 
-			 //		 ", binary: " + Integer.toString(curInstruction, 2));
 			 
 		   	 // decode instruction
 			 int binop = 0;
@@ -234,8 +180,7 @@ public class VM {
 				 String digit = new String(new byte[] {image[lineNum * (lineSize + 1)]}, "UTF-8");
 				 int dTmp = Integer.parseInt(digit, 16);
 				 int signMask = 0x8;
-				 //byte b = image[lineNum * (lineSize + 1)];
-				 if (((dTmp & signMask) == signMask)) { // get sign 
+				 if ((dTmp & signMask) == signMask) { // get sign 
 					 binop = 1;
 				 } else {
 					 binop = 0;
@@ -243,10 +188,7 @@ public class VM {
 				 operation = 0;
 				 optionalData = 0;
 			 }
-/*			 System.out.print("binop: " + Integer.toBinaryString(binop) + " " + 
-					 "operation: " + operation + "(" + Integer.toBinaryString(operation) + ")" + " " + 
-					 "optional data: " + Integer.toBinaryString(optionalData) + "\n");
-*/			 // perform action based on operation
+			 // perform action based on operation
 			 if (binop == 0) {
 				 int addr; //log("Before, sp: " + sp + ", data: " + Integer.toHexString(data[sp-1]));
 				 switch (operation) {
@@ -307,7 +249,6 @@ public class VM {
 				 		res &= 0xff; 
 				 		System.out.print((char)res);	//	ASCII text		 		
 
-//				 		test.write(new byte[]{res}, testPath);
 				 		// Note: Output from the supplied VM images will always be ASCII text when
 				 		// functioning correctly and will use '\n' (= 0x0A) to indicate new-line.
 //				 		log("putc");
@@ -323,7 +264,7 @@ public class VM {
 						} 
 				 		//x &= 0xff; // cast x to 32bits
 				 		x = Character.getNumericValue(x);
-				 		f(data, x & 0xff); // x is ok, x & 0xff is unnecessary
+				 		f(data, x & 0xff); 
 //				 		log("getc");
 				 		break;
 
@@ -392,35 +333,11 @@ public class VM {
 		 }
 	 }
 	 
-	 private static int[] loadImage(byte[] image) throws UnsupportedEncodingException {		 
+	 private static void loadImage(byte[] image) throws UnsupportedEncodingException {		 
 		 int dataSize = getNumber(image, 0); //log("data size: " + dataSize);
 		 int imageSize = getNumber(image, 1); //log("image size: " + imageSize);
 		 int[] data = new int[dataSize];
 		 storeInstruction(image, data, imageSize);
-/*		  
-		 for (int i = 0; i < 5; i++) {
-			 log("Instruction: " + data[i] + ", hexadecimal: " + 
-					 Integer.toHexString(data[i]));
-		 }
-*/		 
 		 executeInstruction(data, image, imageSize);
-/*		 
-		 log("4th instruction: " + data[3] + ", hexadecimal: " + 
-				 Integer.toHexString(data[3]));
-		 
-		 String decoded = "";
-		 for (int i = 0; i < lineSize; i++) { 
-			 decoded += new String(new byte[] {image[i + 5 * (lineSize + 1)]}, "UTF-8");
-		 }
-		 log("decoded: " + decoded);
-		 
-		 log("origin2: " + image[0]);
-		 String decoded2 = "";
-		 for (int i = 0; i < 1; i++) { 
-			 decoded2 += new String(new byte[] {image[i]}, "UTF-8");
-		 }
-		 log("decoded2: " + decoded2);
-*/		 
-		 return data;
 	 }
 }
