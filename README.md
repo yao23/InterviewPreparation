@@ -3,7 +3,7 @@ prepare interview questions from Careercup and Cracking the Code Interview in Ja
 <h>Solution code</h>
 
 <ul>
-<li>1.1 UniqueCharacter.java</li>
+<li><a href="https://github.com/yao23/InterviewPreparation/blob/master/src/UniqueCharacter.java">1.1 UniqueCharacter.java</a></li>
 <li>1.2 ReverseString.java</li>
 <li>1.3 IsPermutation.java</li>
 <li>1.4 ReplaceString.java</li>
