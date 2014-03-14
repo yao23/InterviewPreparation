@@ -74,7 +74,7 @@ prepare interview questions from Careercup and Cracking the Code Interview in Ja
 <li><a href="https://github.com/yao23/InterviewPreparation/blob/master/src/StringSorting.java">11.2 StringSorting.java</a></li>
 <li><a href="https://github.com/yao23/Leetcode/blob/master/src/SearchinRotatedSortedArray2.java">11.3 SearchinRotatedSortedArray2.java (LeetCode)</a></li>
 <li><a href="https://github.com/yao23/Leetcode/blob/master/src/MergeIntervals.java">11.4 MergeIntervals.java (LeetCode)</a></li>
-<li><a href="https://github.com/yao23/Leetcode/blob/master/src/SearchString.java">11.5 SearchString.java (LeetCode)</a></li>
+<li><a href="https://github.com/yao23/InterviewPreparation/blob/master/src/SearchString.java">11.5 SearchString.java</a></li>
 <li><a href="https://github.com/yao23/Leetcode/blob/master/src/Searcha2DMatrix.java">11.6 Searcha2DMatrix.java (LeetCode)</a></li>
 <li><a href="https://github.com/yao23/InterviewPreparation/blob/master/src/TallestPeopleTower.java">11.7 TallestPeopleTower.java</a></li>
 <li><a href="https://github.com/yao23/InterviewPreparation/blob/master/src/NumbersWithRank.java">11.8 NumbersWithRank.java</a></li>
