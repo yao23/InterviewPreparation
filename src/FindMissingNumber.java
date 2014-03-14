@@ -53,15 +53,18 @@ public class FindMissingNumber {
 }
 
 class BitInteger {
-	private static int data;
+	private int data;
 	BitInteger(int i) {
 		data = i;
 	}
 	public int fetch(int i, int INTEGER_SIZE) {
 		int d = 1 << ((INTEGER_SIZE - 1) - i);
+		int res = (data & d) >> ((INTEGER_SIZE - 1) - i);
 /*		for (int j = 0; j < (INTEGER_SIZE - 1) - i; j++) {
 			d <<= 1;
 		}
-*/		return (data & d) >> ((INTEGER_SIZE - 1) - i);
+*/		
+		System.out.println("data: " + data + ", d: " + d + ", fetched number: " + res);
+		return res;
 	}
 }
