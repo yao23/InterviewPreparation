@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class FindMissingNumber {
 	public static int n = 14;
 	public static final int INTEGER_SIZE = (Integer.toBinaryString(n)).length() + 1;
+	public static final int missingNum = 3; // example in CtCI
 	
 	public static int findMissing(ArrayList<BitInteger> array) {
 		/* BitInteger.INTEGER_SIZE - 1 corresponds to the Least Significant Bit.
@@ -25,11 +26,11 @@ public class FindMissingNumber {
 			} else {
 				oneBits.add(t);
 			}
-		} System.out.print("zero bits: " + zeroBits.size() + ", one bits: " + oneBits.size());
-		if (zeroBits.size() <= oneBits.size()) { System.out.println(" in zeroBits!");
+		} 
+		if (zeroBits.size() <= oneBits.size()) { 
 			int v = findMissing(zeroBits, column - 1); 
 			return (v << 1) | 0;
-		} else { System.out.println(" in oneBits!");
+		} else { 
 			int v = findMissing(oneBits, column - 1); 
 			return (v << 1) | 1;
 		}
@@ -37,10 +38,10 @@ public class FindMissingNumber {
 	
 	public static void main(String[] args) {
 		ArrayList<BitInteger> array = new ArrayList<BitInteger>();
-		System.out.println("Test case: ");
+		System.out.println("Test case 1: ");
 		System.out.print("Array: ");
 		for (int i = 0; i < 14; i++) {
-			if (i == 3) {
+			if (i == missingNum) {
 				continue;
 			} else {
 				array.add(new BitInteger(i));
@@ -60,11 +61,6 @@ class BitInteger {
 	public int fetch(int i, int INTEGER_SIZE) {
 		int d = 1 << ((INTEGER_SIZE - 1) - i);
 		int res = (data & d) >> ((INTEGER_SIZE - 1) - i);
-/*		for (int j = 0; j < (INTEGER_SIZE - 1) - i; j++) {
-			d <<= 1;
-		}
-*/		
-		System.out.println("data: " + data + ", d: " + d + ", fetched number: " + res);
 		return res;
 	}
 }
