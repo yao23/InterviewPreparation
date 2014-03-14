@@ -41,7 +41,7 @@ prepare interview questions from Careercup and Cracking the Code Interview in Ja
 <li><a href="https://github.com/yao23/Leetcode/blob/master/src/ValidateBinarySearchTree.java" >4.5 ValidateBinarySearchTree.java (LeetCode)</a></li>
 <li><a href="https://github.com/yao23/InterviewPreparation/blob/master/src/InorderNextNodeinBST.java" >4.6 InorderNextNodeinBST.java (MyTreeNode2 defined, with parent pointer)</a></li>
 <li><a href="https://github.com/yao23/InterviewPreparation/blob/master/src/LowestCommonAncestor.java" >4.7 LowestCommonAncestor.java (Node and TreeNode defined)</a></li>
-<li><a href="https://github.com/yao23/Leetcode/blob/master/src/SameTree.java" >4.8 SameTree.java (LeetCode)</a></li>
+<li><a href="https://github.com/yao23/Leetcode/blob/master/src/IsSameTree.java" >4.8 IsSameTree.java (LeetCode)</a> or <a href="https://github.com/yao23/InterviewPreparation/blob/master/src/IsSubtree.java">IsSubtree.java</a></li>
 <li><a href="https://github.com/yao23/InterviewPreparation/blob/master/src/BinaryTreeSumPath.java" >4.9 BinaryTreeSumPath.java (MyTreeNode defined)</a></li>
 </ul>
 
