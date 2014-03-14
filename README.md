@@ -46,6 +46,16 @@ prepare interview questions from Careercup and Cracking the Code Interview in Ja
 </ul>
 
 <ul>
+<li>5.1 InsertInteger.java</li>
+<li>5.2 DecimalToBinary.java</li>
+<li>5.3 NextNumber.java</li>
+<li>5.5 BitsNumberToFlip.java</li>
+<li>5.6 OddEvenBitsSwap.java</li>
+<li>5.7 FindMissingNumber.java</li>
+<li>5.8 DrawLine.java</li>
+</ul>
+
+<ul>
 <li>9.1 ClimbingStairs.java (LeetCode)</li>
 <li>9.2 UniquePaths.java & UniquePaths2.java (LeetCode)</li>
 <li>9.3 FirstMissingPositive.java (LeetCode)</li>
