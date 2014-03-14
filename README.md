@@ -64,7 +64,7 @@ prepare interview questions from Careercup and Cracking the Code Interview in Ja
 <li><a href="https://github.com/yao23/Leetcode/blob/master/src/GenerateParentheses.java">9.6 GenerateParentheses.java (LeetCode)</a></li>
 <li><a href="https://github.com/yao23/Leetcode/blob/master/src/SurroundedRegions.java">9.7 SurroundedRegions.java (LeetCode)</a></li>
 <li><a href="https://github.com/yao23/InterviewPreparation/blob/master/src/AllChangeCombination.java">9.8 AllChangeCombination.java</a></li>
-<li><a href="https://github.com/yao23/InterviewPreparation/blob/master/src/NQueens.java">9.9 NQueens.java</a></li>
+<li><a href="https://github.com/yao23/Leetcode/blob/master/src/NQueens.java">9.9 NQueens.java</a></li>
 <li><a href="https://github.com/yao23/InterviewPreparation/blob/master/src/TallestStack.java">9.10 TallestStack.java</a></li>
 <li><a href="https://github.com/yao23/InterviewPreparation/blob/master/src/ParenthesizeBooleanExpression.java" >9.11 ParenthesizeBooleanExpression.java</a></li>
 </ul>
