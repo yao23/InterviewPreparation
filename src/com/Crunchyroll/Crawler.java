@@ -3,6 +3,7 @@ package com.Crunchyroll;
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Crawler {
 	public static final String STARTING_PAGE_NUM = "64738"; 
@@ -39,6 +40,51 @@ public class Crawler {
         	System.out.println(inputLine);
         }
         in.close();
+	}
+	
+	public static long evaluateExpression(String s) {
+		int idx = 0;
+		long res = 0;
+		Stack<String> operator = new Stack<String>();
+		Stack<Long> operand = new Stack<Long>();
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if ( c == '(') {
+				operator.push(s.substring(idx, i));
+				idx = i + 1;
+			} else if (s.charAt(i) == ')') {
+				idx = i + 1;
+				String opt = operator.pop();
+				if (opt == "abs") {
+					operand.push(Math.abs(operand.pop()));
+				} else {
+					long a = operand.pop();
+					long b = operand.pop();
+					switch (opt) {
+						case "add":
+							operand.push(a + b);
+							break;
+							
+						case "subtract":
+							operand.push(b - a);
+							break;
+							
+						case "multiply":
+							operand.push(a * b);
+							break;
+							
+						default:
+							System.out.println("Invalid operation");
+							break;
+					}
+				}
+			} else if ( c == ',') {
+				idx = i + 1;
+				continue;
+			}
+		}
+		res = operand.pop();
+		return res;
 	}
 	
 	public static void main(String[] args) throws IOException {
