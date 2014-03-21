@@ -27,21 +27,6 @@ public class Crawler {
 		System.out.println("}");
 	}
 	
-	public static void parsePage(URL page) throws IOException {
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(page.openStream()));
-		String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-        	if (inputLine.equals("DEADEND")) {
-        		System.out.println("DEADEND"); // add DEADEND process here?
-        	} else if (inputLine.equals("GOAL")) {
-        		System.out.println("GOAL"); // add GOAL process here?
-        	}
-        	System.out.println(inputLine);
-        }
-        in.close();
-	}
-	
 	public static long evaluateExpression(String s) {
 		int idx = 0;
 		long res = 0;
@@ -60,22 +45,14 @@ public class Crawler {
 					operand.push(Math.abs(a));
 				} else {					
 					long b = operand.pop();
-					switch (opt) {
-						case "add":
-							operand.push(a + b);
-							break;
-							
-						case "subtract":
-							operand.push(b - a);
-							break;
-							
-						case "multiply":
-							operand.push(a * b);
-							break;
-							
-						default:
-							System.out.println("Invalid operation");
-							break;
+					if (opt == "add") {
+						operand.push(a + b);
+					} else if (opt == "subtract") {
+						operand.push(b - a);
+					} else if (opt == "multiply") {
+						operand.push(a * b);
+					} else {
+						System.out.println("Invalid operation");
 					}
 				}
 			} else if ( c == ',') { // push 1st integer in operand
@@ -87,6 +64,24 @@ public class Crawler {
 		res = operand.pop();
 		return res;
 	}
+
+	public static void parsePage(URL page) throws IOException {
+		BufferedReader in = new BufferedReader(
+		        new InputStreamReader(page.openStream()));
+		String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+        	if (inputLine.equals("DEADEND")) {
+        		System.out.println("DEADEND"); // add DEADEND process here?
+        	} else if (inputLine.equals("GOAL")) {
+        		System.out.println("GOAL"); // add GOAL process here?
+        	} else { // list page
+        		long res = evaluateExpression(inputLine);
+        		//System.out.println(inputLine);
+        		System.out.println(res);
+        	}
+        }
+        in.close();
+	}	
 	
 	public static void main(String[] args) throws IOException {
 		BASE_URL = new URL(
@@ -95,6 +90,6 @@ public class Crawler {
 		
 		parsePage(startingPage);
 		
-		output();
+		//output();
 	}
 }
