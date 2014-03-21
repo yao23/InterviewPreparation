@@ -52,13 +52,13 @@ public class Crawler {
 			if ( c == '(') {
 				operator.push(s.substring(idx, i));
 				idx = i + 1;
-			} else if (s.charAt(i) == ')') {
+			} else if (c == ')') {
+				long a = Long.parseLong(s.substring(idx, i)); // push 2nd integer in operand
 				idx = i + 1;
 				String opt = operator.pop();
 				if (opt == "abs") {
-					operand.push(Math.abs(operand.pop()));
-				} else {
-					long a = operand.pop();
+					operand.push(Math.abs(a));
+				} else {					
 					long b = operand.pop();
 					switch (opt) {
 						case "add":
@@ -78,7 +78,8 @@ public class Crawler {
 							break;
 					}
 				}
-			} else if ( c == ',') {
+			} else if ( c == ',') { // push 1st integer in operand
+				operand.push(Long.parseLong(s.substring(idx, i)));
 				idx = i + 1;
 				continue;
 			}
