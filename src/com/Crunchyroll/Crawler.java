@@ -119,11 +119,53 @@ public class Crawler {
         }
         in.close();		
 	}
+
+	public static void parsePage2(URL page) throws IOException {
+		BufferedReader in = new BufferedReader(
+		        new InputStreamReader(page.openStream()));
+		String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+        	if (inputLine.equals("DEADEND")) {
+        		//System.out.println("DEADEND"); // add DEADEND process here?
+        		curPath.remove(curPath.size() - 1); // remove dead end node for next path
+        	} else if (inputLine.equals("GOAL")) {
+        		//System.out.println("GOAL"); // add GOAL process here?
+        		if (isFirstPath) {
+        			goal = curPath.get(curPath.size() - 1);
+        			shortestPath.addAll(curPath);
+        			isFirstPath = false;
+        		} else {
+        			if (curPath.size() < shortestPath.size()) {
+        				shortestPath.clear();
+        				shortestPath.addAll(curPath);
+        			}
+        		}
+        		curPath.remove(curPath.size() - 1); // remove goal node for next path        		
+        	} else { // list page
+        		long exp = evaluateExpression(inputLine);
+        		if (curPath.contains(exp)) { // DFS meet directed cycle        			
+        			if (exp == STARTING_PAGE_NUM && 
+        					curPath.get(curPath.size() - 1) == exp) { // starting page self cycle
+        				directedCycleCount++;
+        			} else {
+        				directedCycleCount++;
+        				curPath.remove(curPath.size() - 1); // remove cycle node for next path
+        			}        			
+        		} else {
+        			nodes.add(exp);
+        			curPath.add(exp);
+        			parsePage2(new URL(BASE_URL, String.valueOf(exp)));
+        		}
+        	}
+        }
+        in.close();		
+	}
 	
 	public static void main(String[] args) throws IOException {
 		BASE_URL = new URL(
 					"http://www.crunchyroll.com/tech-challenge/roaming-math/myspiritcrazy@gmail.com/");
-		parsePage(new URL(BASE_URL, String.valueOf(STARTING_PAGE_NUM)));
+		//parsePage(new URL(BASE_URL, String.valueOf(STARTING_PAGE_NUM)));
+		parsePage2(new URL(BASE_URL, String.valueOf(STARTING_PAGE_NUM)));
 		output();
 	}
 }
