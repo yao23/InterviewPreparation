@@ -4,13 +4,19 @@ import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 public class Crawler {
-	public static final String STARTING_PAGE_NUM = "64738"; 
+	public static final long STARTING_PAGE_NUM = 64738; 
 	public static URL BASE_URL; 
 	public static long goal = 0;
 	public static int nodeCount = 0;
+	public static boolean isFirstPath = true;
 	public static ArrayList<Long> shortestPath = new ArrayList<Long>();
+	public static ArrayList<Long> curPath = new ArrayList<Long>();
+	public static LinkedList<Long> pageQueue = new LinkedList<Long>(); // BFS iterates graph
+	public static HashSet<Long> nodes = new HashSet<Long>(); // unique pages
 	public static int directedCycleCount = 0;
 	
 	public static void output() {
@@ -78,23 +84,46 @@ public class Crawler {
         while ((inputLine = in.readLine()) != null) {
         	if (inputLine.equals("DEADEND")) {
         		System.out.println("DEADEND"); // add DEADEND process here?
+        		curPath.remove(curPath.size() - 1); // remove dead end node for next path
         	} else if (inputLine.equals("GOAL")) {
         		System.out.println("GOAL"); // add GOAL process here?
+        		if (isFirstPath) {
+        			shortestPath.addAll(curPath);
+        			isFirstPath = false;
+        		} else {
+        			if (curPath.size() < shortestPath.size()) {
+        				shortestPath.addAll(curPath);
+        			}
+        		}
+        		curPath.remove(curPath.size() - 1); // remove goal node for next path        		
         	} else { // list page
-        		long res = evaluateExpression(inputLine);
+        		long exp = evaluateExpression(inputLine);
+        		if (!nodes.add(exp)) { // BFS meet directed cycle
+        			directedCycleCount++;
+        			curPath.remove(curPath.size() - 1); // remove cycle node for next path
+        		} else {
+        			curPath.add(exp);
+        		}
         		//System.out.println(inputLine);
-        		System.out.println(res);
+        		//System.out.println(exp);
         	}
         }
         in.close();
 	}	
 	
+	public static void iterateGraph() throws IOException {
+		while (!pageQueue.isEmpty()) { // BFS iterate graph
+			String relativeURL = String.valueOf(pageQueue.removeFirst());
+			URL link = new URL(BASE_URL, relativeURL);
+			parsePage(link);
+		}
+	}
+	
 	public static void main(String[] args) throws IOException {
 		BASE_URL = new URL(
 					"http://www.crunchyroll.com/tech-challenge/roaming-math/myspiritcrazy@gmail.com/");
-		URL	startingPage = new URL(BASE_URL, STARTING_PAGE_NUM);
-		
-		parsePage(startingPage);
+		pageQueue.add(STARTING_PAGE_NUM);
+		iterateGraph();
 		
 		//output();
 	}
