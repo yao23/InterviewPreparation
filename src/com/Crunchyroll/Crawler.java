@@ -5,7 +5,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.HashSet;
-import java.util.LinkedList;
 
 public class Crawler {
 	public static final long STARTING_PAGE_NUM = 64738; 
@@ -15,9 +14,6 @@ public class Crawler {
 	public static boolean isFirstPath = true;
 	public static ArrayList<Long> shortestPath = new ArrayList<Long>();
 	public static ArrayList<Long> curPath = new ArrayList<Long>();
-	public static LinkedList<Long> pageQueue = new LinkedList<Long>(); // BFS iterates graph
-	public static int curLevelNodeNum = 0;
-	public static int nextLevelNodeNum = 0;
 	public static HashSet<Long> nodes = new HashSet<Long>(); // unique pages
 	public static int directedCycleCount = 0;
 	
@@ -90,41 +86,6 @@ public class Crawler {
         	} else if (inputLine.equals("GOAL")) {
         		//System.out.println("GOAL"); // add GOAL process here?
         		if (isFirstPath) {
-        			shortestPath.addAll(curPath);
-        			isFirstPath = false;
-        		} else {
-        			if (curPath.size() < shortestPath.size()) {
-        				shortestPath.addAll(curPath);
-        			}
-        		}
-        		curPath.remove(curPath.size() - 1); // remove goal node for next path        		
-        	} else { // list page
-        		long exp = evaluateExpression(inputLine);
-        		if (!nodes.add(exp)) { // BFS meet directed cycle
-        			directedCycleCount++;
-        			curPath.remove(curPath.size() - 1); // remove cycle node for next path
-        		} else {
-        			curPath.add(exp);
-        			pageQueue.add(exp);
-        		}
-        		//System.out.println(inputLine);
-        		//System.out.println(exp);
-        	}
-        }
-        in.close();
-	}
-	
-	public static void parsePage2(URL page) throws IOException {
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(page.openStream()));
-		String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-        	if (inputLine.equals("DEADEND")) {
-        		//System.out.println("DEADEND"); // add DEADEND process here?
-        		curPath.remove(curPath.size() - 1); // remove dead end node for next path
-        	} else if (inputLine.equals("GOAL")) {
-        		//System.out.println("GOAL"); // add GOAL process here?
-        		if (isFirstPath) {
         			goal = curPath.get(curPath.size() - 1);
         			shortestPath.addAll(curPath);
         			isFirstPath = false;
@@ -152,45 +113,17 @@ public class Crawler {
         			}        			
         		} else {
         			curPath.add(exp);
-        			parsePage2(new URL(BASE_URL, String.valueOf(exp)));
+        			parsePage(new URL(BASE_URL, String.valueOf(exp)));
         		}
         	}
         }
         in.close();		
 	}
-/*	
-	public static void collectPage(URL link) throws IOException {
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(link.openStream()));
-		String inputLine;
-		long exp = 0;
-		while ((inputLine = in.readLine()) != null) {System.out.println(inputLine);
-			exp = evaluateExpression(inputLine);
-			pageQueue.add(exp); System.out.println(exp);
-			nextLevelNodeNum++;
-		}
-	}
-*/	
-	public static void iterateGraph() throws IOException {
-		while (!pageQueue.isEmpty()) { // BFS iterate graph
-			curLevelNodeNum = nextLevelNodeNum;
-			nextLevelNodeNum = 0;
-			for (int i = 0; i < curLevelNodeNum; i++) {
-				String relativeURL = String.valueOf(pageQueue.removeFirst());
-				URL link = new URL(BASE_URL, relativeURL);
-				//collectPage(link);
-				parsePage(link);
-			}
-		}
-	}
 	
 	public static void main(String[] args) throws IOException {
 		BASE_URL = new URL(
 					"http://www.crunchyroll.com/tech-challenge/roaming-math/myspiritcrazy@gmail.com/");
-		pageQueue.add(STARTING_PAGE_NUM);
-		nextLevelNodeNum = 1;
-		//iterateGraph();
-		parsePage2(new URL(BASE_URL, String.valueOf(STARTING_PAGE_NUM)));
+		parsePage(new URL(BASE_URL, String.valueOf(STARTING_PAGE_NUM)));
 		output();
 	}
 }
