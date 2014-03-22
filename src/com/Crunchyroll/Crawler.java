@@ -35,30 +35,36 @@ public class Crawler {
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
 			if ( c == '(') {
-				operator.push(s.substring(idx, i));
+				operator.push(s.substring(idx, i)); 
 				idx = i + 1;
 			} else if (c == ')') {
-				long a = Long.parseLong(s.substring(idx, i)); // push 2nd integer in operand
-				idx = i + 1;
+				long a = 0;
+				if (s.charAt(i - 1) != ')') { 
+					a = Long.parseLong(s.substring(idx, i)); // 2nd operand
+				} else { // 2nd operand already in stack when previous one is ')'
+					a = operand.pop();
+				}
 				String opt = operator.pop();
-				if (opt == "abs") {
+				if (opt.equals("abs")) {
 					operand.push(Math.abs(a));
 				} else {					
 					long b = operand.pop();
-					if (opt == "add") {
+					if (opt.equals("add")) {
 						operand.push(a + b);
-					} else if (opt == "subtract") {
+					} else if (opt.equals("subtract")) {
 						operand.push(b - a);
-					} else if (opt == "multiply") {
+					} else if (opt.equals("multiply")) {
 						operand.push(a * b);
 					} else {
 						System.out.println("Invalid operation");
 					}
 				}
-			} else if ( c == ',') { // push 1st integer in operand
-				operand.push(Long.parseLong(s.substring(idx, i)));
 				idx = i + 1;
-				continue;
+			} else if ( c == ',') { 
+				if (s.charAt(i - 1) != ')') { // 1st integer already in operand when previous one is ')'
+					operand.push(Long.parseLong(s.substring(idx, i))); // push 1st integer in operand
+				}
+				idx = i + 1;				
 			}
 		}
 		res = operand.pop();
