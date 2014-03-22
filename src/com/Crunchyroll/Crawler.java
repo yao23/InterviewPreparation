@@ -16,16 +16,21 @@ public class Crawler {
 	public static ArrayList<Long> curPath = new ArrayList<Long>();
 	public static HashSet<Long> nodes = new HashSet<Long>(); // unique pages
 	public static int directedCycleCount = 0;
+	public static ArrayList<ArrayList<Long>> directedCycles = new ArrayList<ArrayList<Long>>();
 	
 	public static void output() {
 		System.out.println("{");
 		System.out.println(" \"goal\": " + goal + ",");
 		System.out.println(" \"node_count\": " + nodes.size() + ",");
 		System.out.print(" \"shortest_path\": [");
-		for (int i = 0; i < shortestPath.size() - 1; i++) {
-			System.out.print(shortestPath.get(i) + ", ");
+		if (shortestPath.size() > 0) {
+			for (int i = 0; i < shortestPath.size() - 1; i++) {
+				System.out.print(shortestPath.get(i) + ", ");
+			}
+			System.out.print(shortestPath.get(shortestPath.size() - 1)); // last number without comma later
+		} else { // only one node, starting page
+			System.out.print(STARTING_PAGE_NUM);
 		}
-		System.out.print(shortestPath.get(shortestPath.size() - 1)); // last number without comma later
 		System.out.println("],");
 		System.out.println(" \"directed_cycle_count\": " + directedCycleCount); 
 		System.out.println("}");
@@ -144,13 +149,18 @@ public class Crawler {
         	} else { // list page
         		long exp = evaluateExpression(inputLine);
         		if (curPath.contains(exp)) { // DFS meet directed cycle        			
-        			if (exp == STARTING_PAGE_NUM && 
+/*        			if (exp == STARTING_PAGE_NUM && 
         					curPath.get(curPath.size() - 1) == exp) { // starting page self cycle
         				directedCycleCount++;
         			} else {
-        				directedCycleCount++;
+*/        				curPath.add(exp);
+						if (!directedCycles.contains(curPath)) { // unique directed cycle
+							directedCycleCount++;							
+							directedCycles.add(curPath);
+							
+						}
         				curPath.remove(curPath.size() - 1); // remove cycle node for next path
-        			}        			
+ //       			}        			
         		} else {
         			nodes.add(exp);
         			curPath.add(exp);
@@ -164,6 +174,7 @@ public class Crawler {
 	public static void main(String[] args) throws IOException {
 		BASE_URL = new URL(
 					"http://www.crunchyroll.com/tech-challenge/roaming-math/myspiritcrazy@gmail.com/");
+		curPath.add(STARTING_PAGE_NUM);
 		//parsePage(new URL(BASE_URL, String.valueOf(STARTING_PAGE_NUM)));
 		parsePage2(new URL(BASE_URL, String.valueOf(STARTING_PAGE_NUM)));
 		output();
