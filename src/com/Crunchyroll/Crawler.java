@@ -16,6 +16,8 @@ public class Crawler {
 	public static ArrayList<Long> shortestPath = new ArrayList<Long>();
 	public static ArrayList<Long> curPath = new ArrayList<Long>();
 	public static LinkedList<Long> pageQueue = new LinkedList<Long>(); // BFS iterates graph
+	public static int curLevelNodeNum = 0;
+	public static int nextLevelNodeNum = 0;
 	public static HashSet<Long> nodes = new HashSet<Long>(); // unique pages
 	public static int directedCycleCount = 0;
 	
@@ -103,6 +105,7 @@ public class Crawler {
         			curPath.remove(curPath.size() - 1); // remove cycle node for next path
         		} else {
         			curPath.add(exp);
+        			pageQueue.add(exp);
         		}
         		//System.out.println(inputLine);
         		//System.out.println(exp);
@@ -111,11 +114,28 @@ public class Crawler {
         in.close();
 	}	
 	
+	public static void collectPage(URL link) throws IOException {
+		BufferedReader in = new BufferedReader(
+		        new InputStreamReader(link.openStream()));
+		String inputLine;
+		long exp = 0;
+		while ((inputLine = in.readLine()) != null) {
+			exp = evaluateExpression(inputLine);
+			pageQueue.add(exp); System.out.println(exp);
+			nextLevelNodeNum++;
+		}
+	}
+	
 	public static void iterateGraph() throws IOException {
 		while (!pageQueue.isEmpty()) { // BFS iterate graph
-			String relativeURL = String.valueOf(pageQueue.removeFirst());
-			URL link = new URL(BASE_URL, relativeURL);
-			parsePage(link);
+			curLevelNodeNum = nextLevelNodeNum;
+			nextLevelNodeNum = 0;
+			for (int i = 0; i < curLevelNodeNum; i++) {
+				String relativeURL = String.valueOf(pageQueue.removeFirst());
+				URL link = new URL(BASE_URL, relativeURL);
+				collectPage(link);
+				//parsePage(link);
+			}
 		}
 	}
 	
@@ -123,6 +143,7 @@ public class Crawler {
 		BASE_URL = new URL(
 					"http://www.crunchyroll.com/tech-challenge/roaming-math/myspiritcrazy@gmail.com/");
 		pageQueue.add(STARTING_PAGE_NUM);
+		nextLevelNodeNum = 1;
 		iterateGraph();
 		
 		//output();
