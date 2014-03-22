@@ -24,7 +24,7 @@ public class Crawler {
 	public static void output() {
 		System.out.println("{");
 		System.out.println(" \"goal\": " + goal + ",");
-		System.out.println(" \"node_count\": " + nodeCount + ",");
+		System.out.println(" \"node_count\": " + nodes.size() + ",");
 		System.out.print(" \"shortest_path\": [");
 		for (int i = 0; i < shortestPath.size() - 1; i++) {
 			System.out.print(shortestPath.get(i) + ", ");
@@ -85,10 +85,10 @@ public class Crawler {
 		String inputLine;
         while ((inputLine = in.readLine()) != null) {
         	if (inputLine.equals("DEADEND")) {
-        		System.out.println("DEADEND"); // add DEADEND process here?
+        		//System.out.println("DEADEND"); // add DEADEND process here?
         		curPath.remove(curPath.size() - 1); // remove dead end node for next path
         	} else if (inputLine.equals("GOAL")) {
-        		System.out.println("GOAL"); // add GOAL process here?
+        		//System.out.println("GOAL"); // add GOAL process here?
         		if (isFirstPath) {
         			shortestPath.addAll(curPath);
         			isFirstPath = false;
@@ -112,20 +112,65 @@ public class Crawler {
         	}
         }
         in.close();
-	}	
+	}
 	
+	public static void parsePage2(URL page) throws IOException {
+		BufferedReader in = new BufferedReader(
+		        new InputStreamReader(page.openStream()));
+		String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+        	if (inputLine.equals("DEADEND")) {
+        		//System.out.println("DEADEND"); // add DEADEND process here?
+        		curPath.remove(curPath.size() - 1); // remove dead end node for next path
+        	} else if (inputLine.equals("GOAL")) {
+        		//System.out.println("GOAL"); // add GOAL process here?
+        		if (isFirstPath) {
+        			goal = curPath.get(curPath.size() - 1);
+        			shortestPath.addAll(curPath);
+        			isFirstPath = false;
+        		} else {
+        			if (curPath.size() < shortestPath.size()) {
+        				shortestPath.clear();
+        				shortestPath.addAll(curPath);
+        			}
+        		}
+        		curPath.remove(curPath.size() - 1); // remove goal node for next path        		
+        	} else { // list page
+        		long exp = evaluateExpression(inputLine);
+        		if (!nodes.add(exp)) { // DFS meet directed cycle        			
+        			if (exp == goal && isFirstPath == false && 
+        					curPath.size() < shortestPath.size()) { // goal is duplicated node   
+        				shortestPath.clear();
+        				shortestPath.addAll(curPath);
+        				shortestPath.add(goal);
+        			} else if (exp == STARTING_PAGE_NUM && 
+        					curPath.get(curPath.size() - 1) == exp) { // starting page self cycle
+        				directedCycleCount++;
+        			} else {
+        				directedCycleCount++;
+        				curPath.remove(curPath.size() - 1); // remove cycle node for next path
+        			}        			
+        		} else {
+        			curPath.add(exp);
+        			parsePage2(new URL(BASE_URL, String.valueOf(exp)));
+        		}
+        	}
+        }
+        in.close();		
+	}
+/*	
 	public static void collectPage(URL link) throws IOException {
 		BufferedReader in = new BufferedReader(
 		        new InputStreamReader(link.openStream()));
 		String inputLine;
 		long exp = 0;
-		while ((inputLine = in.readLine()) != null) {
+		while ((inputLine = in.readLine()) != null) {System.out.println(inputLine);
 			exp = evaluateExpression(inputLine);
 			pageQueue.add(exp); System.out.println(exp);
 			nextLevelNodeNum++;
 		}
 	}
-	
+*/	
 	public static void iterateGraph() throws IOException {
 		while (!pageQueue.isEmpty()) { // BFS iterate graph
 			curLevelNodeNum = nextLevelNodeNum;
@@ -133,8 +178,8 @@ public class Crawler {
 			for (int i = 0; i < curLevelNodeNum; i++) {
 				String relativeURL = String.valueOf(pageQueue.removeFirst());
 				URL link = new URL(BASE_URL, relativeURL);
-				collectPage(link);
-				//parsePage(link);
+				//collectPage(link);
+				parsePage(link);
 			}
 		}
 	}
@@ -144,8 +189,8 @@ public class Crawler {
 					"http://www.crunchyroll.com/tech-challenge/roaming-math/myspiritcrazy@gmail.com/");
 		pageQueue.add(STARTING_PAGE_NUM);
 		nextLevelNodeNum = 1;
-		iterateGraph();
-		
-		//output();
+		//iterateGraph();
+		parsePage2(new URL(BASE_URL, String.valueOf(STARTING_PAGE_NUM)));
+		output();
 	}
 }
