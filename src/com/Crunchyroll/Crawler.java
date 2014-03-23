@@ -3,6 +3,7 @@ package com.Crunchyroll;
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
 import java.util.HashSet;
 
@@ -134,11 +135,19 @@ public class Crawler {
 				for (int j = i; j < curPath.size(); j++) {
 					directedCycle.add(curPath.get(j));
 				}
-				directedCycle.add(curPath.get(i));
+				//directedCycle.add(curPath.get(i));
 				break;
 			}
 		}
+		Collections.sort(directedCycle);
 		return directedCycle;
+	}
+	
+	public static void printCycle(ArrayList<Long> cycle) {
+		for (int i = 0; i < cycle.size(); i++) {
+			System.out.print(cycle.get(i) + " ");
+		}
+		System.out.println();
 	}
 	
 	public static void parsePage2(URL page) throws IOException {
@@ -170,10 +179,10 @@ public class Crawler {
         				directedCycleCount++;
         			} else {
 */        				//curPath.add(exp);
-        				ArrayList<Long> cycle = extractDirectedCycle(exp);
+        				ArrayList<Long> cycle = extractDirectedCycle(exp);        				
 						if (!directedCycles.contains(cycle)) { // unique directed cycle
 							directedCycleCount++;							
-							directedCycles.add(cycle);						
+							directedCycles.add(cycle); //printCycle(cycle);						
 						}
         				//curPath.remove(curPath.size() - 1); // remove cycle node for next path
  //       			}        			
