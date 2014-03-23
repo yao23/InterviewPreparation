@@ -83,51 +83,6 @@ public class Crawler {
 		return res;
 	}
 
-	public static void parsePage(URL page) throws IOException {
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(page.openStream()));
-		String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-        	if (inputLine.equals("DEADEND")) {
-        		//System.out.println("DEADEND"); // add DEADEND process here?
-        		curPath.remove(curPath.size() - 1); // remove dead end node for next path
-        	} else if (inputLine.equals("GOAL")) {
-        		//System.out.println("GOAL"); // add GOAL process here?
-        		if (isFirstPath) {
-        			goal = curPath.get(curPath.size() - 1);
-        			shortestPath.addAll(curPath);
-        			isFirstPath = false;
-        		} else {
-        			if (curPath.size() < shortestPath.size()) {
-        				shortestPath.clear();
-        				shortestPath.addAll(curPath);
-        			}
-        		}
-        		curPath.remove(curPath.size() - 1); // remove goal node for next path        		
-        	} else { // list page
-        		long exp = evaluateExpression(inputLine);
-        		if (!nodes.add(exp)) { // DFS meet directed cycle        			
-        			if (exp == goal && isFirstPath == false && 
-        					curPath.size() < shortestPath.size()) { // goal is duplicated node   
-        				shortestPath.clear();
-        				shortestPath.addAll(curPath);
-        				shortestPath.add(goal);
-        			} else if (exp == STARTING_PAGE_NUM && 
-        					curPath.get(curPath.size() - 1) == exp) { // starting page self cycle
-        				directedCycleCount++;
-        			} else {
-        				directedCycleCount++;
-        				curPath.remove(curPath.size() - 1); // remove cycle node for next path
-        			}        			
-        		} else {
-        			curPath.add(exp);
-        			parsePage(new URL(BASE_URL, String.valueOf(exp)));
-        		}
-        	}
-        }
-        in.close();		
-	}
-
 	public static ArrayList<Long> extractDirectedCycle(long n) {
 		ArrayList<Long> directedCycle = new ArrayList<Long>();
 		for (int i = 0; i < curPath.size(); i++) {
@@ -135,31 +90,21 @@ public class Crawler {
 				for (int j = i; j < curPath.size(); j++) {
 					directedCycle.add(curPath.get(j));
 				}
-				//directedCycle.add(curPath.get(i));
 				break;
 			}
 		}
-		Collections.sort(directedCycle);
+		Collections.sort(directedCycle); // some duplicated cycle might start from different nodes 
 		return directedCycle;
 	}
 	
-	public static void printCycle(ArrayList<Long> cycle) {
-		for (int i = 0; i < cycle.size(); i++) {
-			System.out.print(cycle.get(i) + " ");
-		}
-		System.out.println();
-	}
-	
-	public static void parsePage2(URL page) throws IOException {
+	public static void parsePage(URL page) throws IOException {
 		BufferedReader in = new BufferedReader(
 		        new InputStreamReader(page.openStream()));
 		String inputLine;
         while ((inputLine = in.readLine()) != null) {
         	if (inputLine.equals("DEADEND")) {
-        		//System.out.println("DEADEND"); // add DEADEND process here?
-        		//curPath.remove(curPath.size() - 1); // remove dead end node for next path
+        		continue;
         	} else if (inputLine.equals("GOAL")) {
-        		//System.out.println("GOAL"); // add GOAL process here?
         		if (isFirstPath) {
         			goal = curPath.get(curPath.size() - 1);
         			shortestPath.addAll(curPath);
@@ -169,28 +114,20 @@ public class Crawler {
         				shortestPath.clear();
         				shortestPath.addAll(curPath);
         			}
-        		}
-        		//curPath.remove(curPath.size() - 1); // remove goal node for next path        		
+        		}        		
         	} else { // list page
         		long exp = evaluateExpression(inputLine);
         		if (curPath.contains(exp)) { // DFS meet directed cycle        			
-/*        			if (exp == STARTING_PAGE_NUM && 
-        					curPath.get(curPath.size() - 1) == exp) { // starting page self cycle
-        				directedCycleCount++;
-        			} else {
-*/        				//curPath.add(exp);
-        				ArrayList<Long> cycle = extractDirectedCycle(exp);        				
-						if (!directedCycles.contains(cycle)) { // unique directed cycle
-							directedCycleCount++;							
-							directedCycles.add(cycle); //printCycle(cycle);						
-						}
-        				//curPath.remove(curPath.size() - 1); // remove cycle node for next path
- //       			}        			
+        			ArrayList<Long> cycle = extractDirectedCycle(exp);        				
+					if (!directedCycles.contains(cycle)) { // unique directed cycle
+						directedCycleCount++;							
+						directedCycles.add(cycle); //printCycle(cycle);						
+					}        				       			
         		} else {
         			nodes.add(exp);
         			curPath.add(exp);
-        			parsePage2(new URL(BASE_URL, String.valueOf(exp)));
-        			curPath.remove(curPath.size() - 1); 
+        			parsePage(new URL(BASE_URL, String.valueOf(exp)));
+        			curPath.remove(curPath.size() - 1); // process next link 
         		}
         	}
         }
@@ -202,8 +139,7 @@ public class Crawler {
 					"http://www.crunchyroll.com/tech-challenge/roaming-math/myspiritcrazy@gmail.com/");
 		nodes.add(STARTING_PAGE_NUM);
 		curPath.add(STARTING_PAGE_NUM);
-		//parsePage(new URL(BASE_URL, String.valueOf(STARTING_PAGE_NUM)));
-		parsePage2(new URL(BASE_URL, String.valueOf(STARTING_PAGE_NUM)));
+		parsePage(new URL(BASE_URL, String.valueOf(STARTING_PAGE_NUM)));
 		output();
 	}
 }
