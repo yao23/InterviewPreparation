@@ -125,6 +125,20 @@ public class Crawler {
         in.close();		
 	}
 
+	public static ArrayList<Long> extractDirectedCycle(long n) {
+		ArrayList<Long> directedCycle = new ArrayList<Long>();
+		for (int i = 0; i < curPath.size(); i++) {
+			if (curPath.get(i) == n) {
+				for (int j = i; j < curPath.size(); j++) {
+					directedCycle.add(curPath.get(j));
+				}
+				directedCycle.add(curPath.get(i));
+				break;
+			}
+		}
+		return directedCycle;
+	}
+	
 	public static void parsePage2(URL page) throws IOException {
 		BufferedReader in = new BufferedReader(
 		        new InputStreamReader(page.openStream()));
@@ -153,13 +167,13 @@ public class Crawler {
         					curPath.get(curPath.size() - 1) == exp) { // starting page self cycle
         				directedCycleCount++;
         			} else {
-*/        				curPath.add(exp);
-						if (!directedCycles.contains(curPath)) { // unique directed cycle
+*/        				//curPath.add(exp);
+        				ArrayList<Long> cycle = extractDirectedCycle(exp);
+						if (!directedCycles.contains(cycle)) { // unique directed cycle
 							directedCycleCount++;							
-							directedCycles.add(curPath);
-							
+							directedCycles.add(cycle);						
 						}
-        				curPath.remove(curPath.size() - 1); // remove cycle node for next path
+        				//curPath.remove(curPath.size() - 1); // remove cycle node for next path
  //       			}        			
         		} else {
         			nodes.add(exp);
@@ -174,6 +188,7 @@ public class Crawler {
 	public static void main(String[] args) throws IOException {
 		BASE_URL = new URL(
 					"http://www.crunchyroll.com/tech-challenge/roaming-math/myspiritcrazy@gmail.com/");
+		nodes.add(STARTING_PAGE_NUM);
 		curPath.add(STARTING_PAGE_NUM);
 		//parsePage(new URL(BASE_URL, String.valueOf(STARTING_PAGE_NUM)));
 		parsePage2(new URL(BASE_URL, String.valueOf(STARTING_PAGE_NUM)));
