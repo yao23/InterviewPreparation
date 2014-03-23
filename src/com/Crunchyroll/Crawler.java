@@ -23,12 +23,14 @@ public class Crawler {
 		System.out.println(" \"goal\": " + goal + ",");
 		System.out.println(" \"node_count\": " + nodes.size() + ",");
 		System.out.print(" \"shortest_path\": [");
-		if (shortestPath.size() > 0) {
+		if (shortestPath.size() > 1) {
 			for (int i = 0; i < shortestPath.size() - 1; i++) {
 				System.out.print(shortestPath.get(i) + ", ");
 			}
 			System.out.print(shortestPath.get(shortestPath.size() - 1)); // last number without comma later
-		} else { // only one node, starting page
+		} else if (shortestPath.size() == 1) { // only one node, starting page is goal
+			System.out.print(STARTING_PAGE_NUM + ", " + STARTING_PAGE_NUM);
+		} else { // shortestPath.size() == 0, starting page is dead end
 			System.out.print(STARTING_PAGE_NUM);
 		}
 		System.out.println("],");
