@@ -101,11 +101,11 @@ public class Crawler {
 		BufferedReader in = new BufferedReader(
 		        new InputStreamReader(page.openStream()));
 		String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-        	if (inputLine.equals("DEADEND")) {
+        while ((inputLine = in.readLine()) != null) { // BFS process links in the same level
+        	if (inputLine.equals("DEADEND")) { // DFS touch DEADEND
         		continue;
         	} else if (inputLine.equals("GOAL")) {
-        		if (isFirstPath) {
+        		if (isFirstPath) { // DFS find 1st path from starting page to goal
         			goal = curPath.get(curPath.size() - 1);
         			shortestPath.addAll(curPath);
         			isFirstPath = false;
@@ -115,19 +115,19 @@ public class Crawler {
         				shortestPath.addAll(curPath);
         			}
         		}        		
-        	} else { // list page
+        	} else { // page links
         		long exp = evaluateExpression(inputLine);
         		if (curPath.contains(exp)) { // DFS meet directed cycle        			
         			ArrayList<Long> cycle = extractDirectedCycle(exp);        				
 					if (!directedCycles.contains(cycle)) { // unique directed cycle
 						directedCycleCount++;							
-						directedCycles.add(cycle); //printCycle(cycle);						
+						directedCycles.add(cycle); 						
 					}        				       			
-        		} else {
+        		} else { // unique page node
         			nodes.add(exp);
         			curPath.add(exp);
-        			parsePage(new URL(BASE_URL, String.valueOf(exp)));
-        			curPath.remove(curPath.size() - 1); // process next link 
+        			parsePage(new URL(BASE_URL, String.valueOf(exp))); // next level link
+        			curPath.remove(curPath.size() - 1); // remove previous one to process next link in the same level
         		}
         	}
         }
