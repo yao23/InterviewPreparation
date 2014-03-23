@@ -148,7 +148,7 @@ public class Crawler {
         while ((inputLine = in.readLine()) != null) {
         	if (inputLine.equals("DEADEND")) {
         		//System.out.println("DEADEND"); // add DEADEND process here?
-        		curPath.remove(curPath.size() - 1); // remove dead end node for next path
+        		//curPath.remove(curPath.size() - 1); // remove dead end node for next path
         	} else if (inputLine.equals("GOAL")) {
         		//System.out.println("GOAL"); // add GOAL process here?
         		if (isFirstPath) {
@@ -161,7 +161,7 @@ public class Crawler {
         				shortestPath.addAll(curPath);
         			}
         		}
-        		curPath.remove(curPath.size() - 1); // remove goal node for next path        		
+        		//curPath.remove(curPath.size() - 1); // remove goal node for next path        		
         	} else { // list page
         		long exp = evaluateExpression(inputLine);
         		if (curPath.contains(exp)) { // DFS meet directed cycle        			
@@ -181,6 +181,7 @@ public class Crawler {
         			nodes.add(exp);
         			curPath.add(exp);
         			parsePage2(new URL(BASE_URL, String.valueOf(exp)));
+        			curPath.remove(curPath.size() - 1); 
         		}
         	}
         }
