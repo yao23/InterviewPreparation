@@ -21,13 +21,14 @@ public class FlattenIntegerArray {
 	
 	// I guess you want this one 
 	public static void flattenComplex(NestedInteger n, ArrayList<Integer> res) {		
-		if(n.isNestedListAhead == false && n.isInteger()) {
-			res.add(n.getInteger());
-		} else if (n.isNestedListAhead == true) {
-			for (int i = 0; i < n.getList().size(); i++) {
+		if (n.isNestedListAhead == true) { // first element is nested list
+			for (int i = 0; i < n.getList().size(); i++) { // DFS iterate nested list
 				flattenComplex(n.getList().get(i), res);
 			}
-		}
+		} 
+		if(n.hasInteger()) {
+			res.add(n.getInteger());
+		}  
 	}
 	
 	public static void printResult(ArrayList<Integer> arr) {
@@ -69,7 +70,7 @@ public class FlattenIntegerArray {
 
 class NestedInteger {
 	boolean isNestedListAhead;
-	int val;
+	int val = -1; // default value to indicate no integer now
 	ArrayList<NestedInteger> nestedList;
 	NestedInteger(int v) {
 		isNestedListAhead = false;
@@ -84,15 +85,16 @@ class NestedInteger {
 		val = v;
 		nestedList = new ArrayList<NestedInteger>(nestedl);
 	}
-	// returns true if this NestedInteger holds a single integer, rather than a nested list
-	public boolean isInteger() {
-		return (nestedList == null);
+	
+	// returns true if this NestedInteger holds a single integer
+	public boolean hasInteger() {
+		return (val >= 0);
 	}
  
 	// returns the single integer that this NestedInteger holds, if it holds a single integer
-	// returns null if this NestedInteger holds a nested list
+	// returns null otherwise
 	public Integer getInteger() {
-		if (isInteger()) {
+		if (hasInteger()) {
 			return val;
 		} else {
 			return null;
@@ -100,9 +102,9 @@ class NestedInteger {
 	}
  
 	// returns the nested list that this NestedInteger holds, if it holds a nested list
-	// returns null if this NestedInteger holds a single integer
+	// returns null otherwise
 	public ArrayList<NestedInteger> getList() {
-		if (isInteger()) {
+		if (nestedList.isEmpty()) {
 			return null;
 		} else {
 			return nestedList;
